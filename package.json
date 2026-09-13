@@ -1,0 +1,29 @@
+{
+  "name": "citypulse",
+  "version": "1.0.0",
+  "description": "Pilot implementation for SIH26124: bus-mounted edge vision, sensor fusion, offline event forwarding, a central GIS/event API, and a responsive authority dashboard.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subham921/CITYPULSE.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Subham921/CITYPULSE/issues"
+  },
+  "homepage": "https://github.com/Subham921/CITYPULSE#readme",
+  "dependencies": {
+    "@supabase/ssr": "^0.12.6",
+    "@supabase/supabase-js": "^2.115.0"
+  }
+}

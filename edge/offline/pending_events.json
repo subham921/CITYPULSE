@@ -1,0 +1,144 @@
+[
+  {
+    "event_type": "POTHOLE",
+    "bus_id": "BUS101",
+    "timestamp": "2026-09-01T16:51:54.420695+00:00",
+    "location": {
+      "latitude": 22.572768,
+      "longitude": 88.364127
+    },
+    "gps": {
+      "speed_kmh": 25.15
+    },
+    "imu": {
+      "acceleration_z": 1.05,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.96,
+      "bbox": [
+        687,
+        508,
+        111,
+        65
+      ]
+    },
+    "pothole_details": {
+      "severity": "SEVERE",
+      "area_px": 5387,
+      "wheel_impact_confirmed": false
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.736
+    }
+  },
+  {
+    "event_type": "NEAR_MISS",
+    "bus_id": "BUS101",
+    "timestamp": "2026-09-01T16:51:55.718996+00:00",
+    "location": {
+      "latitude": 22.573054,
+      "longitude": 88.36437
+    },
+    "gps": {
+      "speed_kmh": 22.75
+    },
+    "imu": {
+      "acceleration_z": 0.935,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.85,
+      "bbox": [
+        581,
+        448,
+        118,
+        92
+      ]
+    },
+    "near_miss_details": {
+      "risk_level": "WARNING",
+      "hazard_sub_type": "FORWARD_COLLISION_TTC",
+      "ttc_seconds": 1.69,
+      "object_type": "vehicle",
+      "emergency_braking": false
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.85
+    }
+  },
+  {
+    "event_type": "MISSING_DIVIDER",
+    "bus_id": "BUS101",
+    "timestamp": "2026-09-01T16:51:56.511569+00:00",
+    "location": {
+      "latitude": 22.573224,
+      "longitude": 88.364565
+    },
+    "gps": {
+      "speed_kmh": 21.9
+    },
+    "imu": {
+      "acceleration_z": 0.946,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.86,
+      "bbox": [
+        320,
+        478,
+        384,
+        80
+      ]
+    },
+    "divider_details": {
+      "hazard_level": "HIGH",
+      "hazard_description": "Damaged/Missing divider section: ~6.4m gap",
+      "estimated_gap_meters": 6.4
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.86
+    }
+  },
+  {
+    "event_type": "POTHOLE",
+    "bus_id": "BUS101",
+    "timestamp": "2026-09-01T17:05:14.982032+00:00",
+    "location": {
+      "latitude": 22.572804,
+      "longitude": 88.364077
+    },
+    "gps": {
+      "speed_kmh": 29.12
+    },
+    "imu": {
+      "acceleration_z": 0.881,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.96,
+      "bbox": [
+        687,
+        508,
+        111,
+        65
+      ]
+    },
+    "pothole_details": {
+      "severity": "SEVERE",
+      "area_px": 5386,
+      "wheel_impact_confirmed": false
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.736
+    }
+  }
+]

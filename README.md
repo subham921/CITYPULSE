@@ -1,10 +1,32 @@
-🚍 CITYPULSE ~ AUTHOR: SUBHAM RAY
+# 🚍 CITYPULSE ~ AUTHOR: SUBHAM RAY
 
 ## AI-Powered Mobile Urban Intelligence & Safety Network
 
 > **Transforming public transport buses into intelligent mobile sensing units for safer roads, smarter traffic management, and proactive urban infrastructure maintenance.**
 
 **Smart India Hackathon 2026 — SIH26124**
+
+---
+
+## ⚡ Quickstart & Running the Platform
+
+```powershell
+# Install backend dependencies
+python -m pip install -r backend/requirements.txt
+
+# Run the live server
+python -m uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+- **Admin Command Center**: Open `http://127.0.0.1:8000/admin` (or `/` or `/dashboard`). Authenticate with password `admin123`.
+- **Citizen Hazard Reporting Portal**: Open `http://127.0.0.1:8000/report` (or `/user`).
+- **Interactive REST API Docs**: Open `http://127.0.0.1:8000/docs`.
+
+### Pilot Safeguards
+- Events are de-duplicated within 30 metres and 10 minutes.
+- The immutable, edge-originated evidence packet for each event is linked to the preceding packet through a SHA-256 hash.
+- Incident status changes require authority role verification (`TRANSPORT_AUTHORITY`, `ROADS_DEPARTMENT`, `TRAFFIC_POLICE`, `DEPOT_ADMIN`).
+- The API accepts evidence references, not full raw footage.
 
 ---
 
@@ -1147,5 +1169,3 @@ By combining computer vision, IR night sensing, IMU data, GPS, fleet-wide event 
 This project is developed as an academic/prototype solution for **Smart India Hackathon 2026**.
 
 License can be added based on the team's preferred open-source or institutional requirements.
-
-
