@@ -1,0 +1,4 @@
+/* GitHub Pages project-site compatibility wrapper.
+   dashboard/index.html currently references /styles.css.
+   Load the real stylesheet from the /CITYPULSE/ project path. */
+@import url("/CITYPULSE/styles.css");
