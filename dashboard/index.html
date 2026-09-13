@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CITYPULSE | Urban Intelligence & Road Safety (Mappls Powered)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=vfprupvufqvkbaarmpgonnlgzzgnnkzetirt"></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">⌁</span>
+        <span>CITY<span>PULSE</span></span>
+      </div>
+      <div class="mappls-tag">MAPPLS API POWERED</div>
+      <nav id="sidebar-nav">
+        <a href="#overview">Overview</a>
+        <a href="#map">Mappls Live Map</a>
+        <a href="#incidents">Incident Register</a>
+        <a href="#analytics">Signal Analytics</a>
+        <a class="active" href="#auth" id="nav-auth-link">🔐 Admin Login</a>
+        <a href="/report" style="color:var(--accent); font-weight:700; border-left:2px solid var(--accent); padding-left:8px;">Citizen Portal ↗</a>
+      </nav>
+      <div class="connection" id="auth-connection-indicator">
+        <i></i>
+        <span id="connection-status">Connecting to command center…</span>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">COMMAND CENTER / LIVE OPERATIONS (MAPPLS INTEGRATED)</p>
+          <h1>Urban intelligence at street level.</h1>
+          <p class="subhead">Bus fleet sensor fusion & citizen reports: GPS, IMU vertical shock & camera vision detections.</p>
+        </div>
+        <div class="header-actions">
+          <span id="header-auth-status" class="badge NEW" style="font-weight:700; padding:5px 9px;">🔒 Admin: Locked</span>
+          <a href="/report" class="quiet-button" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--accent); border-color:var(--accent);">📝 Citizen Report Portal ↗</a>
+          <button id="mappls-key-btn" class="quiet-button admin-gated" style="display:none;">🔑 Mappls Key</button>
+          <button id="lock-admin-btn" class="quiet-button" style="display:none;" onclick="lockAdminPortal()" title="Lock Admin Portal">🔒 Lock</button>
+          <button id="theme-toggle" class="quiet-button">🌙 Dark Mode</button>
+          <div class="time" id="clock"></div>
+        </div>
+      </header>
+
+      <!-- Overview Metrics -->
+      <section id="overview" class="metrics admin-gated" aria-label="Fleet event summary" style="display:none;">
+        <article>
+          <span>Total Alerts</span>
+          <strong id="total-events">—</strong>
+          <small>road hazards logged</small>
+        </article>
+        <article>
+          <span>Unreviewed</span>
+          <strong id="new-events" style="color: var(--amber)">—</strong>
+          <small>awaiting review</small>
+        </article>
+        <article>
+          <span>Under Process</span>
+          <strong id="review-events" style="color: var(--accent)">—</strong>
+          <small>investigation active</small>
+        </article>
+        <article>
+          <span>Actioned</span>
+          <strong id="actioned-events" style="color: #10b981">—</strong>
+          <small>resolved &amp; closed</small>
+        </article>
+        <article>
+          <span>Active Buses</span>
+          <strong id="active-buses" style="color: var(--muted)">—</strong>
+          <small>reporting telemetry</small>
+        </article>
+      </section>
+
+      <!-- Mappls Live GIS Map Panel -->
+      <section id="map" class="panel map-panel admin-gated" style="display:none;">
+        <div class="panel-title">
+          <div>
+            <p class="eyebrow">MAPPLS GIS OVERLAY</p>
+            <h2>Mappls Map SDK: Bus Hazard Incident Map</h2>
+          </div>
+          <div class="filters">
+            <select id="source-filter" title="Filter by Report Source">
+              <option value="">All Sources</option>
+              <option value="CITIZEN">👤 Citizen Reports</option>
+              <option value="BUS">🚌 Bus Fleet</option>
+            </select>
+            <select id="type-filter">
+              <option value="">All Alert Types</option>
+              <option value="POTHOLE">Potholes</option>
+              <option value="NEAR_MISS">Near-Miss Accidents</option>
+              <option value="MISSING_DIVIDER">Missing Dividers</option>
+            </select>
+            <select id="status-filter">
+              <option value="">All Statuses</option>
+              <option>NEW</option>
+              <option>UNDER_REVIEW</option>
+              <option>ACTIONED</option>
+              <option>DISMISSED</option>
+            </select>
+            <button id="center-map-btn" class="quiet-button">Center Kolkata Fleet</button>
+          </div>
+        </div>
+
+        <div id="city-map" aria-label="Mappls Event Map"></div>
+
+        <!-- Clean Hazard Legend -->
+        <div class="hazard-legend">
+          <span class="legend-chip"><span class="chip-dot" style="background:#f97316"></span> Potholes</span>
+          <span class="legend-chip"><span class="chip-dot" style="background:#ef634f"></span> Near-Miss Accidents</span>
+          <span class="legend-chip"><span class="chip-dot" style="background:#a855f7"></span> Missing Dividers</span>
+        </div>
+      </section>
+
+      <!-- Incident Register & Analytics Split -->
+      <section id="incidents-split" class="split admin-gated" style="display:none;">
+        <section id="incidents" class="panel">
+          <div class="panel-title">
+            <div>
+              <p class="eyebrow">WORKFLOW</p>
+              <h2>Incident Register (Mappls Geotagged)</h2>
+            </div>
+            <button id="refresh" class="quiet-button">Refresh Feed</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Alert</th>
+                  <th>Detected (Date &amp; Time)</th>
+                  <th>Location (Mappls Enriched)</th>
+                  <th>Confidence</th>
+                  <th>Status &amp; Workflow Action</th>
+                </tr>
+              </thead>
+              <tbody id="incident-rows">
+                <tr>
+                  <td colspan="5" class="empty">Loading alerts…</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="analytics" class="panel">
+          <div class="panel-title">
+            <div>
+              <p class="eyebrow">SIGNAL</p>
+              <h2>Hazard Breakdown</h2>
+            </div>
+          </div>
+          <div class="bars" id="type-bars"></div>
+          <p class="footnote">Aggregated edge events are validated via multi-modal sensor fusion (GPS + IMU + Vision) and Mappls address enrichment.</p>
+        </section>
+      </section>
+
+      <!-- Admin Security & Authentication Section -->
+      <section id="auth" class="panel auth-section" aria-label="Admin Security & Authentication">
+        <div class="panel-title">
+          <div>
+            <p class="eyebrow">ADMIN SECURITY GATEWAY &amp; ACCESS CONTROL</p>
+            <h2>Municipal Authority Authentication</h2>
+          </div>
+          <div id="auth-status-badge-wrap">
+            <span id="auth-section-badge" class="badge NEW">🔒 LOCKED / ACCESS RESTRICTED</span>
+          </div>
+        </div>
+
+        <!-- State 1: Locked / Authentication Required View -->
+        <div id="auth-locked-view" class="auth-card-wrap">
+          <div class="auth-card">
+            <div class="auth-shield-icon">
+              <span>🛡️</span>
+            </div>
+            <h3 class="auth-card-title">Kolkata Municipal Command Center</h3>
+            <p class="auth-card-sub">
+              Access to live bus telemetry, AI vertical shock logs, and road hazard dispatch is restricted to authorized municipal transit personnel. Authenticate using your administrative credentials to decrypt the command console.
+            </p>
+
+            <form id="admin-auth-form" onsubmit="handleAdminLogin(event)" class="auth-form">
+              <div class="auth-field">
+                <label for="admin-password-input">ADMINISTRATIVE SECURITY KEY</label>
+                <div class="auth-input-group">
+                  <span class="auth-input-prefix">🔑</span>
+                  <input
+                    id="admin-password-input"
+                    type="password"
+                    class="auth-input"
+                    placeholder="Enter administrative security key (e.g. admin123)…"
+                    autocomplete="current-password"
+                    required
+                  />
+                  <button type="button" class="auth-pwd-toggle" onclick="togglePasswordVisibility()" title="Show/Hide Password">👁️</button>
+                </div>
+              </div>
+
+              <div id="admin-auth-error" class="auth-error-banner" style="display:none;">
+                <span class="auth-error-icon">⚠️</span>
+                <span id="admin-auth-error-text">Access Denied: Incorrect administrative security key.</span>
+              </div>
+
+              <button type="submit" id="admin-unlock-btn" class="auth-primary-btn">
+                <span>🔓 Authenticate &amp; Unlock Command Center</span>
+              </button>
+            </form>
+
+            <div class="auth-card-footer">
+              <div class="auth-portal-switch">
+                <span>Civic Reporter? <a href="/report" style="color:var(--accent); font-weight:700; text-decoration:none;">Go to Citizen Hazard Portal ↗</a></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust & Infrastructure Specifications -->
+          <div class="auth-infra-grid">
+            <div class="auth-infra-item">
+              <span class="auth-infra-label">AUTHORITY ROLE</span>
+              <strong class="auth-infra-val">Transit Incident Dispatcher</strong>
+              <small>Depot Admin &amp; Field Operations</small>
+            </div>
+            <div class="auth-infra-item">
+              <span class="auth-infra-label">ENCRYPTION PROTOCOL</span>
+              <strong class="auth-infra-val">SHA-256 Handshake</strong>
+              <small>Salted In-Memory Session Token</small>
+            </div>
+            <div class="auth-infra-item">
+              <span class="auth-infra-label">SECURE ENDPOINT</span>
+              <strong class="auth-infra-val">POST /api/v1/auth/admin-login</strong>
+              <small>Protected Rate-Limited Gateway</small>
+            </div>
+            <div class="auth-infra-item">
+              <span class="auth-infra-label">GIS DISPATCH SCOPE</span>
+              <strong class="auth-infra-val">Kolkata Metro Fleet</strong>
+              <small>Mappls Geocoding &amp; Vector GIS</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- State 2: Unlocked / Active Session Dashboard View -->
+        <div id="auth-unlocked-view" class="auth-active-wrap" style="display:none;">
+          <div class="auth-session-card">
+            <div class="auth-session-header">
+              <div class="auth-avatar-shield">
+                <span>🛡️</span>
+              </div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <h3 style="margin:0; font-size:18px; color:var(--ink); font-weight:800;">Administrator Session Active</h3>
+                  <span class="badge ACTIONED">● VERIFIED SESSION</span>
+                </div>
+                <p style="margin:4px 0 0; font-size:13px; color:var(--muted);">
+                  Authenticated as <b>Municipal Transit Operations &amp; Incident Dispatcher</b>. Full access to GIS maps, telemetry logs, and workflow status overrides is granted.
+                </p>
+              </div>
+            </div>
+
+            <div class="auth-details-grid">
+              <div class="auth-detail-card">
+                <span class="detail-tag">ACTIVE ROLE</span>
+                <strong class="detail-val">Municipal Depot Admin</strong>
+                <small class="detail-sub">Full dispatch, review, and resolution privileges</small>
+              </div>
+              <div class="auth-detail-card">
+                <span class="detail-tag">AUTHENTICATION METHOD</span>
+                <strong class="detail-val">Cryptographic Token</strong>
+                <small class="detail-sub">Stored in secure session storage</small>
+              </div>
+              <div class="auth-detail-card">
+                <span class="detail-tag">BACKEND API GATEWAY</span>
+                <strong class="detail-val" style="color:var(--accent);">Connected &amp; Synchronized</strong>
+                <small class="detail-sub">Live telemetry stream every 5s</small>
+              </div>
+              <div class="auth-detail-card">
+                <span class="detail-tag">SECURITY AUDIT</span>
+                <strong class="detail-val">Tamper-Evident SHA-256</strong>
+                <small class="detail-sub">Incident mutations signed on ledger</small>
+              </div>
+            </div>
+
+            <div class="auth-session-actions">
+              <button type="button" class="quiet-button auth-lock-action-btn" onclick="lockAdminPortal()">
+                <span>🔒 Lock Command Center (End Session)</span>
+              </button>
+              <button type="button" class="quiet-button" onclick="load()" title="Reload telemetry feed">
+                <span>🔄 Sync Telemetry Feed</span>
+              </button>
+              <a href="/report" class="quiet-button" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; color:var(--accent); font-weight:700;">
+                <span>📝 Open Citizen Portal ↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mappls API Key Configuration Modal -->
+    <div id="key-modal" class="modal-overlay" style="display:none;">
+      <div class="modal-card">
+        <h3>Mappls API Connection</h3>
+        <p>Mappls returned <code>401 Client Credentials Expired</code> for configured key <code>••••••••zetirt</code>. The dashboard is currently running in <b>Local Kolkata Vector GIS</b> mode.</p>
+        
+        <div style="margin: 12px 0;">
+          <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:4px;">OPTION 1: REST API KEY / ACCESS TOKEN</label>
+          <input id="modal-key-input" type="text" style="width:100%; box-sizing:border-box; padding:8px 10px; font-family:'DM Mono',monospace; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:12px;" placeholder="Paste new Mappls REST API key or Token" />
+        </div>
+
+        <div style="display:flex; align-items:center; gap:8px; margin: 10px 0; color:var(--muted); font-size:11px; font-weight:700;">
+          <span style="flex:1; height:1px; background:var(--line);"></span> OR <span style="flex:1; height:1px; background:var(--line);"></span>
+        </div>
+
+        <div style="margin: 10px 0;">
+          <label style="font-size:11px; font-weight:700; color:var(--muted); display:block; margin-bottom:4px;">OPTION 2: OAUTH 2.0 (CLIENT ID &amp; CLIENT SECRET)</label>
+          <input id="modal-cid-input" type="text" style="width:100%; box-sizing:border-box; padding:8px 10px; font-family:'DM Mono',monospace; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:12px; margin-bottom:6px;" placeholder="Client ID" />
+          <input id="modal-sec-input" type="password" style="width:100%; box-sizing:border-box; padding:8px 10px; font-family:'DM Mono',monospace; border-radius:6px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-size:12px;" placeholder="Client Secret (from auth.mappls.com/console)" />
+        </div>
+
+        <div id="modal-key-status" style="font-size:12px; margin-bottom:12px; min-height:18px;"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <a href="https://auth.mappls.com/console" target="_blank" style="color:var(--accent); font-size:12px; text-decoration:none; font-weight:700;">Get Credentials at auth.mappls.com ↗</a>
+          <div style="display:flex; gap:8px;">
+            <button id="modal-cancel-btn" class="quiet-button">Cancel</button>
+            <button id="modal-save-btn" class="quiet-button" style="background:var(--accent); color:#fff; border-color:var(--accent); font-weight:700;">Connect &amp; Authenticate</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CITYPULSE | Citizen Road Hazard Reporting Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=vfprupvufqvkbaarmpgonnlgzzgnnkzetirt"></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">⌁</span>
+        <span>CITY<span>PULSE</span></span>
+      </div>
+      <div class="mappls-tag">PUBLIC CIVIC DESK</div>
+      <nav>
+        <a class="active" href="#report-section">Report Road Hazard</a>
+        <a href="#community-feed">Community Reports</a>
+        <a href="/admin" style="color:var(--accent); font-weight:700; border-left:2px solid var(--accent); padding-left:8px;">Admin Command ↗</a>
+      </nav>
+      <div class="connection">
+        <i></i>
+        <span id="connection-status">Ready to log hazards</span>
+      </div>
+    </aside>
+
+    <main>
+      <header>
+        <div>
+          <p class="eyebrow">KOLKATA CITIZEN SAFETY INITIATIVE / ROAD HAZARD DISPATCH</p>
+          <h1>Report a Road Distress or Hazard</h1>
+          <p class="subhead">Crowdsourced road safety connected directly with municipal repair teams & bus fleet telemetry.</p>
+        </div>
+        <div class="header-actions">
+          <a href="/admin" class="quiet-button" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--accent); border-color:var(--accent);">🛡️ Admin Center ↗</a>
+          <button id="theme-toggle" class="quiet-button">🌙 Dark Mode</button>
+          <div class="time" id="clock"></div>
+        </div>
+      </header>
+
+      <!-- Hero Banner & Trust Highlights -->
+      <section class="citizen-hero">
+        <div class="hero-badge-row">
+          <span class="civic-tag">⚡ Connected Fleet &amp; Municipal Desk</span>
+          <span style="font-size:11px; color:var(--muted); font-weight:600;">Powered by Mappls GIS &amp; Cryptographic Proofs</span>
+        </div>
+        <h2 style="margin:4px 0 6px; font-size:18px; color:var(--ink); font-weight:800;">
+          Spot a road hazard? Log it in seconds to protect Kolkata commuters.
+        </h2>
+        <p style="margin:0; font-size:13px; color:var(--muted); line-height:1.5; max-width:850px;">
+          Reports feed directly into transit bus collision alert systems and municipal maintenance logs. Track the live progress of your report from <b>Unreviewed</b> to <b>Under Process</b> and <b>Resolved</b>.
+        </p>
+        <div class="trust-badges">
+          <span class="trust-pill"><span>🛡️</span> Tamper-Proof <strong>SHA-256 Ledger</strong></span>
+          <span class="trust-pill"><span>📍</span> Precision <strong>Mappls Address Geocoding</strong></span>
+          <span class="trust-pill"><span>🚌</span> Direct <strong>Approaching Fleet Alert</strong></span>
+          <span class="trust-pill"><span>🔄</span> Real-Time <strong>Status Transparency</strong></span>
+        </div>
+      </section>
+
+      <!-- Success Feedback Banner -->
+      <div id="success-banner" class="submission-success-banner">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+              <span style="background:#10b981; color:#fff; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;">✓</span>
+              <h3 style="margin:0; color:#10b981; font-size:16px; font-weight:800;">Hazard Report Successfully Ingested</h3>
+            </div>
+            <p style="margin:0 0 10px; font-size:13px; color:var(--ink);">
+              Your report has been geotagged via Mappls and linked to the municipal evidence chain.
+            </p>
+            <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.7;">
+              Report ID: <b id="success-id" style="color:var(--ink);">-</b>
+              <button type="button" onclick="copyReportId()" class="quiet-button" style="padding:1px 6px; font-size:10px; margin-left:6px;">Copy</button><br />
+              Evidence Hash: <code id="success-hash" style="color:var(--accent); font-weight:700;">-</code><br />
+              Initial Status: <span class="badge NEW" id="success-status" style="margin-left:4px;">⏳ Unreviewed</span>
+            </div>
+
+            <!-- Visual Progress Timeline -->
+            <div class="success-timeline">
+              <div class="timeline-node">
+                <div class="node-circle done">✓</div>
+                <span class="node-label active">1. Logged</span>
+              </div>
+              <div style="flex:1; height:2px; background:#10b981; margin: 0 4px 14px;"></div>
+              <div class="timeline-node">
+                <div class="node-circle current">2</div>
+                <span class="node-label active">2. Review Pending</span>
+              </div>
+              <div style="flex:1; height:2px; background:var(--line); margin: 0 4px 14px;"></div>
+              <div class="timeline-node">
+                <div class="node-circle">3</div>
+                <span class="node-label">3. Resolution</span>
+              </div>
+            </div>
+          </div>
+          <button onclick="dismissBanner()" class="quiet-button" style="padding:4px 10px; font-size:12px;">✕ Close</button>
+        </div>
+      </div>
+
+      <!-- Main Reporting Grid -->
+      <section id="report-section" class="report-layout">
+        <!-- Form Column (Left) -->
+        <div class="form-card">
+          <form id="citizen-report-form" onsubmit="submitCitizenReport(event)">
+            <!-- Step 1: Hazard Category -->
+            <div class="form-field">
+              <div class="step-header">
+                <span class="step-badge">1</span>
+                <h3 class="step-title">Select Hazard Category</h3>
+              </div>
+              <div class="type-grid">
+                <div class="type-option active" data-type="POTHOLE" onclick="selectType('POTHOLE', this)">
+                  <div class="type-icon-wrap">🕳️</div>
+                  <div class="type-meta">
+                    <div class="type-name">Pothole / Crater</div>
+                    <div class="type-sub">Road surface cavity, wheel damage</div>
+                  </div>
+                  <div class="type-check">✓</div>
+                </div>
+                <div class="type-option" data-type="NEAR_MISS" onclick="selectType('NEAR_MISS', this)">
+                  <div class="type-icon-wrap">💥</div>
+                  <div class="type-meta">
+                    <div class="type-name">Near-Miss / Risk</div>
+                    <div class="type-sub">Blind turn, dangerous intersection</div>
+                  </div>
+                  <div class="type-check">✓</div>
+                </div>
+                <div class="type-option" data-type="MISSING_DIVIDER" onclick="selectType('MISSING_DIVIDER', this)">
+                  <div class="type-icon-wrap">🚧</div>
+                  <div class="type-meta">
+                    <div class="type-name">Missing Divider</div>
+                    <div class="type-sub">Damaged median, illegal crossing</div>
+                  </div>
+                  <div class="type-check">✓</div>
+                </div>
+                <div class="type-option" data-type="ROAD_DISTRESS" onclick="selectType('ROAD_DISTRESS', this)">
+                  <div class="type-icon-wrap">⚠️</div>
+                  <div class="type-meta">
+                    <div class="type-name">Road Distress</div>
+                    <div class="type-sub">Waterlog, sunken manhole, rubble</div>
+                  </div>
+                  <div class="type-check">✓</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Severity Level -->
+            <div class="form-field">
+              <div class="step-header">
+                <span class="step-badge">2</span>
+                <h3 class="step-title">Hazard Severity &amp; Urgency</h3>
+              </div>
+              <div class="severity-group">
+                <div class="severity-btn minor" onclick="selectSeverity('LOW', this)">
+                  <span class="severity-label">🟢 Minor</span>
+                  <span class="severity-desc">Surface roughness or slow ripple</span>
+                </div>
+                <div class="severity-btn moderate active" onclick="selectSeverity('MODERATE', this)">
+                  <span class="severity-label">🟡 Moderate</span>
+                  <span class="severity-desc">Wheel jerk / sudden lane braking</span>
+                </div>
+                <div class="severity-btn severe" onclick="selectSeverity('SEVERE', this)">
+                  <span class="severity-label">🔴 Severe</span>
+                  <span class="severity-desc">Rim damage / high collision hazard</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Location Selection -->
+            <div class="form-field">
+              <div class="step-header" style="justify-content:space-between;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <span class="step-badge">3</span>
+                  <h3 class="step-title">Pinpoint Location</h3>
+                </div>
+                <button type="button" class="btn-gps" onclick="useMyLocation()">
+                  <span>📍</span> Locate My GPS
+                </button>
+              </div>
+
+              <!-- Location Details Card -->
+              <div class="loc-address-box">
+                <span class="loc-icon-pin">📍</span>
+                <div class="loc-details">
+                  <div id="addr-preview" class="loc-title">Central Kolkata, West Bengal</div>
+                  <div class="loc-coords">
+                    Lat: <span id="display-lat">22.572600</span> · Lng: <span id="display-lng">88.363900</span>
+                  </div>
+                  <span class="loc-tag">✓ Mappls Address Enriched</span>
+                </div>
+              </div>
+
+              <!-- Hidden numeric inputs for form validation -->
+              <input id="input-lat" type="hidden" value="22.572600" />
+              <input id="input-lng" type="hidden" value="88.363900" />
+
+              <!-- Quick Hotspot Chips -->
+              <div class="quick-loc-chips">
+                <span style="font-size:10.5px; color:var(--muted); font-weight:700;">Popular Hotspots:</span>
+                <button type="button" class="quick-loc-chip" onclick="setHotspot(22.5855, 88.3468, 'Howrah Bridge, Kolkata')">Howrah Bridge</button>
+                <button type="button" class="quick-loc-chip" onclick="setHotspot(22.5510, 88.3524, 'Park Street, Kolkata')">Park Street</button>
+                <button type="button" class="quick-loc-chip" onclick="setHotspot(22.5350, 88.3980, 'EM Bypass, Ruby Crossing')">EM Bypass</button>
+                <button type="button" class="quick-loc-chip" onclick="setHotspot(22.5735, 88.4331, 'Sector V, Salt Lake')">Sector V</button>
+                <button type="button" class="quick-loc-chip" onclick="setHotspot(22.5645, 88.3518, 'Esplanade Crossing, Kolkata')">Esplanade</button>
+              </div>
+            </div>
+
+            <!-- Step 4: Details & Observations -->
+            <div class="form-field">
+              <div class="step-header">
+                <span class="step-badge">4</span>
+                <h3 class="step-title">Observations &amp; Evidence</h3>
+              </div>
+              <textarea id="input-desc" class="form-textarea" rows="3" placeholder="Describe the hazard size, lane obstruction, or any near accident..." required>Deep pothole causing sudden vehicle swerves near the middle lane.</textarea>
+            </div>
+
+            <!-- Optional Reporter Details & Direct Photo Upload -->
+            <div class="form-field">
+              <label>Your Name / Contact (Optional)</label>
+              <input id="input-name" class="form-input" type="text" placeholder="e.g. Sarthak or Anonymous" style="margin-bottom:12px;" />
+              
+              <label>📸 Upload Hazard Photo (Optional)</label>
+              <div id="photo-dropzone" class="photo-upload-zone" onclick="document.getElementById('file-photo-input').click()">
+                <input id="file-photo-input" type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoSelect(event)" />
+                <div style="font-size:24px; margin-bottom:4px;">📷</div>
+                <div style="font-weight:700; font-size:12.5px; color:var(--ink);">Tap to Take Photo or Upload Image</div>
+                <div style="font-size:10.5px; color:var(--muted); margin-top:2px;">Supports JPG, PNG, WEBP up to 10MB</div>
+              </div>
+
+              <!-- Photo Preview Card -->
+              <div id="photo-preview-box" class="photo-preview-box">
+                <img id="photo-preview-img" src="" alt="Uploaded hazard photo preview" />
+                <button type="button" class="photo-remove-btn" onclick="removeSelectedPhoto(event)" title="Remove Photo">✕</button>
+              </div>
+
+              <!-- Hidden input to store uploaded relative URL or data URI -->
+              <input id="input-photo" type="hidden" value="" />
+            </div>
+
+            <!-- Submit Button -->
+            <button id="submit-btn" type="submit" class="btn-submit-report">
+              <span>🚀 Submit Citizen Hazard Report</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Interactive Map & Community Tracking Column (Right) -->
+        <div style="display:flex; flex-direction:column; gap:18px;">
+          <!-- Map Picker Panel -->
+          <div class="panel" style="margin:0; overflow:hidden;">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">INTERACTIVE MAP</p>
+                <h2>Pinpoint Hazard Spot</h2>
+              </div>
+              <button class="quiet-button" onclick="centerKolkataMap()" style="font-size:11px; padding:3px 8px;">Recenter Kolkata</button>
+            </div>
+            <div id="picker-map" style="width:100%; height:330px; position:relative; background:var(--card-alt);"></div>
+            <div style="padding:8px 12px; font-size:11px; color:var(--muted); background:var(--card); border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+              <span>💡 <b>Tip:</b> Click anywhere on the map to move the hazard pin.</span>
+              <span id="pin-coords-badge" style="font-family:'DM Mono',monospace; color:var(--accent); font-weight:700;">22.5726, 88.3639</span>
+            </div>
+          </div>
+
+          <!-- Community Reports & Status Feed Panel -->
+          <div id="community-feed" class="panel" style="margin:0;">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">MUNICIPAL STATUS TRACKER</p>
+                <h2>Community Reports Feed</h2>
+              </div>
+              <button class="quiet-button" onclick="loadRecentCitizenReports()">Refresh Feed</button>
+            </div>
+
+            <!-- Status Filter Tabs -->
+            <div class="status-tabs">
+              <button class="tab-btn active" data-filter="" onclick="filterFeed('', this)">All Reports</button>
+              <button class="tab-btn" data-filter="NEW" onclick="filterFeed('NEW', this)">⏳ Unreviewed</button>
+              <button class="tab-btn" data-filter="UNDER_REVIEW" onclick="filterFeed('UNDER_REVIEW', this)">🔄 Under Process</button>
+              <button class="tab-btn" data-filter="ACTIONED" onclick="filterFeed('ACTIONED', this)">✅ Actioned</button>
+            </div>
+
+            <!-- Dynamic Report Card Feed -->
+            <div id="citizen-feed-container" class="citizen-feed">
+              <div class="empty" style="padding:24px; text-align:center; color:var(--muted); font-size:12px;">Loading reports feed…</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="status-toast" class="status-toast"></div>
+
+    <script>
+      // ══════════════════════════════════════════════════════════════════════
+      // Configuration & State
+      // ══════════════════════════════════════════════════════════════════════
+      const API = "/api/v1";
+      const DEFAULT_CENTER = [22.5726, 88.3639];
+      let selectedType = "POTHOLE";
+      let selectedSeverity = "MODERATE";
+      let currentMarker = null;
+      let mapplsMap = null;
+      let canvasMap = null;
+      let cachedReports = [];
+      let activeStatusFilter = "";
+
+      // ══════════════════════════════════════════════════════════════════════
+      // Clock & Theme
+      // ══════════════════════════════════════════════════════════════════════
+      function tick() {
+        const c = document.getElementById("clock");
+        if (c) c.textContent = new Intl.DateTimeFormat("en-GB", { dateStyle: "medium", timeStyle: "medium" }).format(new Date());
+      }
+      setInterval(tick, 1000);
+      tick();
+
+      const themeToggle = document.getElementById("theme-toggle");
+      const savedTheme = localStorage.getItem("citypulse-theme");
+      if (savedTheme === "dark") document.body.classList.add("dark-mode");
+      if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+          document.body.classList.toggle("dark-mode");
+          const isDark = document.body.classList.contains("dark-mode");
+          localStorage.setItem("citypulse-theme", isDark ? "dark" : "light");
+          if (canvasMap) canvasMap.render();
+        });
+      }
+
+      function showToast(msg) {
+        const toast = document.getElementById("status-toast");
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add("visible");
+        setTimeout(() => toast.classList.remove("visible"), 3200);
+      }
+
+      // ══════════════════════════════════════════════════════════════════════
+      // Form Selection Helpers
+      // ══════════════════════════════════════════════════════════════════════
+      function selectType(type, el) {
+        selectedType = type;
+        document.querySelectorAll(".type-option").forEach(card => card.classList.remove("active"));
+        el.classList.add("active");
+      }
+
+      function selectSeverity(sev, el) {
+        selectedSeverity = sev;
+        document.querySelectorAll(".severity-btn").forEach(btn => btn.classList.remove("active"));
+        el.classList.add("active");
+      }
+
+      // ══════════════════════════════════════════════════════════════════════
+      // Photo Upload & Preview Controller
+      // ══════════════════════════════════════════════════════════════════════
+      function handlePhotoSelect(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+        processPhotoFile(file);
+      }
+
+      function processPhotoFile(file) {
+        if (!file.type.startsWith("image/")) {
+          alert("Please upload a valid image file (JPG, PNG, WEBP).");
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const rawDataUrl = e.target.result;
+
+          // Resize/compress photo to max 1280px to optimize bandwidth & storage
+          const img = new Image();
+          img.onload = function() {
+            const canvas = document.createElement("canvas");
+            let width = img.width;
+            let height = img.height;
+            const maxDim = 1280;
+
+            if (width > maxDim || height > maxDim) {
+              if (width > height) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+              } else {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+              }
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const compressedDataUrl = canvas.toDataURL("image/jpeg", 0.85);
+
+            // Update UI preview
+            const previewBox = document.getElementById("photo-preview-box");
+            const previewImg = document.getElementById("photo-preview-img");
+            const dropzone = document.getElementById("photo-dropzone");
+            const hiddenInput = document.getElementById("input-photo");
+
+            previewImg.src = compressedDataUrl;
+            previewBox.style.display = "block";
+            dropzone.style.display = "none";
+            hiddenInput.value = compressedDataUrl;
+
+            showToast("✓ Photo attached & compressed");
+          };
+          img.src = rawDataUrl;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function removeSelectedPhoto(e) {
+        if (e) e.stopPropagation();
+        const previewBox = document.getElementById("photo-preview-box");
+        const previewImg = document.getElementById("photo-preview-img");
+        const dropzone = document.getElementById("photo-dropzone");
+        const hiddenInput = document.getElementById("input-photo");
+        const fileInput = document.getElementById("file-photo-input");
+
+        previewImg.src = "";
+        previewBox.style.display = "none";
+        dropzone.style.display = "block";
+        hiddenInput.value = "";
+        if (fileInput) fileInput.value = "";
+        showToast("Photo removed");
+      }
+
+      function updateCoordsUI(lat, lng) {
+        document.getElementById("input-lat").value = lat.toFixed(6);
+        document.getElementById("input-lng").value = lng.toFixed(6);
+        document.getElementById("display-lat").textContent = lat.toFixed(6);
+        document.getElementById("display-lng").textContent = lng.toFixed(6);
+        const badge = document.getElementById("pin-coords-badge");
+        if (badge) badge.textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+      }
+
+      function setHotspot(lat, lng, address) {
+        updateCoordsUI(lat, lng);
+        document.getElementById("addr-preview").textContent = address;
+        updateMapPin(lat, lng);
+      }
+
+      function useMyLocation() {
+        if (!navigator.geolocation) {
+          alert("Geolocation is not supported by your browser");
+          return;
+        }
+        showToast("📍 Fetching device GPS coordinates…");
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            updateCoordsUI(lat, lng);
+            updateMapPin(lat, lng);
+            reverseGeocode(lat, lng);
+            showToast("✓ GPS location acquired");
+          },
+          err => {
+            console.warn("GPS error:", err);
+            showToast("Could not get GPS — please click on map to set position");
+          },
+          { timeout: 8000 }
+        );
+      }
+
+      async function reverseGeocode(lat, lng) {
+        const preview = document.getElementById("addr-preview");
+        preview.textContent = "Looking up street address via Mappls…";
+        try {
+          const res = await fetch(`${API}/enrich/address?lat=${lat}&lng=${lng}`);
+          if (res.ok) {
+            const data = await res.json();
+            preview.textContent = data.formatted || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          } else {
+            preview.textContent = `Location near ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+          }
+        } catch {
+          preview.textContent = `Location near ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+        }
+      }
+
+      function dismissBanner() {
+        document.getElementById("success-banner").classList.remove("visible");
+      }
+
+      function copyReportId() {
+        const id = document.getElementById("success-id").textContent;
+        if (id && id !== "-") {
+          navigator.clipboard.writeText(id).then(() => showToast("✓ Report ID copied to clipboard!"));
+        }
+      }
+
+      function centerKolkataMap() {
+        if (mapplsMap && mapplsMap.setCenter) {
+          try {
+            mapplsMap.setCenter(DEFAULT_CENTER);
+            mapplsMap.setZoom(13);
+          } catch (e) {
+            console.warn("Mappls setCenter error:", e);
+          }
+        }
+        if (canvasMap) {
+          canvasMap.setCenter(DEFAULT_CENTER, 13);
+        }
+        updateCoordsUI(DEFAULT_CENTER[0], DEFAULT_CENTER[1]);
+        updateMapPin(DEFAULT_CENTER[0], DEFAULT_CENTER[1]);
+        reverseGeocode(DEFAULT_CENTER[0], DEFAULT_CENTER[1]);
+        showToast("✓ Map recentered on Kolkata");
+      }
+
+      // ══════════════════════════════════════════════════════════════════════
+      // Map Engine Setup (Mappls with Vector GIS Canvas Fallback)
+      // ══════════════════════════════════════════════════════════════════════
+      function updateMapPin(lat, lng) {
+        if (mapplsMap && currentMarker) {
+          try {
+            currentMarker.setPosition({ lat, lng });
+            mapplsMap.setCenter([lat, lng]);
+          } catch (e) {
+            console.warn("Mappls pin error:", e);
+          }
+        } else if (canvasMap) {
+          canvasMap.setPin(lat, lng);
+        }
+      }
+
+      class PickerCanvasGIS {
+        constructor(container) {
+          this.container = container;
+          this.container.innerHTML = "";
+          this.canvas = document.createElement("canvas");
+          this.canvas.style.width = "100%";
+          this.canvas.style.height = "100%";
+          this.canvas.style.display = "block";
+          this.canvas.style.cursor = "crosshair";
+          this.container.appendChild(this.canvas);
+          this.ctx = this.canvas.getContext("2d");
+
+          this.centerLat = DEFAULT_CENTER[0];
+          this.centerLng = DEFAULT_CENTER[1];
+          this.zoom = 13;
+          this.pin = { lat: DEFAULT_CENTER[0], lng: DEFAULT_CENTER[1] };
+
+          this.resize();
+          window.addEventListener("resize", () => this.resize());
+
+          this.canvas.addEventListener("click", e => {
+            const rect = this.canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const coords = this.unproject(x, y);
+            this.setPin(coords.lat, coords.lng);
+            updateCoordsUI(coords.lat, coords.lng);
+            reverseGeocode(coords.lat, coords.lng);
+          });
+        }
+
+        setCenter(coords, zoom) {
+          this.centerLat = coords[0];
+          this.centerLng = coords[1];
+          if (zoom) this.zoom = zoom;
+          this.render();
+        }
+
+        resize() {
+          const rect = this.container.getBoundingClientRect();
+          this.width = rect.width || 400;
+          this.height = rect.height || 330;
+          const dpr = window.devicePixelRatio || 1;
+          this.canvas.width = this.width * dpr;
+          this.canvas.height = this.height * dpr;
+          this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          this.render();
+        }
+
+        project(lat, lng) {
+          const scale = (Math.pow(2, this.zoom) * 256) / 360;
+          const rad = this.centerLat * Math.PI / 180;
+          const x = this.width / 2 + (lng - this.centerLng) * scale * Math.cos(rad);
+          const y = this.height / 2 - (lat - this.centerLat) * scale;
+          return { x, y };
+        }
+
+        unproject(x, y) {
+          const scale = (Math.pow(2, this.zoom) * 256) / 360;
+          const rad = this.centerLat * Math.PI / 180;
+          const lng = this.centerLng + (x - this.width / 2) / (scale * Math.cos(rad));
+          const lat = this.centerLat - (y - this.height / 2) / scale;
+          return { lat, lng };
+        }
+
+        setPin(lat, lng) {
+          this.pin = { lat, lng };
+          this.render();
+        }
+
+        render() {
+          const ctx = this.ctx;
+          const w = this.width;
+          const h = this.height;
+          const isDark = document.body.classList.contains("dark-mode");
+
+          ctx.fillStyle = isDark ? "#0d1815" : "#edf3ef";
+          ctx.fillRect(0, 0, w, h);
+
+          // Grid lines
+          ctx.strokeStyle = isDark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.05)";
+          ctx.lineWidth = 1;
+          for (let x = 0; x < w; x += 40) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+          }
+          for (let y = 0; y < h; y += 40) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+          }
+
+          // Hooghly River
+          const river = [
+            [22.63, 88.355], [22.605, 88.352], [22.585, 88.342],
+            [22.565, 88.332], [22.545, 88.322], [22.525, 88.312]
+          ];
+          ctx.strokeStyle = isDark ? "#1d476b" : "#93c5fd";
+          ctx.lineWidth = 14;
+          ctx.lineCap = "round";
+          ctx.lineJoin = "round";
+          ctx.beginPath();
+          river.forEach((pt, idx) => {
+            const p = this.project(pt[0], pt[1]);
+            if (idx === 0) ctx.moveTo(p.x, p.y);
+            else ctx.lineTo(p.x, p.y);
+          });
+          ctx.stroke();
+
+          // Major Roads
+          const majorRoads = [
+            [[22.585, 88.345], [22.570, 88.375], [22.565, 88.400]], // MG Road
+            [[22.600, 88.365], [22.540, 88.350], [22.510, 88.345]], // Central Ave
+            [[22.620, 88.400], [22.540, 88.398], [22.480, 88.390]], // EM Bypass
+            [[22.552, 88.352], [22.550, 88.368]]                     // Park Street
+          ];
+          ctx.strokeStyle = isDark ? "#285246" : "#b8cbc0";
+          ctx.lineWidth = 4;
+          majorRoads.forEach(road => {
+            ctx.beginPath();
+            road.forEach((pt, idx) => {
+              const p = this.project(pt[0], pt[1]);
+              if (idx === 0) ctx.moveTo(p.x, p.y);
+              else ctx.lineTo(p.x, p.y);
+            });
+            ctx.stroke();
+          });
+
+          // Pin
+          if (this.pin) {
+            const pt = this.project(this.pin.lat, this.pin.lng);
+
+            // Pulsing target circle
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y, 16, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(14, 145, 119, 0.22)";
+            ctx.fill();
+
+            // Pin teardrop body
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y - 12, 10, 0, Math.PI * 2);
+            ctx.fillStyle = "#ef4444";
+            ctx.fill();
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Pin center dot
+            ctx.beginPath();
+            ctx.arc(pt.x, pt.y - 12, 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = "#ffffff";
+            ctx.fill();
+
+            // Pin point
+            ctx.beginPath();
+            ctx.moveTo(pt.x - 6, pt.y - 6);
+            ctx.lineTo(pt.x, pt.y);
+            ctx.lineTo(pt.x + 6, pt.y - 6);
+            ctx.fillStyle = "#ef4444";
+            ctx.fill();
+
+            // Label
+            ctx.font = "bold 10.5px 'Manrope', sans-serif";
+            ctx.fillStyle = isDark ? "#f8fafc" : "#10231f";
+            ctx.textAlign = "center";
+            ctx.fillText("HAZARD LOCATION", pt.x, pt.y + 18);
+          }
+        }
+      }
+
+      async function initPickerMap() {
+        const container = document.getElementById("picker-map");
+        if (!container) return;
+
+        // 1. Immediately boot the Vector GIS Canvas so the map is visible instantly
+        if (!mapplsMap && !canvasMap) {
+          canvasMap = new PickerCanvasGIS(container);
+        }
+
+        function tryInitMapplsPicker() {
+          if (window.mappls && typeof mappls.Map === "function") {
+            try {
+              container.innerHTML = "";
+              try {
+                mapplsMap = new mappls.Map("picker-map", {
+                  center: { lat: DEFAULT_CENTER[0], lng: DEFAULT_CENTER[1] },
+                  zoom: 13
+                });
+              } catch (e1) {
+                mapplsMap = new mappls.Map("picker-map", {
+                  center: DEFAULT_CENTER,
+                  zoom: 13
+                });
+              }
+
+              currentMarker = new mappls.Marker({
+                map: mapplsMap,
+                position: { lat: DEFAULT_CENTER[0], lng: DEFAULT_CENTER[1] }
+              });
+
+              mapplsMap.addListener("click", function(e) {
+                if (e.lngLat) {
+                  const lat = e.lngLat.lat;
+                  const lng = e.lngLat.lng;
+                  updateCoordsUI(lat, lng);
+                  updateMapPin(lat, lng);
+                  reverseGeocode(lat, lng);
+                }
+              });
+              canvasMap = null;
+              return true;
+            } catch (e) {
+              console.warn("Mappls Map init error, falling back to Vector GIS:", e);
+            }
+          }
+          return false;
+        }
+
+        if (tryInitMapplsPicker()) return;
+
+        // Try loading Mappls token dynamically from backend
+        try {
+          const tokenRes = await fetch(`${API}/mappls/token`).catch(() => null);
+          if (tokenRes && tokenRes.ok) {
+            const data = await tokenRes.json();
+            if (data.token) {
+              const script = document.createElement("script");
+              script.src = `https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=${encodeURIComponent(data.token)}`;
+              script.onload = () => {
+                tryInitMapplsPicker();
+              };
+              document.head.appendChild(script);
+            }
+          }
+        } catch (e) {}
+      }
+
+      // ══════════════════════════════════════════════════════════════════════
+      // Submit Citizen Report
+      // ══════════════════════════════════════════════════════════════════════
+      async function submitCitizenReport(e) {
+        e.preventDefault();
+        const submitBtn = document.getElementById("submit-btn");
+        const lat = parseFloat(document.getElementById("input-lat").value);
+        const lng = parseFloat(document.getElementById("input-lng").value);
+        const desc = document.getElementById("input-desc").value.trim();
+        const name = document.getElementById("input-name").value.trim() || "Citizen";
+        const photo = document.getElementById("input-photo").value.trim() || undefined;
+
+        if (isNaN(lat) || isNaN(lng)) {
+          alert("Please select a valid hazard location on the map.");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "<span>⏳ Ingesting to Municipal Ledger…</span>";
+
+        try {
+          let finalPhotoUrl = photo;
+          if (photo && photo.startsWith("data:image/")) {
+            submitBtn.innerHTML = "<span>📸 Uploading Evidence Photo…</span>";
+            try {
+              const uploadRes = await fetch(`${API}/upload-photo`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ data: photo, filename: `citizen_${Date.now()}.jpg` })
+              });
+              if (uploadRes.ok) {
+                const uploadData = await uploadRes.json();
+                finalPhotoUrl = uploadData.photo_url || photo;
+              }
+            } catch (upErr) {
+              console.warn("Photo upload server error, falling back to data URL:", upErr);
+            }
+          }
+
+          const payload = {
+            event_type: selectedType,
+            latitude: lat,
+            longitude: lng,
+            severity: selectedSeverity,
+            description: desc,
+            reporter_name: name,
+            photo_url: finalPhotoUrl
+          };
+
+          submitBtn.innerHTML = "<span>⏳ Ingesting to Municipal Ledger…</span>";
+          const res = await fetch(`${API}/reports/citizen`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.detail || "Submission failed");
+          }
+
+          const result = await res.json();
+          const eventId = result.event_id || (result.event ? result.event.event_id : "LOGGED");
+          const blockHash = result.block_hash || (result.event ? result.event.block_hash : "");
+
+          // Store reported ID in localStorage
+          const savedIds = JSON.parse(localStorage.getItem("citypulse-citizen-ids") || "[]");
+          savedIds.unshift(eventId);
+          localStorage.setItem("citypulse-citizen-ids", JSON.stringify(savedIds.slice(0, 30)));
+
+          // Show confirmation banner
+          document.getElementById("success-id").textContent = eventId;
+          document.getElementById("success-hash").textContent = blockHash ? (blockHash.slice(0, 24) + "...") : "SHA256-VERIFIED";
+          const statusBadge = document.getElementById("success-status");
+          statusBadge.textContent = "⏳ Unreviewed (Pending Review)";
+          statusBadge.className = "badge NEW";
+          document.getElementById("success-banner").classList.add("visible");
+          document.getElementById("success-banner").scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+          showToast("✓ Hazard report submitted! Logged on ledger.");
+
+          // Reset description
+          document.getElementById("input-desc").value = "";
+
+          // Refresh community feed
+          loadRecentCitizenReports();
+        } catch (err) {
+          console.error("Submission error:", err);
+          alert("Could not submit report: " + err.message);
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = "<span>🚀 Submit Citizen Hazard Report</span>";
+        }
+      }
+
+      // ══════════════════════════════════════════════════════════════════════
+      // Community Feed & Status Tracker
+      // ══════════════════════════════════════════════════════════════════════
+      function filterFeed(status, el) {
+        activeStatusFilter = status;
+        document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+        el.classList.add("active");
+        renderReportsFeed();
+      }
+
+      function getCategoryIcon(type) {
+        if (type === "POTHOLE") return "🕳️";
+        if (type === "NEAR_MISS") return "💥";
+        if (type === "MISSING_DIVIDER") return "🚧";
+        return "⚠️";
+      }
+
+      function focusReportOnMap(lat, lng, address) {
+        setHotspot(lat, lng, address);
+        showToast("📍 Map centered on reported incident");
+      }
+
+      function renderReportsFeed() {
+        const container = document.getElementById("citizen-feed-container");
+        if (!container) return;
+
+        const savedIds = new Set(JSON.parse(localStorage.getItem("citypulse-citizen-ids") || "[]"));
+        let reports = cachedReports.filter(e => e.bus_id === "CITIZEN_PORTAL" || savedIds.has(e.event_id));
+
+        if (activeStatusFilter) {
+          reports = reports.filter(e => (e.status || "NEW") === activeStatusFilter);
+        }
+
+        if (reports.length === 0) {
+          container.innerHTML = `
+            <div style="padding:28px 16px; text-align:center; color:var(--muted); font-size:12.5px;">
+              <span style="font-size:24px; display:block; margin-bottom:6px;">📋</span>
+              No reports found for active filter. Submit a report using the form on the left to add one.
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = reports.slice(0, 15).map(ev => {
+          const loc = ev.location || {};
+          const addr = loc.address?.formatted || `${(loc.latitude||0).toFixed(4)}, ${(loc.longitude||0).toFixed(4)}`;
+          const st = ev.status || "NEW";
+          const stLabel = st === "NEW" ? "Unreviewed" : st === "UNDER_REVIEW" ? "Under Process" : st === "ACTIONED" ? "Resolved" : "Dismissed";
+          const sev = ev.severity || "MODERATE";
+          const icon = getCategoryIcon(ev.event_type);
+          const isMine = savedIds.has(ev.event_id);
+          const time = ev.timestamp ? ev.timestamp.slice(11, 16) : "Just now";
+
+          const pulseColor = st === "NEW" ? "#f59e0b" : st === "UNDER_REVIEW" ? "#0ea5e9" : "#10b981";
+
+          const photoThumb = ev.evidence?.thumbnail_url;
+          return `
+            <div class="feed-item" onclick="focusReportOnMap(${loc.latitude||0}, ${loc.longitude||0}, '${addr.replace(/'/g, "\\'")}')">
+              <div class="feed-header">
+                <span class="feed-type-badge">
+                  <span>${icon}</span> ${ev.event_type.replaceAll("_", " ")}
+                  ${isMine ? '<span style="background:rgba(14,145,119,0.12); color:var(--accent); font-size:9.5px; padding:1px 5px; border-radius:3px; margin-left:4px;">YOUR REPORT</span>' : ''}
+                  ${photoThumb ? '<span style="background:rgba(16,185,129,0.12); color:#10b981; font-size:9.5px; padding:1px 5px; border-radius:3px; margin-left:4px;">📸 PHOTO</span>' : ''}
+                </span>
+                <span class="badge ${st}" style="font-size:10.5px;">
+                  <span class="pulse-indicator" style="background:${pulseColor};"></span>
+                  ${stLabel}
+                </span>
+              </div>
+              <div class="feed-addr">${addr}</div>
+              ${photoThumb ? `<div style="margin:6px 0; max-height:80px; overflow:hidden; border-radius:6px; border:1px solid var(--line);"><img src="${photoThumb}" alt="Evidence thumbnail" style="width:100%; height:80px; object-fit:cover; display:block;" /></div>` : ''}
+              <div class="feed-footer">
+                <span>Severity: <b style="color:var(--ink);">${sev}</b> · Time: ${time}</span>
+                <span style="font-weight:700; color:var(--accent);">View on Map ↗</span>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      async function loadRecentCitizenReports() {
+        try {
+          const res = await fetch(`${API}/events?limit=100`);
+          if (!res.ok) throw new Error("Could not load events");
+          const data = await res.json();
+          cachedReports = data.events || [];
+          renderReportsFeed();
+        } catch (err) {
+          console.error("Feed error:", err);
+        }
+      }
+
+      // Initial page load
+      window.addEventListener("DOMContentLoaded", () => {
+        initPickerMap();
+        loadRecentCitizenReports();
+        reverseGeocode(DEFAULT_CENTER[0], DEFAULT_CENTER[1]);
+        setInterval(loadRecentCitizenReports, 8000);
+      });
+    </script>
+  </body>
+</html>

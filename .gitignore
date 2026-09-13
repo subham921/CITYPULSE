@@ -1,0 +1,40 @@
+﻿# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# Python cache & artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Node & Frontend dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Binaries & Downloads
+tools/cloudflared.exe
+tools/*.exe
+
+# Agent & temporary files
+.agents/
+skills-lock.json
+public_url.txt
+*.log
+
+# Uploads & temporary media
+dashboard/uploads/*
+!dashboard/uploads/.gitkeep
+data/*.mp4
+data/annotated_*.mp4
+
+# OS generated files
+.DS_Store
+Thumbs.db
