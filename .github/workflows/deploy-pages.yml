@@ -1,10 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy CITYPULSE Dashboard
 
 on:
   push:
     branches:
       - main
-      - feature/edge-sensors
   workflow_dispatch:
 
 permissions:
@@ -13,34 +12,33 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Prepare dashboard files for GitHub Pages
+      - name: Prepare dashboard
         run: |
-          touch ./dashboard/.nojekyll
-          sed -i 's|href="/styles.css"|href="styles.css"|g' ./dashboard/*.html
-          sed -i 's|src="/app.js"|src="app.js"|g' ./dashboard/*.html
-          sed -i 's|href="/report"|href="report.html"|g' ./dashboard/*.html
-          sed -i 's|href="/admin"|href="index.html"|g' ./dashboard/*.html
+          mkdir -p _site
+          cp -r dashboard/* _site/
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dashboard'
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment
