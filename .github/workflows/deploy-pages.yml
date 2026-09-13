@@ -30,10 +30,14 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v6
 
-      - name: Prepare dashboard
+      - name: Build dashboard
         run: |
-          mkdir -p _site
-          cp -r dashboard/* _site/
+          rm -rf _site
+          mkdir _site
+          cp dashboard/index.html _site/index.html
+          cp dashboard/app.js _site/app.js
+          cp dashboard/styles.css _site/styles.css
+          cp dashboard/report.html _site/report.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
