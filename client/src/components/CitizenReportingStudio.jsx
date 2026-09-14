@@ -1,31 +1,32 @@
 import React, { useState } from 'react';
-import { Navigation, Camera, AlertTriangle, Waves, Cpu, CheckCircle2, Shield, MapPin, Send, Sparkles } from 'lucide-react';
+import { Navigation, Camera, AlertTriangle, Waves, Cpu, CheckCircle2, Shield, MapPin, Send, User, FileText } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { submitCitizenReport, uploadEvidencePhoto } from '../utils/api';
 import { playSuccessChime, playRadarBeep } from '../utils/audioFx';
 
 const HAZARD_TYPES = [
-  { id: 'POTHOLE', label: 'Pothole / Crater', desc: 'Cavity on asphalt surface', icon: '🕳️', color: 'from-red-500/20 to-rose-600/20' },
-  { id: 'WATERLOGGED', label: 'Waterlogged / Flood', desc: 'Submerged street, high flood risk', icon: '🌊', color: 'from-cyan-500/20 to-blue-600/20' },
-  { id: 'NEAR_MISS', label: 'Near Miss / Hazard', desc: 'Blind curve, pedestrian risk', icon: '⚠️', color: 'from-amber-500/20 to-yellow-600/20' },
-  { id: 'MISSING_DIVIDER', label: 'Missing Divider', desc: 'Broken median / lane hazard', icon: '🚧', color: 'from-purple-500/20 to-indigo-600/20' },
-  { id: 'ROAD_DISTRESS', label: 'Road Distress', desc: 'Uneven surface, cracking', icon: '🚨', color: 'from-teal-500/20 to-emerald-600/20' }
+  { id: 'POTHOLE', label: 'Pothole / Crater', desc: 'Cavity on asphalt road surface', icon: '🕳️' },
+  { id: 'WATERLOGGED', label: 'Waterlogged / Flood', desc: 'Submerged street, high flood risk', icon: '🌊' },
+  { id: 'NEAR_MISS', label: 'Near Miss / Danger', desc: 'Blind curve, pedestrian risk', icon: '⚠️' },
+  { id: 'MISSING_DIVIDER', label: 'Missing Divider', desc: 'Broken median / missing guard rail', icon: '🚧' },
+  { id: 'ROAD_DISTRESS', label: 'Road Distress', desc: 'Uneven pavement, asphalt fissures', icon: '🚨' }
 ];
 
 const QUICK_HOTSPOTS = [
-  { name: 'Howrah Bridge', lat: 22.5850, lng: 88.3468 },
+  { name: 'College Street / MG Rd', lat: 22.5744, lng: 88.3629 },
   { name: 'Park Street', lat: 22.5535, lng: 88.3524 },
-  { name: 'EM Bypass', lat: 22.5392, lng: 88.3976 },
-  { name: 'Sector V', lat: 22.5735, lng: 88.4331 },
-  { name: 'Esplanade', lat: 22.5645, lng: 88.3518 }
+  { name: 'EM Bypass (Chingrighata)', lat: 22.5612, lng: 88.4024 },
+  { name: 'Salt Lake Sector V', lat: 22.5735, lng: 88.4331 },
+  { name: 'Howrah Bridge Approach', lat: 22.5850, lng: 88.3468 },
+  { name: 'Behala Chowrasta', lat: 22.4988, lng: 88.3114 }
 ];
 
 const PRESET_OBSERVATIONS = [
-  '+ Deep crater',
-  '+ Water submerged >35cm',
-  '+ Wheel rim hazard',
-  '+ Near sharp turn',
-  '+ Bus route blocked'
+  '+ Deep crater on bus lane',
+  '+ Water level submerged >35cm',
+  '+ Severe vehicle bumper scrape',
+  '+ Water accumulated after rain',
+  '+ Divider gap causing wrong-way traffic'
 ];
 
 export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
@@ -33,7 +34,7 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
   const [severity, setSeverity] = useState('SEVERE');
   const [latitude, setLatitude] = useState(22.5744);
   const [longitude, setLongitude] = useState(88.3629);
-  const [address, setAddress] = useState('College Street Market, Kolkata');
+  const [address, setAddress] = useState('College Street / MG Road Crossing, Kolkata');
   const [description, setDescription] = useState('');
   const [reporterName, setReporterName] = useState('Civic Contributor');
   const [photoPreview, setPhotoPreview] = useState(null);
@@ -51,13 +52,13 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
         (pos) => {
           setLatitude(pos.coords.latitude);
           setLongitude(pos.coords.longitude);
-          setAddress(`GPS Locked (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)})`);
+          setAddress(`GPS Position (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)})`);
           setIsLocating(false);
           if (onToast) onToast('GPS lock acquired (Precision ±3m)', 'success');
         },
         () => {
           setIsLocating(false);
-          if (onToast) onToast('Location permission denied. Using selected coordinates.', 'error');
+          if (onToast) onToast('Location permission denied. Defaulting to selected spot.', 'error');
         }
       );
     } else {
@@ -75,7 +76,7 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
       setPhotoPreview(base64);
       try {
         const res = await uploadEvidencePhoto(base64);
-        if (res && res.url) setPhotoUrl(res.url);
+        if (res && res.photo_url) setPhotoUrl(res.photo_url);
       } catch (err) {}
     };
     reader.readAsDataURL(file);
@@ -118,22 +119,22 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
           <span className="px-3 py-1 rounded-full text-xs font-mono bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 uppercase tracking-widest inline-block mb-2">
             ● Citizen Crowdsourced Safety Network
           </span>
-          <h2 className="font-['Orbitron'] font-bold text-xl md:text-2xl text-white tracking-wide">
-            REPORT ROAD HAZARD &amp; WATERLOGGING
+          <h2 className="font-['Orbitron'] font-black text-2xl lg:text-3xl text-white tracking-wide mb-2">
+            REPORT ROAD HAZARDS & FLOOD SPOTS
           </h2>
-          <p className="text-xs font-mono text-slate-400 max-w-xl mx-auto mt-1">
-            Every submission is cryptographically verified and streamed in real-time to municipal road authorities and bus transit dispatchers.
+          <p className="text-xs font-mono text-slate-300 max-w-xl mx-auto">
+            Directly alert Kolkata Transit Authority dispatchers. Reports are verified with multi-sensor fleet telemetry and sealed with cryptographic hashes.
           </p>
         </div>
       </div>
 
-      {/* Success Receipt Modal Banner */}
+      {/* Success Receipt Banner */}
       {submittedReceipt && (
         <div className="hologram-card rounded-2xl p-6 mb-6 border border-emerald-500/40 bg-emerald-950/30 text-emerald-200 animate-fadeIn">
           <div className="flex items-center space-x-3 mb-2">
             <CheckCircle2 className="w-6 h-6 text-emerald-400" />
             <h3 className="font-['Orbitron'] font-bold text-base text-white">
-              REPORT SEALED &amp; BROADCASTED
+              REPORT SEALED & BROADCASTED
             </h3>
           </div>
           <p className="text-xs font-mono text-slate-300">
@@ -213,7 +214,7 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
           </div>
         </div>
 
-        {/* Step 3: Geolocation Lock-on */}
+        {/* Step 3: Geolocation Lock-on & Kolkata Hotspots */}
         <div>
           <label className="block text-xs font-mono font-bold uppercase tracking-wider text-cyan-300 mb-3">
             Step 3 • Incident Location &amp; Hotspots
@@ -227,7 +228,7 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
               className="flex items-center space-x-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-mono font-bold shadow-md shadow-emerald-600/30 transition-all disabled:opacity-50"
             >
               <Navigation className={`w-3.5 h-3.5 ${isLocating ? 'animate-spin' : ''}`} />
-              <span>{isLocating ? 'Locking GPS...' : 'Detect My GPS'}</span>
+              <span>{isLocating ? 'Locking GPS...' : 'Locate My GPS'}</span>
             </button>
 
             {QUICK_HOTSPOTS.map((spot) => (
@@ -274,20 +275,20 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
             ) : (
               <div className="flex flex-col items-center space-y-1">
                 <Camera className="w-8 h-8 text-slate-500" />
-                <span className="text-xs font-mono text-slate-300">Click or Drag photo here</span>
-                <span className="text-[10px] font-mono text-slate-500">Supports PNG, JPG (Surface damage analysis)</span>
+                <span className="text-xs font-mono text-slate-300">Click or Drag photo evidence here</span>
+                <span className="text-[10px] font-mono text-slate-500">Supports PNG, JPG, WebP</span>
               </div>
             )}
           </div>
         </div>
 
-        {/* Step 5: Description & Quick Pills */}
+        {/* Step 5: Observation Details & Reporter Handle (Beautiful High-Tech Input Bars) */}
         <div>
           <label className="block text-xs font-mono font-bold uppercase tracking-wider text-cyan-300 mb-2">
             Step 5 • Observation Details &amp; Reporter Name
           </label>
 
-          <div className="flex flex-wrap gap-1.5 mb-2">
+          <div className="flex flex-wrap gap-1.5 mb-3">
             {PRESET_OBSERVATIONS.map((pill) => (
               <button
                 key={pill}
@@ -300,21 +301,30 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
             ))}
           </div>
 
-          <textarea
-            rows={3}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Describe the hazard impact (e.g. 40cm water submerged street outside market)..."
-            className="w-full rounded-xl bg-slate-950/80 border border-slate-800 p-3 text-xs font-mono text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-cyan-500 mb-3"
-          />
+          {/* Description Textarea */}
+          <div className="relative mb-3">
+            <textarea
+              rows={3}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Describe the hazard impact (e.g. 40cm water submerged street outside market, bumper scrape risk)..."
+              className="w-full rounded-xl bg-slate-900/90 border border-slate-700/80 p-3.5 text-xs font-mono text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 transition-all shadow-inner"
+            />
+          </div>
 
-          <input
-            type="text"
-            value={reporterName}
-            onChange={(e) => setReporterName(e.target.value)}
-            placeholder="Your name or Citizen handle"
-            className="w-full rounded-xl bg-slate-950/80 border border-slate-800 px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-cyan-500"
-          />
+          {/* Reporter Name Input with Icon */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+              <User className="w-4 h-4 text-cyan-400" />
+            </div>
+            <input
+              type="text"
+              value={reporterName}
+              onChange={(e) => setReporterName(e.target.value)}
+              placeholder="Your full name or Citizen handle"
+              className="w-full rounded-xl bg-slate-900/90 border border-slate-700/80 pl-10 pr-4 py-2.5 text-xs font-mono text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-cyan-400 focus:border-cyan-400 transition-all shadow-inner"
+            />
+          </div>
         </div>
 
         {/* Submit Action */}

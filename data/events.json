@@ -3551,5 +3551,329 @@
     "last_reported_at": "2026-09-14T23:05:05.990307+00:00",
     "evidence_hash": "2507bad6d192746cc834f585e0cad079ecb987824f2f1026a4d1a65f1190f6e5",
     "previous_evidence_hash": "4a192409e5d316d41edf777068a848578ab731840a42e63399e87cf88d598eff"
+  },
+  {
+    "event_id": "0cd8567d-d883-4794-b4ea-34bb1fed059d",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS505",
+    "route_id": "ROUTE_15",
+    "timestamp": "2026-09-14T23:09:23.519225+00:00",
+    "location": {
+      "latitude": 22.586074,
+      "longitude": 88.366014
+    },
+    "gps": {
+      "speed_kmh": 12.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 56.1,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 56.1,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 21.1,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 56.1cm water level (+21.1cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:09:23.519247+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 56.1cm water level exceeds 35.0cm bumper clearance by +21.1cm on BUS505."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:09:23.519253+00:00",
+    "evidence_hash": "d5a56fe040602cfeb366bbf467a91aafe1af33b1dd5c9a38864d13e98b624b77",
+    "previous_evidence_hash": "2507bad6d192746cc834f585e0cad079ecb987824f2f1026a4d1a65f1190f6e5"
+  },
+  {
+    "event_id": "3d4fe835-4675-4c36-9f9e-d8a954683d0e",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS204",
+    "route_id": "ROUTE_14",
+    "timestamp": "2026-09-14T23:09:37.757753+00:00",
+    "location": {
+      "latitude": 22.498312,
+      "longitude": 88.311075
+    },
+    "gps": {
+      "speed_kmh": 22.9
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:09:37.757767+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS204."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:09:37.757771+00:00",
+    "evidence_hash": "558cb5cb2752deef27f8327ee86fd9e48f9cf73eb26b3416508c2397a71d7d45",
+    "previous_evidence_hash": "d5a56fe040602cfeb366bbf467a91aafe1af33b1dd5c9a38864d13e98b624b77"
+  },
+  {
+    "event_id": "3bb94e27-14b5-4f4b-ab4a-4d925cbc5e26",
+    "event_type": "ROAD_DISTRESS",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T23:19:34.519316+00:00",
+    "location": {
+      "latitude": 22.5623,
+      "longitude": 88.3612
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "MODERATE",
+    "evidence": {
+      "thumbnail_url": "/static/uploads/pothole_sample.jpg",
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:19:34.519347+00:00",
+        "note": "Reported by Subham Sen: Severe asphalt cracking and road distress near Bowbazar crossing"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:19:34.519353+00:00",
+    "citizen_details": {
+      "reporter_name": "Subham Sen",
+      "description": "Severe asphalt cracking and road distress near Bowbazar crossing",
+      "photo_url": "/static/uploads/pothole_sample.jpg"
+    },
+    "evidence_hash": "11b5971e80602d8255f566db0cb529159113f8348b036f1be1139233f007eba6",
+    "previous_evidence_hash": "558cb5cb2752deef27f8327ee86fd9e48f9cf73eb26b3416508c2397a71d7d45"
+  },
+  {
+    "event_id": "7bcf2fe3-9bdd-444c-9eaa-736ce8d37800",
+    "event_type": "NEAR_MISS",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T23:19:45.305586+00:00",
+    "location": {
+      "latitude": 22.5448,
+      "longitude": 88.3672
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": "/static/uploads/near_miss_sample.jpg",
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:19:45.305609+00:00",
+        "note": "Reported by Traffic Warden Roy: Near-miss bus overtaking cyclist at Park Circus 7-Point roundabout"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:19:45.305615+00:00",
+    "citizen_details": {
+      "reporter_name": "Traffic Warden Roy",
+      "description": "Near-miss bus overtaking cyclist at Park Circus 7-Point roundabout",
+      "photo_url": "/static/uploads/near_miss_sample.jpg"
+    },
+    "evidence_hash": "1512ba4ed2c920a2cbb5687d6beae8d605f06f0fd44f957475d69babc34fe530",
+    "previous_evidence_hash": "11b5971e80602d8255f566db0cb529159113f8348b036f1be1139233f007eba6"
+  },
+  {
+    "event_id": "2c3fda3d-b07d-4652-997e-73e0f42f0e0b",
+    "event_type": "MISSING_DIVIDER",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T23:19:46.796247+00:00",
+    "location": {
+      "latitude": 22.5861,
+      "longitude": 88.3667
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": "/static/uploads/divider_sample.jpg",
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:19:46.796265+00:00",
+        "note": "Reported by Depot Inspector Dutta: 12-meter median barrier damaged and missing at Thanthania Kalibari"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:19:46.796269+00:00",
+    "citizen_details": {
+      "reporter_name": "Depot Inspector Dutta",
+      "description": "12-meter median barrier damaged and missing at Thanthania Kalibari",
+      "photo_url": "/static/uploads/divider_sample.jpg"
+    },
+    "evidence_hash": "70badae77994409ec947acd743b5244d949d99a791e9987f2388d1c19bca6983",
+    "previous_evidence_hash": "1512ba4ed2c920a2cbb5687d6beae8d605f06f0fd44f957475d69babc34fe530"
+  },
+  {
+    "event_id": "5b0a61e9-2f64-40af-9416-0c2b3d729efd",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS412",
+    "route_id": "ROUTE_08",
+    "timestamp": "2026-09-14T23:22:14.970443+00:00",
+    "location": {
+      "latitude": 22.582379,
+      "longitude": 88.357003
+    },
+    "gps": {
+      "speed_kmh": 23.8
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 48.4,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 48.4,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 13.4,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 48.4cm water level (+13.4cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:22:14.970490+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 48.4cm water level exceeds 35.0cm bumper clearance by +13.4cm on BUS412."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:22:14.970504+00:00",
+    "evidence_hash": "9a493c14f41c55d1b5d9cf2d2ac7335d897fd374fd1b28515a6232d41ff0f34b",
+    "previous_evidence_hash": "70badae77994409ec947acd743b5244d949d99a791e9987f2388d1c19bca6983"
   }
 ]
