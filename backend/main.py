@@ -55,6 +55,9 @@ if DASHBOARD_DIR.exists():
     app.mount("/static", StaticFiles(directory=str(DASHBOARD_DIR)), name="static")
     app.mount("/uploads", StaticFiles(directory=str(UPLOADS_DIR)), name="uploads")
     app.mount("/app", StaticFiles(directory=str(DASHBOARD_DIR), html=True), name="dashboard_app")
+    assets_dir = DASHBOARD_DIR / "assets"
+    assets_dir.mkdir(exist_ok=True)
+    app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
 
 DATA_FILE = Path(__file__).parent.parent / "data" / "events.json"
 DATA_FILE.parent.mkdir(exist_ok=True)
@@ -1153,11 +1156,14 @@ def map_dashboard():
 @app.get("/report")
 @app.get("/user")
 def user_report_dashboard():
-    """Serve the Citizen / User Hazard Reporting Portal."""
+    """Serve the Citizen / User Hazard Reporting Portal (React SPA)."""
+    index_path = DASHBOARD_DIR / "index.html"
+    if index_path.exists():
+        return FileResponse(str(index_path), media_type="text/html")
     report_path = DASHBOARD_DIR / "report.html"
     if report_path.exists():
         return FileResponse(str(report_path), media_type="text/html")
-    raise HTTPException(status_code=404, detail="Reporting portal not found. Ensure dashboard/report.html exists.")
+    raise HTTPException(status_code=404, detail="Reporting portal not found. Ensure dashboard/index.html exists.")
 
 
 @app.get("/styles.css")

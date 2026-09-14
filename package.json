@@ -8,12 +8,14 @@
     "test": "tests"
   },
   "scripts": {
-    "dev": "concurrently \"npm run tw:watch\" \"npm run server:dev\"",
+    "dev": "concurrently \"npm run client:dev\" \"npm run server:dev\"",
+    "client:dev": "vite",
+    "client:build": "vite build && node scripts/sync-build.js",
     "server:dev": "nodemon server/server.js",
     "server:start": "node server/server.js",
     "tw:build": "npx tailwindcss -i server/src/input.css -o server/public/css/output.css --minify",
     "tw:watch": "npx tailwindcss -i server/src/input.css -o server/public/css/output.css --watch",
-    "build": "npm run tw:build",
+    "build": "npm run client:build && npm run tw:build",
     "start": "npm run build && npm run server:start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -31,16 +33,22 @@
   "dependencies": {
     "@supabase/ssr": "^0.12.6",
     "@supabase/supabase-js": "^2.115.0",
+    "canvas-confetti": "^1.9.4",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
-    "http-proxy-middleware": "^3.0.6"
+    "http-proxy-middleware": "^3.0.6",
+    "lucide-react": "^1.46.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
     "autoprefixer": "^10.4.20",
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9",
     "postcss": "^8.5.3",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "vite": "^8.3.0"
   }
 }

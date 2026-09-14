@@ -3385,5 +3385,171 @@
     "last_reported_at": "2026-09-14T22:10:56.165420+00:00",
     "evidence_hash": "8ded546654720e7292a75031f7e4482972e7b1417eaf62bda2546fa3bec76f82",
     "previous_evidence_hash": "203805689f87dc23acc590ccc44ac263a0185c53f1c6bd3bbe49d41b5a9f1a5b"
+  },
+  {
+    "event_id": "2a7b25b6-2f7f-4541-b495-87eef3cc1e8e",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "timestamp": "2026-09-14T23:05:01.006621+00:00",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:05:01.006651+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:05:01.006662+00:00",
+    "evidence_hash": "7739015c6547cfe29d87bc04bb6873b2d8187b4d85992eea616837f441f9274c",
+    "previous_evidence_hash": "8ded546654720e7292a75031f7e4482972e7b1417eaf62bda2546fa3bec76f82"
+  },
+  {
+    "event_id": "beb5b41d-1f96-423c-83ac-10ce6b973d17",
+    "event_type": "WATERLOGGED",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T23:05:03.888612+00:00",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": null,
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:05:03.888633+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:05:03.888638+00:00",
+    "citizen_details": {
+      "reporter_name": "Verified Citizen",
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "photo_url": null
+    },
+    "evidence_hash": "4a192409e5d316d41edf777068a848578ab731840a42e63399e87cf88d598eff",
+    "previous_evidence_hash": "7739015c6547cfe29d87bc04bb6873b2d8187b4d85992eea616837f441f9274c"
+  },
+  {
+    "event_id": "7d1c15ab-8704-480e-bc70-c371cf5d1b7a",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS104",
+    "route_id": "ROUTE_AC47",
+    "timestamp": "2026-09-14T23:05:05.990285+00:00",
+    "location": {
+      "latitude": 22.560033,
+      "longitude": 88.402731
+    },
+    "gps": {
+      "speed_kmh": 19.9
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 54.2,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 54.2,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 19.2,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 54.2cm water level (+19.2cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T23:05:05.990302+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 54.2cm water level exceeds 35.0cm bumper clearance by +19.2cm on BUS104."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T23:05:05.990307+00:00",
+    "evidence_hash": "2507bad6d192746cc834f585e0cad079ecb987824f2f1026a4d1a65f1190f6e5",
+    "previous_evidence_hash": "4a192409e5d316d41edf777068a848578ab731840a42e63399e87cf88d598eff"
   }
 ]

@@ -10,6 +10,7 @@ const express = require("express");
 const path = require("path");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
+const fs = require("fs");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const API_BACKEND_URL = process.env.API_BACKEND_URL || "http://localhost:8000";
@@ -19,6 +20,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // ─── Static Assets ─────────────────────────────────────────────────
+app.use(express.static(path.join(__dirname, "public", "dist")));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Serve uploaded evidence photos from the dashboard/uploads directory
@@ -56,29 +58,34 @@ app.use(
 
 // ─── Page Routes ───────────────────────────────────────────────────
 
-// Admin Command Center (default landing)
-app.get("/", (req, res) => {
+// React Creative Urban Intelligence Dashboard (SPA)
+app.get(["/", "/admin", "/dashboard", "/report", "/user"], (req, res) => {
+  const reactIndex = path.join(__dirname, "public", "dist", "index.html");
+  if (fs.existsSync(reactIndex)) {
+    return res.sendFile(reactIndex);
+  }
+  // Fallback to classic EJS templates if React build is missing
+  const isReport = req.path.includes("report") || req.path.includes("user");
+  res.render(isReport ? "report" : "admin", {
+    title: isReport
+      ? "CITYPULSE | Citizen Road Hazard Reporting Portal"
+      : "CITYPULSE | Urban Intelligence & Road Safety (Mappls Powered)",
+    page: isReport ? "report" : "admin",
+  });
+});
+
+// Classic EJS fallbacks
+app.get("/classic-admin", (req, res) => {
   res.render("admin", {
     title: "CITYPULSE | Urban Intelligence & Road Safety (Mappls Powered)",
     page: "admin",
   });
 });
-app.get("/admin", (req, res) => {
-  res.redirect("/");
-});
-app.get("/dashboard", (req, res) => {
-  res.redirect("/");
-});
-
-// Citizen Hazard Reporting Portal
-app.get("/report", (req, res) => {
+app.get("/classic-report", (req, res) => {
   res.render("report", {
     title: "CITYPULSE | Citizen Road Hazard Reporting Portal",
     page: "report",
   });
-});
-app.get("/user", (req, res) => {
-  res.redirect("/report");
 });
 
 // Health check
