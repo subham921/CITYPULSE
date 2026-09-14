@@ -1,3 +1,92 @@
+
+// Custom SVG Pin Generator for Mappls Markers
+function createMapplsCustomPin(eventType, color) {
+  var iconSvg = "";
+  if (eventType === "POTHOLE") {
+    iconSvg = '<circle cx="16" cy="15" r="4.5" fill="' + color + '" opacity="0.3"/>' +
+              '<circle cx="16" cy="15" r="3" fill="' + color + '"/>' +
+              '<path d="M16 8v2 M16 20v2 M9 15h2 M21 15h2 M11 10l1.5 1.5 M19.5 18.5l1.5 1.5 M11 20l1.5-1.5 M19.5 11.5l1.5-1.5" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>';
+  } else if (eventType === "NEAR_MISS") {
+    iconSvg = '<polygon points="16,8.5 22.5,20 9.5,20" fill="' + color + '"/>' +
+              '<line x1="16" y1="12" x2="16" y2="15.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round"/>' +
+              '<circle cx="16" cy="18" r="0.9" fill="#ffffff"/>';
+  } else if (eventType === "MISSING_DIVIDER" || eventType === "DIVIDER") {
+    iconSvg = '<rect x="11" y="9.5" width="3.2" height="11" rx="1.2" fill="' + color + '"/>' +
+              '<rect x="17.8" y="9.5" width="3.2" height="11" rx="1.2" fill="' + color + '"/>' +
+              '<line x1="8.5" y1="15" x2="23.5" y2="15" stroke="#ffffff" stroke-width="1.4" stroke-linecap="round"/>' +
+              '<circle cx="16" cy="15" r="1.4" fill="#ffffff"/>';
+  } else if (eventType === "WATERLOGGED") {
+    iconSvg = '<path d="M10 14 Q13 12 16 14 T22 14" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round"/>' +
+              '<path d="M10 17.5 Q13 15.5 16 17.5 T22 17.5" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round"/>' +
+              '<path d="M16 8 C16 8 13.5 10.5 13.5 12 A2.5 2.5 0 0 0 18.5 12 C18.5 10.5 16 8 16 8 Z" fill="' + color + '"/>';
+  } else {
+    iconSvg = '<path d="M16.5 8 L12.5 14 L16.5 14 L14 21 L20 14.5 L16 14.5 Z" fill="' + color + '"/>';
+  }
+
+  var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 44" width="32" height="44">' +
+            '<defs><filter id="pin-sh" x="-25%" y="-10%" width="150%" height="135%"><feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#000000" flood-opacity="0.55"/></filter></defs>' +
+            '<path d="M16 1 C7.8 1 1.5 7.3 1.5 15.2 C1.5 25.5 16 42.5 16 42.5 C16 42.5 30.5 25.5 30.5 15.2 C30.5 7.3 24.2 1 16 1 Z" fill="' + color + '" stroke="#ffffff" stroke-width="1.6" filter="url(#pin-sh)"/>' +
+            '<circle cx="16" cy="15" r="9.2" fill="#ffffff" stroke="' + color + '" stroke-width="1"/>' +
+            iconSvg + '</svg>';
+
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+// 7 Major Kolkata Flood Corridors
+var KOLKATA_CORRIDORS = [
+  {
+    id: "ROUTE_32",
+    name: "College Street / MG Road Crossing",
+    baselineDepth: 41.5,
+    coords: [{lat: 22.5855, lng: 88.3678}, {lat: 22.5805, lng: 88.3650}, {lat: 22.5744, lng: 88.3629}, {lat: 22.5685, lng: 88.3610}, {lat: 22.5630, lng: 88.3595}],
+    mid: {lat: 22.5744, lng: 88.3629}
+  },
+  {
+    id: "ROUTE_08",
+    name: "Central Avenue (CR Avenue / Chittaranjan)",
+    baselineDepth: 33.5,
+    coords: [{lat: 22.6030, lng: 88.3730}, {lat: 22.5920, lng: 88.3655}, {lat: 22.5835, lng: 88.3582}, {lat: 22.5720, lng: 88.3545}, {lat: 22.5630, lng: 88.3510}],
+    mid: {lat: 22.5835, lng: 88.3582}
+  },
+  {
+    id: "ROUTE_12",
+    name: "Amherst Street (Raja Rammohan Sarani)",
+    baselineDepth: 44.0,
+    coords: [{lat: 22.5890, lng: 88.3745}, {lat: 22.5835, lng: 88.3720}, {lat: 22.5802, lng: 88.3711}, {lat: 22.5745, lng: 88.3695}, {lat: 22.5690, lng: 88.3680}],
+    mid: {lat: 22.5802, lng: 88.3711}
+  },
+  {
+    id: "ROUTE_24",
+    name: "Park Circus 7-Point & Suhrawardy Ave",
+    baselineDepth: 27.5,
+    coords: [{lat: 22.5510, lng: 88.3560}, {lat: 22.5475, lng: 88.3620}, {lat: 22.5448, lng: 88.3672}, {lat: 22.5430, lng: 88.3740}, {lat: 22.5410, lng: 88.3800}],
+    mid: {lat: 22.5448, lng: 88.3672}
+  },
+  {
+    id: "ROUTE_15",
+    name: "Thanthania Kalibari / Bidhan Sarani",
+    baselineDepth: 46.8,
+    coords: [{lat: 22.5950, lng: 88.3705}, {lat: 22.5900, lng: 88.3685}, {lat: 22.5861, lng: 88.3667}, {lat: 22.5805, lng: 88.3648}, {lat: 22.5750, lng: 88.3630}],
+    mid: {lat: 22.5861, lng: 88.3667}
+  },
+  {
+    id: "ROUTE_AC47",
+    name: "EM Bypass - Chingrighata Flyover Base",
+    baselineDepth: 19.5,
+    coords: [{lat: 22.5820, lng: 88.4070}, {lat: 22.5710, lng: 88.4045}, {lat: 22.5612, lng: 88.4024}, {lat: 22.5500, lng: 88.3995}, {lat: 22.5380, lng: 88.3970}],
+    mid: {lat: 22.5612, lng: 88.4024}
+  },
+  {
+    id: "ROUTE_14",
+    name: "Behala Chowrasta / Diamond Harbour Rd",
+    baselineDepth: 31.0,
+    coords: [{lat: 22.5220, lng: 88.3200}, {lat: 22.5100, lng: 88.3160}, {lat: 22.4988, lng: 88.3114}, {lat: 22.4890, lng: 88.3075}, {lat: 22.4800, lng: 88.3040}],
+    mid: {lat: 22.4988, lng: 88.3114}
+  }
+];
+
+var corridorPolylines = [];
+
 // CITYPULSE Mappls Map & Command Center Integration
 const API = new URLSearchParams(location.search).get("api") || "/api/v1";
 const DEFAULT_CENTER = [22.5726, 88.3639]; // Central Kolkata
@@ -605,11 +694,11 @@ function renderMapplsMarkers(events) {
       const addr = loc.address?.formatted || `${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}`;
       const conf = ((event.fusion?.confidence || 0) * 100).toFixed(0);
 
-      let pinColor = "#0e9177";
-      if (eventType === "POTHOLE") pinColor = "#f97316";
+      let pinColor = "#06b6d4";
+      if (eventType === "POTHOLE") pinColor = "#ef4444";
+      else if (eventType === "NEAR_MISS") pinColor = "#f59e0b";
+      else if (eventType === "MISSING_DIVIDER" || eventType === "DIVIDER") pinColor = "#8b5cf6";
       else if (eventType === "WATERLOGGED") pinColor = "#0284c7";
-      else if (eventType === "NEAR_MISS") pinColor = "#ef634f";
-      else if (eventType === "MISSING_DIVIDER") pinColor = "#a855f7";
 
       const evStatus = event.status || "NEW";
       const isCitizen = event.bus_id === "CITIZEN_PORTAL" || Boolean(event.citizen_details);
@@ -665,9 +754,15 @@ function renderMapplsMarkers(events) {
       `;
 
       try {
+        const pinUri = createMapplsCustomPin(eventType, pinColor);
         const marker = new mappls.Marker({
           map: cityMap,
           position: { lat: loc.latitude, lng: loc.longitude },
+          icon: pinUri,
+          width: 32,
+          height: 44,
+          offset: [0, -22],
+          html: '<div style="width:32px; height:44px; cursor:pointer;"><img src="' + pinUri + '" style="width:32px; height:44px; display:block;" /></div>',
           popupHtml: popupContent,
         });
         eventMarkers.push(marker);
@@ -675,6 +770,101 @@ function renderMapplsMarkers(events) {
         console.warn("Mappls Marker creation:", err);
       }
     });
+
+    // Render Full-Length Shaded Waterlogging Corridors
+    const PolylineClass = window.mappls.Polyline || window.mappls.polyline;
+    KOLKATA_CORRIDORS.forEach(corridor => {
+      let depth = corridor.baselineDepth;
+      let isLive = false;
+      const match = events.find(ev => {
+        if (ev.event_type !== 'WATERLOGGED') return false;
+        if (ev.route_id && ev.route_id === corridor.id) return true;
+        const addr = (ev.address || '').toLowerCase();
+        return addr.includes(corridor.name.toLowerCase().split(' ')[0]);
+      });
+      if (match) {
+        const us = match.ultrasonic || match.waterlogged_details || {};
+        depth = Number(us.water_depth_cm ?? depth);
+        isLive = true;
+      }
+
+      const isAbove = depth >= 35.0;
+      let shadeColor = "#10b981";
+      let bufWeight = 10;
+      let bufOpacity = 0.25;
+      let coreWeight = 3.5;
+      let levelLabel = "MINOR";
+
+      if (depth >= 35.0) {
+        shadeColor = "#ef4444";
+        bufWeight = 26;
+        bufOpacity = 0.44;
+        coreWeight = 7;
+        levelLabel = "CRITICAL";
+      } else if (depth >= 22.0) {
+        shadeColor = "#0284c7";
+        bufWeight = 20;
+        bufOpacity = 0.38;
+        coreWeight = 5.5;
+        levelLabel = "HIGH";
+      } else if (depth >= 12.0) {
+        shadeColor = "#06b6d4";
+        bufWeight = 15;
+        bufOpacity = 0.32;
+        coreWeight = 4.5;
+        levelLabel = "MODERATE";
+      }
+
+      if (PolylineClass) {
+        try {
+          const buf = new PolylineClass({
+            map: cityMap,
+            path: corridor.coords,
+            strokeColor: shadeColor,
+            strokeWeight: bufWeight,
+            strokeOpacity: bufOpacity,
+            fitbounds: false
+          });
+          corridorPolylines.push(buf);
+
+          const core = new PolylineClass({
+            map: cityMap,
+            path: corridor.coords,
+            strokeColor: shadeColor,
+            strokeWeight: coreWeight,
+            strokeOpacity: 0.92,
+            fitbounds: false
+          });
+          corridorPolylines.push(core);
+        } catch(e) {}
+      }
+
+      if (mappls.Marker) {
+        try {
+          const beaconSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36">' +
+            '<circle cx="18" cy="18" r="15" fill="' + shadeColor + '" fill-opacity="0.35" stroke="' + shadeColor + '" stroke-width="2"/>' +
+            '<circle cx="18" cy="18" r="10" fill="#0f172a" stroke="#ffffff" stroke-width="1.8"/>' +
+            '<text x="18" y="21" font-size="9" font-family="monospace" font-weight="900" fill="#ffffff" text-anchor="middle">' + Math.round(depth) + '</text></svg>';
+          const bUri = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(beaconSvg);
+          const cMarker = new mappls.Marker({
+            map: cityMap,
+            position: corridor.mid,
+            icon: bUri,
+            width: 36,
+            height: 36,
+            offset: [0, 0],
+            html: '<div style="width:36px; height:36px; cursor:pointer;"><img src="' + bUri + '" style="width:36px; height:36px; display:block;" /></div>',
+            popupHtml: '<div style="font-family:sans-serif; min-width:260px; padding:6px; color:#0f172a;">' +
+              '<span style="background:' + shadeColor + '; color:#fff; font-size:10px; font-weight:800; padding:2px 6px; border-radius:3px;">🌊 ' + corridor.id + ' · ' + levelLabel + ' FLOOD</span>' +
+              '<div style="font-weight:700; font-size:13px; margin:4px 0 2px;">' + corridor.name + '</div>' +
+              '<div style="font-size:14px; font-weight:900; color:#0c4a6e; margin:4px 0;">' + depth.toFixed(1) + ' cm ' + (isAbove ? '<span style="font-size:10px; background:#ef4444; color:#fff; padding:1px 5px; border-radius:3px;">🚨 ABOVE BUMPER (35cm)</span>' : '<span style="font-size:10px; background:#10b981; color:#fff; padding:1px 5px; border-radius:3px;">✓ Safe</span>') + '</div>' +
+              '<div style="font-size:10px; color:#64748b;">Bus Ground Clearance Threshold: 35.0 cm</div></div>'
+          });
+          corridorPolylines.push(cMarker);
+        } catch(e){}
+      }
+    });
+
     return;
   }
 
