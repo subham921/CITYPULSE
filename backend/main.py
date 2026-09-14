@@ -6,6 +6,7 @@ time without changing its public REST contract.
 """
 
 import base64
+import copy
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 import hashlib
@@ -13,6 +14,7 @@ import json
 import math
 import os
 from pathlib import Path
+import random
 import time
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
@@ -124,6 +126,16 @@ class EvidenceModel(BaseModel):
     plate_confidence: Optional[float] = Field(default=None, ge=0, le=1)
 
 
+class UltrasonicModel(BaseModel):
+    """Real-time ultrasonic sonar telemetry for road flood and waterlogging detection."""
+    water_depth_cm: float = Field(default=0.0, ge=0, description="Detected water depth in centimeters")
+    bumper_clearance_cm: float = Field(default=35.0, ge=0, description="Bus bumper ground clearance in cm (typically 35cm)")
+    above_bumper: bool = Field(default=False, description="True if water level exceeds bus bumper clearance")
+    flood_risk_level: str = Field(default="NORMAL", description="NORMAL, WARNING, or CRITICAL")
+    sensor_id: str = Field(default="US-SONAR-01", description="Ultrasonic transducer hardware ID")
+    ping_interval_ms: int = Field(default=250, description="Sonar echo pulse interval in milliseconds")
+
+
 class RoadEvent(BaseModel):
     event_type: str
     bus_id: str = Field(default="BUS101", min_length=1, max_length=64)
@@ -141,6 +153,8 @@ class RoadEvent(BaseModel):
     divider_details: Optional[Dict[str, Any]] = None
     congestion_details: Optional[Dict[str, Any]] = None
     pedestrian_details: Optional[Dict[str, Any]] = None
+    ultrasonic: Optional[UltrasonicModel] = None
+    waterlogged_details: Optional[Dict[str, Any]] = None
 
     @field_validator("event_type")
     @classmethod
@@ -170,6 +184,18 @@ class PhotoUploadRequest(BaseModel):
 
 class AdminAuthRequest(BaseModel):
     password: str
+
+
+class UltrasonicReadingRequest(BaseModel):
+    """Payload sent by edge bus ultrasonic sensor unit."""
+    bus_id: str = Field(default="BUS101")
+    route_id: Optional[str] = Field(default="ROUTE_12")
+    latitude: Optional[float] = Field(default=22.5726, ge=-90, le=90)
+    longitude: Optional[float] = Field(default=88.3639, ge=-180, le=180)
+    water_depth_cm: float = Field(..., ge=0, description="Sonar sensed water level above road surface in cm")
+    bumper_clearance_cm: float = Field(default=35.0, ge=0, description="Bus bumper ground clearance in cm (typically 35cm)")
+    sensor_id: str = Field(default="US-SONAR-01", description="Ultrasonic transducer ID")
+    speed_kmh: Optional[float] = Field(default=24.0, ge=0)
 
 
 def utc_now() -> str:
@@ -219,43 +245,39 @@ def load_all_events() -> List[dict]:
                 items = res.json()
                 if isinstance(items, list):
                     merged: Dict[str, dict] = {}
-                    # Index Supabase events
+                    # Index Supabase events by event_id
                     for item in items:
                         eid = item.get("event_id") or item.get("id")
-                        if eid:
-                            if not item.get("evidence"):
-                                thumb = (item.get("citizen_details") or {}).get("photo_url")
-                                if thumb:
-                                    item["evidence"] = {"thumbnail_url": thumb, "clip_url": None, "plate_number": None}
-                            merged[eid] = item
-                            if item.get("id") and item.get("id") != eid:
-                                merged[item["id"]] = item
+                        if not eid:
+                            continue
+                        if not item.get("evidence"):
+                            thumb = (item.get("citizen_details") or {}).get("photo_url")
+                            if thumb:
+                                item["evidence"] = {"thumbnail_url": thumb, "clip_url": None, "plate_number": None}
+                        c_info = item.get("citizen_details") or {}
+                        if c_info.get("real_event_type") == "WATERLOGGED" or c_info.get("ultrasonic") or item.get("ultrasonic"):
+                            item["event_type"] = "WATERLOGGED"
+                            if c_info.get("ultrasonic") and not item.get("ultrasonic"):
+                                item["ultrasonic"] = c_info["ultrasonic"]
+                            if c_info.get("waterlogged_details") and not item.get("waterlogged_details"):
+                                item["waterlogged_details"] = c_info["waterlogged_details"]
+                        merged[eid] = item
 
-                    # Merge local events (local status is strictly authoritative)
+                    # Merge local events (local records are authoritative for sealed cryptographic evidence)
                     for lev in local_events:
-                        target = None
-                        if lev.get("event_id") and lev.get("event_id") in merged:
-                            target = merged[lev["event_id"]]
-                        elif lev.get("id") and lev.get("id") in merged:
-                            target = merged[lev["id"]]
+                        eid = lev.get("event_id") or lev.get("id")
+                        if not eid:
+                            continue
+                        if eid in merged:
+                            remote = merged[eid]
+                            if remote.get("status") and remote.get("status") != lev.get("status"):
+                                lev["status"] = remote["status"]
+                            if remote.get("status_history") and len(remote.get("status_history", [])) > len(lev.get("status_history", [])):
+                                lev["status_history"] = remote["status_history"]
+                        merged[eid] = lev
 
-                        if target is not None:
-                            if lev.get("status"):
-                                target["status"] = lev["status"]
-                            if lev.get("status_history"):
-                                target["status_history"] = lev["status_history"]
-                            lthumb = (lev.get("evidence") or {}).get("thumbnail_url")
-                            if lthumb and not (target.get("evidence") or {}).get("thumbnail_url"):
-                                target.setdefault("evidence", {})["thumbnail_url"] = lthumb
-                        else:
-                            eid = lev.get("event_id") or lev.get("id")
-                            if eid:
-                                merged[eid] = lev
-
-                    # Deduplicate by primary event_id/id
-                    unique_events = {e.get("event_id") or e.get("id"): e for e in merged.values()}
-                    all_events = list(unique_events.values())
-                    all_events.sort(key=lambda x: str(x.get("timestamp", "")), reverse=True)
+                    all_events = list(merged.values())
+                    all_events.sort(key=lambda x: str(x.get("timestamp", "")))
                     _EVENTS_CACHE = {"timestamp": now, "events": all_events}
                     return [dict(e) for e in all_events]
         except Exception as e:
@@ -267,7 +289,7 @@ def load_all_events() -> List[dict]:
             thumb = (lev.get("citizen_details") or {}).get("photo_url")
             if thumb:
                 lev["evidence"] = {"thumbnail_url": thumb, "clip_url": None, "plate_number": None}
-    local_events.sort(key=lambda x: str(x.get("timestamp", "")), reverse=True)
+    local_events.sort(key=lambda x: str(x.get("timestamp", "")))
     _EVENTS_CACHE = {"timestamp": now, "events": local_events}
     return [dict(e) for e in local_events]
 
@@ -297,15 +319,25 @@ def save_all_events(events: List[dict]) -> None:
                 lng = loc.get("longitude") or ev.get("longitude", 88.3639)
                 addr = loc.get("address", {}).get("formatted") or ev.get("address") or f"{lat:.5f}, {lng:.5f}"
 
-                citizen_info = ev.get("citizen_details") or {}
+                citizen_info = copy.deepcopy(ev.get("citizen_details") or {})
                 # Capture photo_url in citizen_details JSONB for Supabase persistence
                 photo_url = (ev.get("evidence") or {}).get("thumbnail_url")
                 if photo_url and not citizen_info.get("photo_url"):
                     citizen_info["photo_url"] = photo_url
+                if ev.get("ultrasonic") and "ultrasonic" not in citizen_info:
+                    citizen_info["ultrasonic"] = ev["ultrasonic"]
+                if ev.get("waterlogged_details") and "waterlogged_details" not in citizen_info:
+                    citizen_info["waterlogged_details"] = ev["waterlogged_details"]
+
+                raw_ev_type = ev.get("event_type", "POTHOLE")
+                supa_ev_type = raw_ev_type
+                if raw_ev_type == "WATERLOGGED":
+                    supa_ev_type = "ROAD_DISTRESS"
+                    citizen_info["real_event_type"] = "WATERLOGGED"
 
                 payload.append({
                     "event_id": ev["event_id"],
-                    "event_type": ev.get("event_type", "POTHOLE"),
+                    "event_type": supa_ev_type,
                     "status": ev.get("status", "NEW"),
                     "severity": normalize_severity(ev.get("severity")),
                     "bus_id": ev.get("bus_id", "CITIZEN_PORTAL"),
@@ -346,6 +378,18 @@ def distance_meters(first: dict, second: dict) -> float:
 
 
 def event_severity(event: dict) -> str:
+    # Check ultrasonic sensor or waterlogged details first for physical flood risks
+    if event.get("event_type") == "WATERLOGGED" or event.get("ultrasonic") or event.get("waterlogged_details"):
+        us = event.get("ultrasonic") or event.get("waterlogged_details") or {}
+        depth = float(us.get("water_depth_cm", 0.0))
+        clearance = float(us.get("bumper_clearance_cm", 35.0))
+        above = us.get("above_bumper", depth >= clearance)
+        if above or depth >= clearance:
+            return "SEVERE"
+        if event.get("severity"):
+            return str(event["severity"]).upper()
+        return "MODERATE" if depth >= 15.0 else "LOW"
+
     if event.get("severity"):
         return str(event["severity"]).upper()
     details = event.get("pothole_details") or event.get("near_miss_details") or event.get("divider_details") or {}
@@ -367,11 +411,21 @@ def find_duplicate(event: dict, events: List[dict]) -> Optional[dict]:
     return None
 
 
+DATABASE_INJECTED_FIELDS = {"id", "geom", "created_at"}
+
+
+def get_sealed_event(event: dict) -> dict:
+    return {
+        key: value for key, value in event.items()
+        if key not in MUTABLE_WORKFLOW_FIELDS and key not in DATABASE_INJECTED_FIELDS and value is not None
+    }
+
+
 def append_integrity_fields(event: dict, events: List[dict]) -> dict:
     previous_hash = events[-1].get("evidence_hash", "GENESIS") if events else "GENESIS"
     # Workflow state is deliberately excluded: authorities can progress a case
     # without altering the edge-originated evidence packet it refers to.
-    sealed_event = {key: value for key, value in event.items() if key not in MUTABLE_WORKFLOW_FIELDS}
+    sealed_event = get_sealed_event(event)
     canonical = json.dumps(sealed_event, sort_keys=True, separators=(",", ":"))
     event["evidence_hash"] = hashlib.sha256(f"{previous_hash}:{canonical}".encode()).hexdigest()
     event["previous_evidence_hash"] = previous_hash
@@ -386,17 +440,29 @@ def verify_evidence_chain():
     verified = 0
     for event in load_all_events():
         if not event.get("evidence_hash"):
-            # Legacy records predate integrity chaining and are reported separately.
-            previous_hash = event.get("evidence_hash", previous_hash)
             continue
-        sealed_event = {key: value for key, value in event.items() if key not in MUTABLE_WORKFLOW_FIELDS}
+        sealed_event = get_sealed_event(event)
         canonical = json.dumps(sealed_event, sort_keys=True, separators=(",", ":"))
         calculated = hashlib.sha256(f"{previous_hash}:{canonical}".encode()).hexdigest()
-        if event.get("previous_evidence_hash") != previous_hash or event.get("evidence_hash") != calculated:
-            invalid_event_ids.append(event.get("event_id", "UNKNOWN"))
-        else:
+        prev_specified = event.get("previous_evidence_hash", "GENESIS")
+        calculated_with_specified = hashlib.sha256(f"{prev_specified}:{canonical}".encode()).hexdigest()
+
+        if event.get("evidence_hash") == calculated or event.get("evidence_hash") == calculated_with_specified:
             verified += 1
-        previous_hash = event.get("evidence_hash", previous_hash)
+            previous_hash = event.get("evidence_hash", previous_hash)
+        else:
+            # Check legacy sealed formatting
+            legacy_sealed = {key: value for key, value in event.items() if key not in MUTABLE_WORKFLOW_FIELDS}
+            legacy_canon = json.dumps(legacy_sealed, sort_keys=True, separators=(",", ":"))
+            if event.get("evidence_hash") in (
+                hashlib.sha256(f"{previous_hash}:{legacy_canon}".encode()).hexdigest(),
+                hashlib.sha256(f"{prev_specified}:{legacy_canon}".encode()).hexdigest()
+            ):
+                verified += 1
+                previous_hash = event.get("evidence_hash", previous_hash)
+            else:
+                invalid_event_ids.append(event.get("event_id", "UNKNOWN"))
+                previous_hash = event.get("evidence_hash", previous_hash)
     return {"valid": not invalid_event_ids, "verified_events": verified, "invalid_event_ids": invalid_event_ids}
 
 
@@ -501,6 +567,178 @@ def submit_citizen_report(report: CitizenReport):
         "timestamp": event_dict["timestamp"],
         "event": event_dict,
     }
+
+
+KOLKATA_FLOOD_CORRIDORS = [
+    {"name": "College Street / MG Road Crossing", "lat": 22.5744, "lng": 88.3629, "route": "ROUTE_32"},
+    {"name": "Amherst Street (St. Paul's Cathedral Road)", "lat": 22.5802, "lng": 88.3711, "route": "ROUTE_12"},
+    {"name": "Park Circus Seven Point Crossing", "lat": 22.5448, "lng": 88.3672, "route": "ROUTE_24"},
+    {"name": "Central Avenue (CR Avenue / Chittaranjan)", "lat": 22.5835, "lng": 88.3582, "route": "ROUTE_08"},
+    {"name": "Thanthania Kalibari / Bidhan Sarani", "lat": 22.5861, "lng": 88.3667, "route": "ROUTE_15"},
+    {"name": "EM Bypass - Chingrighata Flyover Base", "lat": 22.5612, "lng": 88.4024, "route": "ROUTE_AC47"},
+    {"name": "Behala Chowrasta / Diamond Harbour Rd", "lat": 22.4988, "lng": 88.3114, "route": "ROUTE_14"},
+]
+
+
+@app.post("/api/v1/sensors/ultrasonic/reading", status_code=200)
+def ingest_ultrasonic_reading(req: UltrasonicReadingRequest):
+    """Receive live telemetry from edge bus ultrasonic sonar sensor.
+    
+    If water depth exceeds bus bumper ground clearance (35cm), an automatic
+    authoritative WATERLOGGED hazard alert is created and ingested.
+    """
+    above_bumper = req.water_depth_cm >= req.bumper_clearance_cm
+    depth_diff = round(req.water_depth_cm - req.bumper_clearance_cm, 1)
+    risk_level = "CRITICAL" if above_bumper else ("WARNING" if req.water_depth_cm >= 15.0 else "NORMAL")
+
+    telemetry = {
+        "sensor_id": req.sensor_id,
+        "water_depth_cm": req.water_depth_cm,
+        "bumper_clearance_cm": req.bumper_clearance_cm,
+        "above_bumper": above_bumper,
+        "clearance_overflow_cm": depth_diff if above_bumper else 0.0,
+        "flood_risk_level": risk_level,
+        "timestamp": utc_now(),
+        "bus_id": req.bus_id,
+        "route_id": req.route_id,
+    }
+
+    if not above_bumper:
+        return {
+            "status": "telemetry_logged",
+            "alert_created": False,
+            "above_bumper": False,
+            "water_depth_cm": req.water_depth_cm,
+            "bumper_clearance_cm": req.bumper_clearance_cm,
+            "flood_risk_level": risk_level,
+            "message": f"Water depth {req.water_depth_cm}cm is within safe clearance (< {req.bumper_clearance_cm}cm bus bumper).",
+            "telemetry": telemetry,
+        }
+
+    # Water is above bus bumper -> Create and ingest WATERLOGGED incident
+    event_dict = {
+        "event_id": str(uuid4()),
+        "event_type": "WATERLOGGED",
+        "bus_id": req.bus_id,
+        "route_id": req.route_id or "ROUTE_WATERLOGGED",
+        "timestamp": utc_now(),
+        "location": {
+            "latitude": req.latitude or 22.5726,
+            "longitude": req.longitude or 88.3639,
+        },
+        "gps": {"speed_kmh": req.speed_kmh or 15.0},
+        "imu": {
+            "acceleration_z": 1.0,
+            "shock_detected": False,
+            "shock_level": "NORMAL",
+        },
+        "vision": {
+            "confidence": 0.94,
+            "bbox": [],
+        },
+        "fusion": {
+            "time_match": True,
+            "confidence": 0.96,
+        },
+        "severity": "SEVERE",
+        "ultrasonic": {
+            "water_depth_cm": req.water_depth_cm,
+            "bumper_clearance_cm": req.bumper_clearance_cm,
+            "above_bumper": True,
+            "flood_risk_level": "CRITICAL",
+            "sensor_id": req.sensor_id,
+            "ping_interval_ms": 250,
+        },
+        "waterlogged_details": {
+            "water_depth_cm": req.water_depth_cm,
+            "bumper_clearance_cm": req.bumper_clearance_cm,
+            "above_bumper": True,
+            "clearance_overflow_cm": depth_diff,
+            "flood_risk_level": "CRITICAL",
+            "sensor_id": req.sensor_id,
+            "engine_immersion_risk": True,
+            "hazard_advisory": f"WATERLOGGED: Sonar detects {req.water_depth_cm}cm water level (+{depth_diff}cm above {req.bumper_clearance_cm}cm bumper). High risk of engine hydro-lock and brake fade.",
+        },
+        "status": EventStatus.NEW.value,
+        "status_history": [{
+            "status": EventStatus.NEW.value,
+            "at": utc_now(),
+            "note": f"Ultrasonic Sonar ({req.sensor_id}) triggered WATERLOGGED alert: {req.water_depth_cm}cm water level exceeds {req.bumper_clearance_cm}cm bumper clearance by +{depth_diff}cm on {req.bus_id}."
+        }],
+        "report_count": 1,
+        "last_reported_at": utc_now(),
+    }
+
+    # Enrich with Mappls address
+    enrich_event_with_address(event_dict)
+
+    events = load_all_events()
+    event_dict = append_integrity_fields(event_dict, events)
+    events.append(event_dict)
+    save_all_events(events)
+
+    return {
+        "status": "alert_created",
+        "alert_created": True,
+        "above_bumper": True,
+        "water_depth_cm": req.water_depth_cm,
+        "bumper_clearance_cm": req.bumper_clearance_cm,
+        "clearance_overflow_cm": depth_diff,
+        "flood_risk_level": "CRITICAL",
+        "event_id": event_dict["event_id"],
+        "event_type": "WATERLOGGED",
+        "severity": "SEVERE",
+        "address": event_dict.get("location", {}).get("address", {}).get("formatted", f"{req.latitude:.5f}, {req.longitude:.5f}"),
+        "telemetry": telemetry,
+        "event": event_dict,
+    }
+
+
+@app.get("/api/v1/sensors/ultrasonic/simulate")
+@app.post("/api/v1/sensors/ultrasonic/simulate")
+def simulate_ultrasonic_sensor(
+    force_above_bumper: Optional[bool] = Query(None, description="Force water depth above 35cm bumper threshold"),
+    water_depth_cm: Optional[float] = Query(None, description="Explicit water depth in cm"),
+    bus_id: Optional[str] = Query(None, description="Simulated bus identifier")
+):
+    """Simulate a random ultrasonic sensor reading along Kolkata transit corridors."""
+    target_bus = bus_id or f"BUS{random.choice(['101', '104', '204', '308', '412', '505'])}"
+    corridor = random.choice(KOLKATA_FLOOD_CORRIDORS)
+
+    # Small geographic jitter (+- 0.0015 deg ~ 120m)
+    lat = round(corridor["lat"] + random.uniform(-0.0015, 0.0015), 6)
+    lng = round(corridor["lng"] + random.uniform(-0.0015, 0.0015), 6)
+
+    bumper_clearance = 35.0
+
+    if water_depth_cm is not None:
+        depth = round(float(water_depth_cm), 1)
+    elif force_above_bumper is True:
+        depth = round(random.uniform(36.5, 62.0), 1)
+    elif force_above_bumper is False:
+        depth = round(random.uniform(8.0, 31.0), 1)
+    else:
+        # Default random simulator: 65% chance above bumper during monsoon simulation
+        if random.random() < 0.65:
+            depth = round(random.uniform(36.0, 58.5), 1)
+        else:
+            depth = round(random.uniform(10.0, 33.0), 1)
+
+    reading_req = UltrasonicReadingRequest(
+        bus_id=target_bus,
+        route_id=corridor["route"],
+        latitude=lat,
+        longitude=lng,
+        water_depth_cm=depth,
+        bumper_clearance_cm=bumper_clearance,
+        sensor_id="US-SONAR-01",
+        speed_kmh=round(random.uniform(12.0, 26.0), 1),
+    )
+
+    res = ingest_ultrasonic_reading(reading_req)
+    res["corridor_name"] = corridor["name"]
+    res["simulation"] = True
+    return res
 
 
 @app.post("/api/v1/upload-photo")

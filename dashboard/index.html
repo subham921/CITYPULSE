@@ -93,6 +93,7 @@
             <select id="type-filter">
               <option value="">All Alert Types</option>
               <option value="POTHOLE">Potholes</option>
+              <option value="WATERLOGGED">Waterlogged / Flood (Ultrasonic)</option>
               <option value="NEAR_MISS">Near-Miss Accidents</option>
               <option value="MISSING_DIVIDER">Missing Dividers</option>
             </select>
@@ -112,8 +113,87 @@
         <!-- Clean Hazard Legend -->
         <div class="hazard-legend">
           <span class="legend-chip"><span class="chip-dot" style="background:#f97316"></span> Potholes</span>
+          <span class="legend-chip"><span class="chip-dot" style="background:#0284c7"></span> Waterlogged (Ultrasonic)</span>
           <span class="legend-chip"><span class="chip-dot" style="background:#ef634f"></span> Near-Miss Accidents</span>
           <span class="legend-chip"><span class="chip-dot" style="background:#a855f7"></span> Missing Dividers</span>
+        </div>
+      </section>
+
+      <!-- Ultrasonic Sensor Input & Waterlogged Alert Telemetry Section -->
+      <section id="ultrasonic-section" class="panel admin-gated ultrasonic-hud-panel" style="display:none;" aria-label="Ultrasonic Sensor Telemetry">
+        <div class="panel-title">
+          <div>
+            <p class="eyebrow">EDGE HARDWARE SENSOR INPUT · SONAR ACOUSTIC TELEMETRY</p>
+            <h2>Ultrasonic Water Level Sensor &amp; Bumper Clearance Monitor</h2>
+          </div>
+          <div class="ultrasonic-actions">
+            <button id="sim-ultrasonic-btn" onclick="triggerUltrasonicSimulation()" class="quiet-button sonar-sim-btn" title="Simulate real-time sonar echo ping">
+              <span class="sonar-sim-icon">📡</span>
+              <span>Simulate Ultrasonic Ping</span>
+            </button>
+            <button id="sim-flood-btn" onclick="triggerUltrasonicSimulation(true)" class="quiet-button sonar-flood-btn" title="Simulate water level above 35cm bumper">
+              <span>🌊 Force High Flood (&gt;35cm)</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="ultrasonic-grid">
+          <!-- Card 1: Sonar Transducer Status -->
+          <div class="sonar-card">
+            <div class="sonar-card-header">
+              <span class="sonar-card-tag">HARDWARE UNIT</span>
+              <span class="sonar-live-pill"><span class="sonar-live-dot"></span> ACTIVE</span>
+            </div>
+            <div class="sonar-card-val" id="sonar-sensor-id">US-SONAR-01</div>
+            <div class="sonar-card-meta">Transducer: JSN-SR04T Waterproof · 40kHz Pulse</div>
+            <div class="sonar-card-sub">Mount: Bus Front Chassis / Bumper Lip</div>
+          </div>
+
+          <!-- Card 2: Live Sensed Water Level -->
+          <div class="sonar-card">
+            <div class="sonar-card-header">
+              <span class="sonar-card-tag">SENSED WATER LEVEL</span>
+              <span id="sonar-risk-badge" class="badge NEW">STANDBY</span>
+            </div>
+            <div class="sonar-depth-readout">
+              <span id="sonar-depth-val" class="sonar-depth-num">—</span>
+              <span class="sonar-depth-unit">cm</span>
+            </div>
+            <!-- Visual Depth Progress Gauge with 35cm Threshold Line -->
+            <div class="sonar-gauge-wrap">
+              <div class="sonar-gauge-bar">
+                <div id="sonar-gauge-fill" class="sonar-gauge-fill" style="width: 0%;"></div>
+                <div class="sonar-threshold-line" title="Bus Bumper Clearance (35.0 cm)">
+                  <span class="threshold-label">35cm Bumper</span>
+                </div>
+              </div>
+            </div>
+            <div class="sonar-card-meta" id="sonar-clearance-text">Ground Clearance Baseline: 50.0 cm</div>
+          </div>
+
+          <!-- Card 3: Bus Bumper Clearance Safety Status -->
+          <div class="sonar-card">
+            <div class="sonar-card-header">
+              <span class="sonar-card-tag">BUMPER CLEARANCE</span>
+              <span class="sonar-card-tag">LIMIT: 35.0 CM</span>
+            </div>
+            <div class="sonar-card-val" id="sonar-bumper-status">
+              <span class="text-safe">SAFE CLEARANCE</span>
+            </div>
+            <div class="sonar-card-meta" id="sonar-deficit-text">Water level &lt; 35cm: Safe transit corridor</div>
+            <div class="sonar-card-sub" id="sonar-corridor-text">Route Corridor: Central Transit Network</div>
+          </div>
+
+          <!-- Card 4: Last Incident Dispatched -->
+          <div class="sonar-card">
+            <div class="sonar-card-header">
+              <span class="sonar-card-tag">AUTOMATIC DISPATCH</span>
+              <span class="sonar-card-tag">TRIGGER: &ge;35CM</span>
+            </div>
+            <div class="sonar-card-val" id="sonar-dispatch-state">Ready</div>
+            <div class="sonar-card-meta" id="sonar-last-event">Alert condition: Depth &ge; 35.0 cm triggers WATERLOGGED event</div>
+            <div class="sonar-card-sub" id="sonar-last-time">Last ping: —</div>
+          </div>
         </div>
       </section>
 
@@ -134,13 +214,14 @@
                   <th>Alert</th>
                   <th>Detected (Date &amp; Time)</th>
                   <th>Location (Mappls Enriched)</th>
+                  <th>Sensor Telemetry / Ultrasonic Readout</th>
                   <th>Confidence</th>
                   <th>Status &amp; Workflow Action</th>
                 </tr>
               </thead>
               <tbody id="incident-rows">
                 <tr>
-                  <td colspan="5" class="empty">Loading alerts…</td>
+                  <td colspan="6" class="empty">Loading alerts…</td>
                 </tr>
               </tbody>
             </table>

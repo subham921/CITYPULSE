@@ -255,11 +255,17 @@ class KolkataGISMap {
 
     let pinColor = "#0e9177";
     if (eventType === "POTHOLE") pinColor = "#f97316";
+    else if (eventType === "WATERLOGGED") pinColor = "#0284c7";
     else if (eventType === "NEAR_MISS") pinColor = "#ef634f";
     else if (eventType === "MISSING_DIVIDER") pinColor = "#a855f7";
 
     let extraDetail = "";
-    if (eventType === "POTHOLE" && ev.pothole_details) {
+    if (eventType === "WATERLOGGED" || ev.ultrasonic || ev.waterlogged_details) {
+      const us = ev.ultrasonic || ev.waterlogged_details || {};
+      const depth = parseFloat(us.water_depth_cm || 0);
+      const isAbove = us.above_bumper !== false && (us.above_bumper || depth >= 35.0);
+      extraDetail = `Sonar Depth: <b>${depth.toFixed(1)}cm</b> (${isAbove ? '<span style="color:#ef4444; font-weight:800;">ABOVE BUMPER</span>' : '<span style="color:#10b981;">Below Bumper</span>'})`;
+    } else if (eventType === "POTHOLE" && ev.pothole_details) {
       extraDetail = `Severity: <b>${safe(ev.pothole_details.severity || "MODERATE")}</b>`;
     } else if (eventType === "NEAR_MISS" && ev.near_miss_details) {
       extraDetail = `Risk: <b>${safe(ev.near_miss_details.risk_level || "WARNING")}</b> (TTC: ${ev.near_miss_details.ttc_seconds || "—"}s)`;
@@ -404,6 +410,7 @@ class KolkataGISMap {
       const type = ev.event_type || "HAZARD";
       let color = "#0e9177";
       if (type === "POTHOLE") color = "#f97316";
+      else if (type === "WATERLOGGED") color = "#0284c7";
       else if (type === "NEAR_MISS") color = "#ef634f";
       else if (type === "MISSING_DIVIDER") color = "#a855f7";
 
@@ -600,6 +607,7 @@ function renderMapplsMarkers(events) {
 
       let pinColor = "#0e9177";
       if (eventType === "POTHOLE") pinColor = "#f97316";
+      else if (eventType === "WATERLOGGED") pinColor = "#0284c7";
       else if (eventType === "NEAR_MISS") pinColor = "#ef634f";
       else if (eventType === "MISSING_DIVIDER") pinColor = "#a855f7";
 
@@ -608,6 +616,11 @@ function renderMapplsMarkers(events) {
       const photoUrl = event.citizen_details?.photo_url || event.evidence?.thumbnail_url;
       const reporterName = event.citizen_details?.reporter_name || (isCitizen ? "Anonymous Citizen" : null);
       const timeInfo = formatDetectionTime(event.timestamp || event.last_reported_at || event.created_at);
+
+      const isWaterlogged = event.event_type === "WATERLOGGED" || Boolean(event.ultrasonic) || Boolean(event.waterlogged_details);
+      const usData = event.ultrasonic || event.waterlogged_details || {};
+      const usDepth = parseFloat(usData.water_depth_cm || 0);
+      const usAbove = usData.above_bumper !== false && (usData.above_bumper === true || usDepth >= 35.0);
 
       const popupContent = `
         <div style="font-family:'Manrope',sans-serif; font-size:12px; line-height:1.5; max-width:280px; color:#10231f;">
@@ -618,6 +631,18 @@ function renderMapplsMarkers(events) {
           <div>Source: <b>${isCitizen ? '👤 Citizen Report' : `Bus ${safe(event.bus_id)}`}</b> · Conf: <b>${conf}%</b></div>
           ${reporterName ? `<div>Reporter: <b>${safe(reporterName)}</b></div>` : ''}
           <div>Severity: <b>${safe(severity(event))}</b></div>
+          ${isWaterlogged ? `
+            <div style="background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:6px 8px; margin:6px 0;">
+              <div style="font-weight:700; color:#0369a1; font-size:11px;">📡 Ultrasonic Sonar Telemetry:</div>
+              <div style="font-size:13px; font-weight:800; color:#0c4a6e; margin:2px 0;">
+                ${usDepth.toFixed(1)} cm
+                <span style="font-size:10px; font-weight:700; padding:1px 5px; border-radius:3px; background:${usAbove ? '#ef4444' : '#10b981'}; color:#fff; margin-left:4px;">
+                  ${usAbove ? '🚨 ABOVE BUMPER (35cm)' : '✓ Safe Clearance'}
+                </span>
+              </div>
+              <div style="font-size:10px; color:#475569;">Clearance Limit: 35.0 cm · Sensor: <code>${safe(usData.sensor_id || 'US-SONAR-01')}</code></div>
+            </div>
+          ` : ''}
           ${photoUrl ? `
             <div style="margin:6px 0;">
               <a href="${photoUrl}" target="_blank" style="display:block; text-decoration:none;">
@@ -721,6 +746,14 @@ function tick() {
 }
 
 function severity(event) {
+  if (event.event_type === "WATERLOGGED" || event.ultrasonic || event.waterlogged_details) {
+    const us = event.ultrasonic || event.waterlogged_details || {};
+    const depth = parseFloat(us.water_depth_cm || 0);
+    const clearance = parseFloat(us.bumper_clearance_cm || 35.0);
+    if (us.above_bumper || depth >= clearance) return "SEVERE";
+    if (event.severity) return event.severity;
+    return depth >= 15.0 ? "MODERATE" : "LOW";
+  }
   return event.severity || event.near_miss_details?.risk_level || event.pothole_details?.severity || event.divider_details?.hazard_level || "MODERATE";
 }
 
@@ -760,6 +793,64 @@ function renderEvents() {
     const desc = event.citizen_details?.description;
     const timeInfo = formatDetectionTime(event.timestamp || event.last_reported_at || event.created_at);
 
+    // Sensor Telemetry & Ultrasonic formatting
+    let telemetryHtml = "";
+    const isWaterlogged = event.event_type === "WATERLOGGED" || Boolean(event.ultrasonic) || Boolean(event.waterlogged_details);
+    if (isWaterlogged) {
+      const us = event.ultrasonic || event.waterlogged_details || {};
+      const depth = parseFloat(us.water_depth_cm || 0).toFixed(1);
+      const clearance = parseFloat(us.bumper_clearance_cm || 35.0).toFixed(1);
+      const isAbove = us.above_bumper !== false && (us.above_bumper === true || parseFloat(depth) >= parseFloat(clearance));
+      const overflow = (parseFloat(depth) - parseFloat(clearance)).toFixed(1);
+      telemetryHtml = `
+        <div class="telemetry-sonar-wrap ${isAbove ? 'flood-critical' : 'flood-safe'}">
+          <div class="sonar-pill-top">
+            <span class="sonar-icon-pulse">📡</span>
+            <span class="sonar-depth-badge"><b>${depth}</b> cm</span>
+            <span class="sonar-verdict ${isAbove ? 'verdict-critical' : 'verdict-safe'}">
+              ${isAbove ? `🚨 ABOVE BUMPER (+${overflow}cm)` : '✓ Below Bumper'}
+            </span>
+          </div>
+          <div class="sonar-pill-bottom">
+            <span>Limit: ${clearance}cm</span> · <span>Unit: <code>${safe(us.sensor_id || 'US-SONAR-01')}</code></span>
+          </div>
+        </div>
+      `;
+    } else if (event.event_type === "POTHOLE" || event.pothole_details) {
+      const shock = event.imu?.shock_detected || event.pothole_details?.wheel_impact_confirmed;
+      const z = (event.imu?.acceleration_z || 1.0).toFixed(2);
+      telemetryHtml = `
+        <div class="telemetry-sensor-wrap">
+          <span class="sensor-pill ${shock ? 'pill-shock' : 'pill-normal'}">${shock ? '💥 Wheel Shock' : '✓ IMU Normal'}</span>
+          <div class="sensor-pill-sub">Z-Axis: <b>${z}g</b></div>
+        </div>
+      `;
+    } else if (event.event_type === "NEAR_MISS" || event.near_miss_details) {
+      const harsh = event.near_miss_details?.emergency_braking;
+      const spd = (event.gps?.speed_kmh || 0).toFixed(0);
+      telemetryHtml = `
+        <div class="telemetry-sensor-wrap">
+          <span class="sensor-pill ${harsh ? 'pill-brake' : 'pill-normal'}">${harsh ? '🛑 Deceleration Shock' : '⚠️ Forward TTC'}</span>
+          <div class="sensor-pill-sub">GPS Speed: <b>${spd} km/h</b></div>
+        </div>
+      `;
+    } else if (event.event_type === "MISSING_DIVIDER" || event.divider_details) {
+      const gap = event.divider_details?.estimated_gap_meters || "2-4";
+      telemetryHtml = `
+        <div class="telemetry-sensor-wrap">
+          <span class="sensor-pill pill-barrier">🚧 Missing Median</span>
+          <div class="sensor-pill-sub">Gap: <b>~${gap}m</b></div>
+        </div>
+      `;
+    } else {
+      telemetryHtml = `
+        <div class="telemetry-sensor-wrap">
+          <span class="sensor-pill pill-citizen">👤 Citizen Verified</span>
+          <div class="sensor-pill-sub">GPS Geofenced</div>
+        </div>
+      `;
+    }
+
     return `
       <tr class="${isCitizen ? 'citizen-report-row' : ''}">
         <td>
@@ -784,6 +875,7 @@ function renderEvents() {
           ${timeInfo.relative ? `<span class="time-relative-chip">${timeInfo.relative}</span>` : ''}
         </td>
         <td>${safe(addr)}</td>
+        <td class="telemetry-cell">${telemetryHtml}</td>
         <td>${conf}%</td>
         <td>
           <div class="status-action-wrap">
@@ -800,8 +892,89 @@ function renderEvents() {
         </td>
       </tr>
     `;
-  }).join("") || '<tr><td colspan="5" class="empty">No events match active filters.</td></tr>';
+  }).join("") || '<tr><td colspan="6" class="empty">No events match active filters.</td></tr>';
 }
+
+async function triggerUltrasonicSimulation(forceAbove = false) {
+  const simBtn = el("sim-ultrasonic-btn");
+  const floodBtn = el("sim-flood-btn");
+  if (simBtn) simBtn.disabled = true;
+  if (floodBtn) floodBtn.disabled = true;
+
+  try {
+    showToast("📡 Emitting 40kHz ultrasonic echo pulse…");
+    const query = forceAbove ? "?force_above_bumper=true" : "";
+    const res = await fetch(`${API}/sensors/ultrasonic/simulate${query}`, { method: "POST" });
+    if (!res.ok) throw new Error("Ultrasonic simulation endpoint failed");
+    const data = await res.json();
+
+    const depth = data.water_depth_cm;
+    const clearance = data.bumper_clearance_cm || 35.0;
+    const isAbove = data.above_bumper;
+    const overflow = data.clearance_overflow_cm || 0;
+
+    // Update Ultrasonic Sonar HUD panel
+    if (el("sonar-depth-val")) el("sonar-depth-val").textContent = depth;
+    if (el("sonar-gauge-fill")) {
+      const pct = Math.min(100, Math.max(5, (depth / 70) * 100));
+      el("sonar-gauge-fill").style.width = `${pct}%`;
+      el("sonar-gauge-fill").style.background = isAbove ? "#ef4444" : "#0284c7";
+    }
+
+    if (el("sonar-risk-badge")) {
+      el("sonar-risk-badge").textContent = isAbove ? "🚨 CRITICAL FLOOD" : "NORMAL DEPTH";
+      el("sonar-risk-badge").className = isAbove ? "badge SEVERE" : "badge NEW";
+    }
+
+    if (el("sonar-bumper-status")) {
+      el("sonar-bumper-status").innerHTML = isAbove 
+        ? `<span style="color:#ef4444; font-weight:800;">🚨 ABOVE BUMPER (+${overflow}cm)</span>`
+        : `<span style="color:#10b981; font-weight:800;">✓ SAFE CLEARANCE</span>`;
+    }
+
+    if (el("sonar-deficit-text")) {
+      el("sonar-deficit-text").textContent = isAbove
+        ? `Water depth ${depth}cm exceeds ${clearance}cm bus bumper threshold (+${overflow}cm overflow)!`
+        : `Water depth ${depth}cm is safely below ${clearance}cm bumper limit.`;
+    }
+
+    if (el("sonar-corridor-text")) {
+      el("sonar-corridor-text").textContent = `Corridor: ${data.corridor_name || 'Central Transit route'}`;
+    }
+
+    if (el("sonar-dispatch-state")) {
+      el("sonar-dispatch-state").innerHTML = isAbove
+        ? `<span style="color:#ef4444; font-weight:700;">DISPATCHED: WATERLOGGED</span>`
+        : `<span style="color:#10b981; font-weight:700;">Telemetry Logged</span>`;
+    }
+
+    if (el("sonar-last-event")) {
+      el("sonar-last-event").textContent = isAbove
+        ? `Logged alert ${data.event_id?.slice(0, 8)}... to municipal register`
+        : `Depth ${depth}cm logged to edge bus telemetry stream`;
+    }
+
+    if (el("sonar-last-time")) {
+      el("sonar-last-time").textContent = `Last ping: ${new Date().toLocaleTimeString()}`;
+    }
+
+    if (isAbove) {
+      showToast(`🚨 FLOOD ALERT! Sonar detected ${depth}cm water level > 35cm bumper limit!`);
+    } else {
+      showToast(`✓ Sonar ping: ${depth}cm water level (Safe below 35cm bumper).`);
+    }
+
+    // Refresh events from backend to show the new alert in table & map
+    await load();
+  } catch (err) {
+    console.error("Ultrasonic simulation failed:", err);
+    showToast(`Simulation error: ${err.message}`);
+  } finally {
+    if (simBtn) simBtn.disabled = false;
+    if (floodBtn) floodBtn.disabled = false;
+  }
+}
+window.triggerUltrasonicSimulation = triggerUltrasonicSimulation;
 
 function renderStats(stats) {
   const byStatus = stats.by_status || {};

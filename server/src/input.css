@@ -1510,3 +1510,280 @@ tbody tr:last-child td {
   .auth-card { padding: 26px 18px; }
   #city-map { height: 350px; }
 }
+
+/* ══════════════════════════════════════════════════════════════════════
+   13. Ultrasonic Sonar Sensor Telemetry & Flood Alert HUD
+   ══════════════════════════════════════════════════════════════════════ */
+.ultrasonic-hud-panel {
+  margin-bottom: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  position: relative;
+  overflow: hidden;
+}
+.ultrasonic-hud-panel::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #0284c7, #38bdf8, #f59e0b, #ef4444);
+}
+.ultrasonic-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sonar-sim-btn {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12), rgba(56, 189, 248, 0.12)) !important;
+  color: #0284c7 !important;
+  border: 1px solid rgba(2, 132, 199, 0.3) !important;
+  font-weight: 700 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+.sonar-sim-btn:hover {
+  background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+  color: #fff !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+}
+.sonar-flood-btn {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(249, 115, 22, 0.1)) !important;
+  color: #dc2626 !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease;
+}
+.sonar-flood-btn:hover {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+  color: #fff !important;
+  border-color: #dc2626 !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+}
+
+.ultrasonic-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 14px;
+}
+.sonar-card {
+  background: var(--card-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.sonar-card:hover {
+  border-color: rgba(2, 132, 199, 0.4);
+  transform: translateY(-2px);
+}
+.sonar-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.sonar-card-tag {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.sonar-live-pill {
+  font-size: 9px;
+  font-weight: 800;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 7px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.sonar-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+  animation: pulse 1.8s infinite;
+}
+.sonar-card-val {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--ink);
+  margin-top: 4px;
+  font-family: var(--font-display);
+}
+.sonar-card-meta {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.sonar-card-sub {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+  opacity: 0.85;
+}
+
+.sonar-depth-readout {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 4px 0 6px;
+}
+.sonar-depth-num {
+  font-size: 32px;
+  font-weight: 900;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+}
+.sonar-depth-unit {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.sonar-gauge-wrap {
+  width: 100%;
+  margin: 8px 0;
+}
+.sonar-gauge-bar {
+  width: 100%;
+  height: 10px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 9999px;
+  position: relative;
+  overflow: visible;
+  border: 1px solid var(--line);
+}
+body.dark-mode .sonar-gauge-bar {
+  background: rgba(255, 255, 255, 0.06);
+}
+.sonar-gauge-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: #0284c7;
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s ease;
+}
+.sonar-threshold-line {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  left: 50%;
+  width: 2px;
+  background: #ef4444;
+  z-index: 5;
+}
+.threshold-label {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: 800;
+  color: #ef4444;
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.telemetry-sonar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: rgba(2, 132, 199, 0.06);
+  border: 1px solid rgba(2, 132, 199, 0.2);
+  min-width: 175px;
+}
+.telemetry-sonar-wrap.flood-critical {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.sonar-pill-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.sonar-icon-pulse {
+  font-size: 13px;
+}
+.sonar-depth-badge {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+.sonar-verdict {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.verdict-critical {
+  background: #ef4444;
+  color: #fff;
+  animation: pulse 1.5s infinite;
+}
+.verdict-safe {
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+.sonar-pill-bottom {
+  font-size: 10px;
+  color: var(--muted);
+}
+.sonar-pill-bottom code {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+.telemetry-sensor-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.sensor-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 4px;
+  display: inline-block;
+  width: fit-content;
+}
+.pill-shock { background: rgba(249, 115, 22, 0.15); color: #ea580c; border: 1px solid rgba(249, 115, 22, 0.3); }
+.pill-brake { background: rgba(239, 68, 68, 0.12); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.25); }
+.pill-barrier { background: rgba(168, 85, 247, 0.12); color: #9333ea; border: 1px solid rgba(168, 85, 247, 0.25); }
+.pill-citizen { background: rgba(14, 145, 119, 0.12); color: #0e9177; border: 1px solid rgba(14, 145, 119, 0.25); }
+.pill-normal { background: rgba(100, 116, 139, 0.1); color: var(--muted); }
+.sensor-pill-sub {
+  font-size: 10px;
+  color: var(--muted);
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 1024px) {
+  .ultrasonic-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .ultrasonic-grid { grid-template-columns: 1fr; }
+}

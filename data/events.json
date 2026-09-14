@@ -1,218 +1,1543 @@
 [
   {
-    "event_id": "2c080615-a038-4278-939b-bd907dcdfdae",
+    "id": "4113518e-d957-4225-af0e-64fe628a0192",
+    "event_id": "36b0020a-c1ab-4737-916d-f4067336766c",
     "event_type": "POTHOLE",
-    "bus_id": "CITIZEN_PORTAL",
+    "status": "ACTIONED",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
     "route_id": "PUBLIC_FEED",
-    "timestamp": "2026-09-06T12:45:49.350004+00:00",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
     "location": {
-      "latitude": 22.551,
-      "longitude": 88.3524
+      "latitude": 22.58,
+      "longitude": 88.37
     },
     "gps": {
-      "speed_kmh": 0.0
+      "speed_kmh": 28.5
     },
     "imu": {
-      "acceleration_z": 1.0,
-      "shock_detected": false,
-      "shock_level": "NORMAL"
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
     },
     "vision": {
-      "confidence": 0.9,
-      "bbox": []
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
     },
     "fusion": {
-      "time_match": true,
-      "confidence": 0.9
+      "confidence": 0.96,
+      "time_match": true
     },
-    "severity": "SEVERE",
-    "evidence": {
-      "thumbnail_url": null,
-      "clip_url": null,
-      "plate_number": null
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
     },
-    "status": "ACTIONED",
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
     "status_history": [
       {
-        "status": "NEW",
-        "at": "2026-09-06T12:45:49.350486+00:00",
-        "note": "Reported by Subham: pothole detected"
+        "at": "2026-09-05T12:55:56.750897+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      },
+      {
+        "status": "ACTIONED",
+        "at": "2026-09-06T11:59:48.743286+00:00",
+        "by_role": "TRANSPORT_AUTHORITY",
+        "note": null
       },
       {
         "status": "UNDER_REVIEW",
-        "at": "2026-09-06T12:46:48.299731+00:00",
+        "at": "2026-09-06T12:12:30.031693+00:00",
         "by_role": "TRANSPORT_AUTHORITY",
         "note": null
       },
       {
         "status": "ACTIONED",
-        "at": "2026-09-06T12:47:00.072202+00:00",
+        "at": "2026-09-06T12:12:33.701767+00:00",
         "by_role": "TRANSPORT_AUTHORITY",
         "note": null
+      }
+    ],
+    "evidence_hash": "6bf32e3854762c94c335ba0db085bed0d352497f1e0c1270e47b6e2183cdf3d8",
+    "previous_evidence_hash": "GENESIS",
+    "timestamp": "2026-09-05T12:55:56.72237+00:00",
+    "last_reported_at": "2026-09-05T12:55:56.72237+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "4045797b-4540-4a01-804d-7baf41f75c13",
+    "event_id": "c6384e24-b679-4428-afe6-37e56a1213d8",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 3,
+    "status_history": [
+      {
+        "at": "2026-09-05T13:13:47.649632+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "ed1ab7d76fec175c154e59ec68551d686e8b521bf7e32f01318743926c1a3ca2",
+    "previous_evidence_hash": "6bf32e3854762c94c335ba0db085bed0d352497f1e0c1270e47b6e2183cdf3d8",
+    "timestamp": "2026-09-05T13:13:47.615812+00:00",
+    "last_reported_at": "2026-09-05T13:20:28.187286+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "c7728b0d-d2bb-40a3-b0ea-ef5177ac0dc3",
+    "event_id": "79787561-4d59-41bf-9edb-330bb0a9f801",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "Bechu Chatterjee St, City College, Kolkata, Kolkata Metropolitan Area, Kolkata, West Bengal, 700006, India",
+    "location": {
+      "address": {
+        "area": "City College",
+        "city": "Kolkata",
+        "state": "West Bengal",
+        "street": "Bechu Chatterjee St",
+        "pincode": "700006",
+        "success": true,
+        "district": "Kolkata",
+        "locality": "City College",
+        "formatted": "Bechu Chatterjee St, City College, Kolkata, Kolkata Metropolitan Area, Kolkata, West Bengal, 700006, India"
+      },
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 2,
+    "status_history": [
+      {
+        "at": "2026-09-05T13:40:53.987167+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "e1f88c142695eeffb44b67f30d22924aae07d0b878f72897807bb01312994bd1",
+    "previous_evidence_hash": "ed1ab7d76fec175c154e59ec68551d686e8b521bf7e32f01318743926c1a3ca2",
+    "timestamp": "2026-09-05T13:40:53.932799+00:00",
+    "last_reported_at": "2026-09-05T13:41:13.653194+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "fbf88bb6-eb96-476d-bff5-dc8b9a2528b0",
+    "event_id": "ccf4a40a-92b6-4e22-ac0d-8be208ee7643",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.57183,
+    "longitude": 88.394821,
+    "geom": "0101000020E610000089B14CBF4419564026DF6C7363923640",
+    "address": "22.57183, 88.39482",
+    "location": {
+      "latitude": 22.57183,
+      "longitude": 88.394821
+    },
+    "gps": {
+      "speed_kmh": 35.33
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:23:17.831194+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "7545e2df98b9f486095d898ed7dcb664e56567af1fe331105445479886c8df5b",
+    "previous_evidence_hash": "e1f88c142695eeffb44b67f30d22924aae07d0b878f72897807bb01312994bd1",
+    "timestamp": "2026-09-05T14:23:17.804163+00:00",
+    "last_reported_at": "2026-09-05T14:23:17.804163+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "9518d877-8ba2-45fa-abe3-f15d1af35f0a",
+    "event_id": "6b53b3c2-d487-4233-9675-fa623872a213",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 2,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:23:47.935508+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "274f0341c9833264c76b6408057a20e6a3ff8c46e9b746da9124911beb9985ef",
+    "previous_evidence_hash": "7545e2df98b9f486095d898ed7dcb664e56567af1fe331105445479886c8df5b",
+    "timestamp": "2026-09-05T14:23:47.931801+00:00",
+    "last_reported_at": "2026-09-05T14:32:11.653455+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "77290a71-bd0d-47e4-b19f-33ea288000dc",
+    "event_id": "b882c74f-cd08-4d27-903e-e02591708292",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.568946,
+    "longitude": 88.391958,
+    "geom": "0101000020E6100000F5D901D715195640A530EF71A6913640",
+    "address": "22.56895, 88.39196",
+    "location": {
+      "latitude": 22.568946,
+      "longitude": 88.391958
+    },
+    "gps": {
+      "speed_kmh": 32.85
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:32:49.174744+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "0196d4eaacce3fac16d663c26260509aa8e0486510e12803cfbf332288cee0b9",
+    "previous_evidence_hash": "274f0341c9833264c76b6408057a20e6a3ff8c46e9b746da9124911beb9985ef",
+    "timestamp": "2026-09-05T14:32:49.153961+00:00",
+    "last_reported_at": "2026-09-05T14:32:49.153961+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "841c216f-4a56-43e5-bfc2-d1fde060bffc",
+    "event_id": "3f7e5917-53d5-4e68-811d-524f53d96ba6",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 2,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:42:51.631787+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "4304df6f11de47ac84d975b2dee2ac3b0112d37fa568055a822e47abcb9b200d",
+    "previous_evidence_hash": "0196d4eaacce3fac16d663c26260509aa8e0486510e12803cfbf332288cee0b9",
+    "timestamp": "2026-09-05T14:42:51.627728+00:00",
+    "last_reported_at": "2026-09-05T14:47:17.335678+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "3ae68370-9d7c-431c-b4d1-7e98d7854921",
+    "event_id": "0b17174f-ab72-44fa-8a7c-5a5995c146fb",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.563408,
+    "longitude": 88.386406,
+    "geom": "0101000020E61000009A3E3BE0BA185640054EB6813B903640",
+    "address": "22.56341, 88.38641",
+    "location": {
+      "latitude": 22.563408,
+      "longitude": 88.386406
+    },
+    "gps": {
+      "speed_kmh": 34.14
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:43:33.649591+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "f56bd284da7824c246beab302145e67420364c3cce35aca04ce7b4822b9f2b8b",
+    "previous_evidence_hash": "4304df6f11de47ac84d975b2dee2ac3b0112d37fa568055a822e47abcb9b200d",
+    "timestamp": "2026-09-05T14:43:33.644763+00:00",
+    "last_reported_at": "2026-09-05T14:43:33.644763+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "fea944c8-a35d-45ce-a8ee-e71b7e9a5233",
+    "event_id": "4db32d2b-a5e5-4439-b670-c411ce9d248f",
+    "event_type": "NEAR_MISS",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_302",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5785,
+    "longitude": 88.3685,
+    "geom": "0101000020E6100000DD240681951756406ABC749318943640",
+    "address": "22.57850, 88.36850",
+    "location": {
+      "latitude": 22.5785,
+      "longitude": 88.3685
+    },
+    "gps": {
+      "speed_kmh": 24.2
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.1,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [
+        110,
+        180,
+        240,
+        310
+      ],
+      "confidence": 0.89
+    },
+    "fusion": {
+      "confidence": 0.91,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": {
+      "risk_level": "CRITICAL",
+      "ttc_seconds": 1.2
+    },
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:43:49.873858+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "fdb7340b9343085ae958ca0c9f4cdccd87e8da359d71055c0574272fe0bcc1e5",
+    "previous_evidence_hash": "f56bd284da7824c246beab302145e67420364c3cce35aca04ce7b4822b9f2b8b",
+    "timestamp": "2026-09-05T14:43:49.830312+00:00",
+    "last_reported_at": "2026-09-05T14:43:49.830312+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "e65367f9-fbe3-4a38-9841-8dbd9e3789ee",
+    "event_id": "e1df5b3e-6346-4215-8056-6a1d2bbdc7b0",
+    "event_type": "MISSING_DIVIDER",
+    "status": "UNDER_REVIEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_504",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5735,
+    "longitude": 88.4331,
+    "geom": "0101000020E610000072F90FE9B71B5640894160E5D0923640",
+    "address": "22.57350, 88.43310",
+    "location": {
+      "latitude": 22.5735,
+      "longitude": 88.4331
+    },
+    "gps": {
+      "speed_kmh": 38.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [
+        80,
+        120,
+        300,
+        250
+      ],
+      "confidence": 0.92
+    },
+    "fusion": {
+      "confidence": 0.93,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": {
+      "hazard_level": "HIGH",
+      "estimated_gap_meters": 18.5
+    },
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T14:43:50.212074+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      },
+      {
+        "at": "2026-09-05T19:47:31.755689+00:00",
+        "note": null,
+        "status": "UNDER_REVIEW",
+        "by_role": "TRANSPORT_AUTHORITY"
+      }
+    ],
+    "evidence_hash": "5ba90973c077c89cf9067dfeb562516b213e06213bed37710f3ef4dd193bfdcc",
+    "previous_evidence_hash": "fdb7340b9343085ae958ca0c9f4cdccd87e8da359d71055c0574272fe0bcc1e5",
+    "timestamp": "2026-09-05T14:43:49.83033+00:00",
+    "last_reported_at": "2026-09-05T14:43:49.83033+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "fcbc4e72-cac4-4a8a-a476-4d742f66239d",
+    "event_id": "a13edcfb-70c9-4036-b07e-847a719c9969",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 2,
+    "status_history": [
+      {
+        "at": "2026-09-05T18:35:42.682057+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "ec3dd2b9e5de268e2610cdf1ce71a848d1d143312c8f44a955a12ab50b7c342e",
+    "previous_evidence_hash": "5ba90973c077c89cf9067dfeb562516b213e06213bed37710f3ef4dd193bfdcc",
+    "timestamp": "2026-09-05T18:35:42.628612+00:00",
+    "last_reported_at": "2026-09-05T18:35:56.368299+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "ac0cce21-150c-422c-8bb2-f9739c932207",
+    "event_id": "36c3d13b-9fcb-42ce-955a-966502cc4d97",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.571244,
+    "longitude": 88.394265,
+    "geom": "0101000020E6100000473D44A33B1956404609FA0B3D923640",
+    "address": "22.57124, 88.39427",
+    "location": {
+      "latitude": 22.571244,
+      "longitude": 88.394265
+    },
+    "gps": {
+      "speed_kmh": 33.79
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T18:38:12.166389+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "fa03954edbec7ff7ef910c1e4d47f1d30fe77f58b8d5d6e78f0fa004b4e87c4d",
+    "previous_evidence_hash": "ec3dd2b9e5de268e2610cdf1ce71a848d1d143312c8f44a955a12ab50b7c342e",
+    "timestamp": "2026-09-05T18:38:12.151366+00:00",
+    "last_reported_at": "2026-09-05T18:38:12.151366+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "471f9e6c-d5ca-4ce2-b417-1bb0f435ee30",
+    "event_id": "54882961-b8e7-4271-a784-914db1776445",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 2,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:02:45.390728+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "8908024409690b3fc52765124a3b20fbe293f3e6c50b293cc110e54162be2e7d",
+    "previous_evidence_hash": "fa03954edbec7ff7ef910c1e4d47f1d30fe77f58b8d5d6e78f0fa004b4e87c4d",
+    "timestamp": "2026-09-05T19:02:45.380451+00:00",
+    "last_reported_at": "2026-09-05T19:07:30.861984+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "272071db-8843-4194-97a1-d17a2632301e",
+    "event_id": "2a61437f-32a8-480f-9331-1a96a046a744",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.569861,
+    "longitude": 88.392848,
+    "geom": "0101000020E61000002313F06B241956400F441669E2913640",
+    "address": "22.56986, 88.39285",
+    "location": {
+      "latitude": 22.569861,
+      "longitude": 88.392848
+    },
+    "gps": {
+      "speed_kmh": 34.33
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:02:58.215494+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "d5897316c79798b440ea47681de245c646b57502d6703a34d252ca5ebfc32c10",
+    "previous_evidence_hash": "8908024409690b3fc52765124a3b20fbe293f3e6c50b293cc110e54162be2e7d",
+    "timestamp": "2026-09-05T19:02:58.196641+00:00",
+    "last_reported_at": "2026-09-05T19:02:58.196641+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "7f98421e-f6c8-4fa5-89b4-03cb188d6648",
+    "event_id": "7d0dfe3d-b70d-4271-bc0d-8ce8066299e0",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.568644,
+    "longitude": 88.391637,
+    "geom": "0101000020E6100000D4B9A294101956400E1137A792913640",
+    "address": "22.56864, 88.39164",
+    "location": {
+      "latitude": 22.568644,
+      "longitude": 88.391637
+    },
+    "gps": {
+      "speed_kmh": 33.04
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:07:46.239485+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "a9d41e3f59272b416ee7735b6533201c6c89057be9a3aa6407fa95ce6cf9e132",
+    "previous_evidence_hash": "d5897316c79798b440ea47681de245c646b57502d6703a34d252ca5ebfc32c10",
+    "timestamp": "2026-09-05T19:07:46.232592+00:00",
+    "last_reported_at": "2026-09-05T19:07:46.232592+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "1a88c7f0-d1c7-4bcb-88fd-8b107c1be8b7",
+    "event_id": "0696740d-b6af-4bdb-9729-34e943d178f9",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5726,
+    "longitude": 88.3639,
+    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
+    "address": "22.57260, 88.36390",
+    "location": {
+      "latitude": 22.5726,
+      "longitude": 88.3639
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "description": "Deep crater on Central Ave citizen test",
+      "reporter_name": "Test Citizen"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:43:13.657311+00:00",
+        "note": "Reported by Test Citizen: Deep crater on Central Ave citizen test",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "aee81296699792ff2919ac710841264600be929629f4ff403d6f7f7b7cb634f8",
+    "previous_evidence_hash": "a9d41e3f59272b416ee7735b6533201c6c89057be9a3aa6407fa95ce6cf9e132",
+    "timestamp": "2026-09-05T19:43:13.657281+00:00",
+    "last_reported_at": "2026-09-05T19:43:13.657316+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "d2d59e1b-499f-4558-a321-0fc18f09c223",
+    "event_id": "6bb1121e-8753-4422-9af0-3346c87d1427",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5726,
+    "longitude": 88.3639,
+    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
+    "address": "22.57260, 88.36390",
+    "location": {
+      "latitude": 22.5726,
+      "longitude": 88.3639
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "description": "Deep crater on Central Ave citizen test",
+      "reporter_name": "Test Citizen"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:43:20.077878+00:00",
+        "note": "Reported by Test Citizen: Deep crater on Central Ave citizen test",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "55a1dbe2be51f15068851852d459f1a34fb376d64fe91618793687373957bb8c",
+    "previous_evidence_hash": "aee81296699792ff2919ac710841264600be929629f4ff403d6f7f7b7cb634f8",
+    "timestamp": "2026-09-05T19:43:20.07786+00:00",
+    "last_reported_at": "2026-09-05T19:43:20.077882+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "01c705c7-a86b-4946-a3a7-1d3d19a3f09d",
+    "event_id": "54537e5a-c64c-4daa-a9b1-73d24d278ca3",
+    "event_type": "POTHOLE",
+    "status": "ACTIONED",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5726,
+    "longitude": 88.3639,
+    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
+    "address": "22.57260, 88.36390",
+    "location": {
+      "latitude": 22.5726,
+      "longitude": 88.3639
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "description": "Deep crater on Central Ave citizen test",
+      "reporter_name": "Test Citizen"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:43:50.569859+00:00",
+        "note": "Reported by Test Citizen: Deep crater on Central Ave citizen test",
+        "status": "NEW"
+      },
+      {
+        "at": "2026-09-05T19:43:50.928339+00:00",
+        "note": null,
+        "status": "UNDER_REVIEW",
+        "by_role": "TRANSPORT_AUTHORITY"
+      },
+      {
+        "at": "2026-09-05T19:43:50.943004+00:00",
+        "note": null,
+        "status": "ACTIONED",
+        "by_role": "TRANSPORT_AUTHORITY"
+      }
+    ],
+    "evidence_hash": "8b7ee9b917cc5c7def54b5667e0d943265bee3326e2c5dd1c1ea4f5772ee1046",
+    "previous_evidence_hash": "55a1dbe2be51f15068851852d459f1a34fb376d64fe91618793687373957bb8c",
+    "timestamp": "2026-09-05T19:43:50.56984+00:00",
+    "last_reported_at": "2026-09-05T19:43:50.569863+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "2aac10a8-b489-421f-af2a-f43737ef0c7d",
+    "event_id": "ae7a0878-2021-43f4-a29f-7b373857a300",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 2,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:43:58.362546+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "9ac0dde2d80ff95a1101cc48c488eeeb77b54845eb45aa930b2e94107ef3bebe",
+    "previous_evidence_hash": "8b7ee9b917cc5c7def54b5667e0d943265bee3326e2c5dd1c1ea4f5772ee1046",
+    "timestamp": "2026-09-05T19:43:58.350924+00:00",
+    "last_reported_at": "2026-09-05T19:51:06.750978+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "c48ce13d-39d7-4ecf-94a8-2f0b133daeaf",
+    "event_id": "cbc52de7-2e67-42e7-b321-1487e3e81899",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_KOL_701",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.566529,
+    "longitude": 88.389523,
+    "geom": "0101000020E61000008C82E0F1ED1856404F3C670B08913640",
+    "address": "22.56653, 88.38952",
+    "location": {
+      "latitude": 22.566529,
+      "longitude": 88.389523
+    },
+    "gps": {
+      "speed_kmh": 36.24
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.85,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        140,
+        260,
+        85,
+        55
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.964,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 5200,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:44:05.080621+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "4cb8234496b337506685f5505cffd6dd69d47d8f16063e21fe37e9fddaaa8970",
+    "previous_evidence_hash": "9ac0dde2d80ff95a1101cc48c488eeeb77b54845eb45aa930b2e94107ef3bebe",
+    "timestamp": "2026-09-05T19:44:05.07618+00:00",
+    "last_reported_at": "2026-09-05T19:44:05.07618+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "be2ef5a8-31f6-4776-980b-beb9af07d79b",
+    "event_id": "580a1cf4-63c8-4778-bf97-cd791202ee33",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:56:10.545950+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "b741c93b00caed048609eef3911748e1d43a0fe9ad685472fad11a3ca9c16fb4",
+    "previous_evidence_hash": "4cb8234496b337506685f5505cffd6dd69d47d8f16063e21fe37e9fddaaa8970",
+    "timestamp": "2026-09-05T19:56:10.514447+00:00",
+    "last_reported_at": "2026-09-05T19:56:10.514447+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "ef98a3b3-0696-4050-9b6e-444bbfbb83e7",
+    "event_id": "227c37a0-16d2-441a-b5f8-f68faf637cd1",
+    "event_type": "POTHOLE",
+    "status": "DISMISSED",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.564015,
+    "longitude": 88.366153,
+    "geom": "0101000020E61000004415FE0C6F17564015747B4963903640",
+    "address": "22.56402, 88.36615",
+    "location": {
+      "latitude": 22.564015,
+      "longitude": 88.366153
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "description": "Deep pothole causing sudden vehicle swerves near the middle lane.",
+      "reporter_name": "Citizen"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T19:59:56.784194+00:00",
+        "note": "Reported by Citizen: Deep pothole causing sudden vehicle swerves near the middle lane.",
+        "status": "NEW"
+      },
+      {
+        "at": "2026-09-05T20:01:02.830384+00:00",
+        "note": null,
+        "status": "DISMISSED",
+        "by_role": "TRANSPORT_AUTHORITY"
+      }
+    ],
+    "evidence_hash": "db115895ee736a4aa249473a527d5ed3b04e91fd3e2aed8c87bfcf6d33122324",
+    "previous_evidence_hash": "b741c93b00caed048609eef3911748e1d43a0fe9ad685472fad11a3ca9c16fb4",
+    "timestamp": "2026-09-05T19:59:56.783799+00:00",
+    "last_reported_at": "2026-09-05T19:59:56.784246+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "60f6da63-0999-44b9-9511-01fc6dc3532f",
+    "event_id": "af67aed3-ea2b-4eba-89dd-1a1c33fe46b5",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T20:23:21.763797+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "8e6f1a13a3faf1e1978936dcafcdf34031a063d093bb894e424361400458ab9e",
+    "previous_evidence_hash": "db115895ee736a4aa249473a527d5ed3b04e91fd3e2aed8c87bfcf6d33122324",
+    "timestamp": "2026-09-05T20:23:21.756167+00:00",
+    "last_reported_at": "2026-09-05T20:23:21.756167+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "c4a7cafc-e629-4ebc-9a9a-2d489d21c86a",
+    "event_id": "760a44ba-79f0-4eb2-96f5-1f6c627bee1a",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "TEST_BUS_99",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.58,
+    "longitude": 88.37,
+    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
+    "address": "22.58000, 88.37000",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "shock_level": "SEVERE",
+      "acceleration_z": 3.2,
+      "shock_detected": true
+    },
+    "vision": {
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": {
+      "area_px": 4500,
+      "severity": "SEVERE",
+      "wheel_impact_confirmed": true
+    },
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": null,
+    "report_count": 1,
+    "status_history": [
+      {
+        "at": "2026-09-05T20:34:12.625550+00:00",
+        "note": "Received from edge unit",
+        "status": "NEW"
+      }
+    ],
+    "evidence_hash": "c08cdc66fb76a275da9d188110edfffe15751bf0642658dd48dde1ddafd15470",
+    "previous_evidence_hash": "8e6f1a13a3faf1e1978936dcafcdf34031a063d093bb894e424361400458ab9e",
+    "timestamp": "2026-09-05T20:34:12.588574+00:00",
+    "last_reported_at": "2026-09-05T20:34:12.588574+00:00",
+    "created_at": "2026-09-05T20:46:41.306646+00:00"
+  },
+  {
+    "id": "7c8294c0-4d6d-47b3-aec7-67404bbd01bd",
+    "event_id": "b623fc40-6f3b-4221-8af3-4e1986b06093",
+    "event_type": "POTHOLE",
+    "status": "NEW",
+    "severity": "MODERATE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5726,
+    "longitude": 88.3639,
+    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
+    "address": "Kolkata, WB",
+    "location": {
+      "latitude": 22.5726,
+      "longitude": 88.3639
+    },
+    "gps": {},
+    "imu": {},
+    "vision": {},
+    "fusion": {},
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "photo_url": "/uploads/test.jpg",
+      "description": "Huge pothole",
+      "reporter_name": "Test Citizen"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "UNDER_REVIEW",
+        "at": "2026-09-06T11:47:15.480194+00:00",
+        "by_role": "TRANSPORT_AUTHORITY",
+        "note": null
+      }
+    ],
+    "evidence_hash": "534bcd076e100ca336e8a0aec1456d1e4a6b4c34945c2d12c5607c1107b699a4",
+    "previous_evidence_hash": "c08cdc66fb76a275da9d188110edfffe15751bf0642658dd48dde1ddafd15470",
+    "timestamp": "2026-09-06T10:00:00+00:00",
+    "last_reported_at": "2026-09-06T10:00:00+00:00",
+    "created_at": "2026-09-06T10:36:03.633148+00:00",
+    "evidence": {
+      "thumbnail_url": "/uploads/test.jpg",
+      "clip_url": null,
+      "plate_number": null
+    }
+  },
+  {
+    "event_type": "POTHOLE",
+    "bus_id": "TEST_BUS_99",
+    "timestamp": "2026-09-06T12:00:04.396776+00:00",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "acceleration_z": 3.2,
+      "shock_detected": true,
+      "shock_level": "SEVERE"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ]
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "pothole_details": {
+      "severity": "SEVERE",
+      "area_px": 4500,
+      "wheel_impact_confirmed": true
+    },
+    "event_id": "87733a48-e93e-49b6-8c58-b457d9249057",
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-06T12:00:05.673622+00:00",
+        "note": "Received from edge unit"
       }
     ],
     "report_count": 1,
-    "last_reported_at": "2026-09-06T12:45:49.350516+00:00",
-    "citizen_details": {
-      "reporter_name": "Subham",
-      "description": "pothole detected",
-      "photo_url": null
-    },
-    "evidence_hash": "6f2a51de608549bfd350be01313c78515fe3bf1379ebdaa712be1cb883642b77",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
-  },
-  {
-    "event_type": "POTHOLE",
-    "bus_id": "TEST_BUS_99",
-    "timestamp": "2026-09-06T12:36:29.976064+00:00",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "acceleration_z": 3.2,
-      "shock_detected": true,
-      "shock_level": "SEVERE"
-    },
-    "vision": {
-      "confidence": 0.94,
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ]
-    },
-    "fusion": {
-      "time_match": true,
-      "confidence": 0.96
-    },
-    "pothole_details": {
-      "severity": "SEVERE",
-      "area_px": 4500,
-      "wheel_impact_confirmed": true
-    },
-    "event_id": "fc39ca6d-0d1e-4b62-a1b2-df52e354f857",
-    "status": "UNDER_REVIEW",
-    "status_history": [
-      {
-        "status": "NEW",
-        "at": "2026-09-06T12:36:29.987820+00:00",
-        "note": "Received from edge unit"
-      },
-      {
-        "status": "UNDER_REVIEW",
-        "at": "2026-09-06T17:35:53.235861+00:00",
-        "by_role": "TRANSPORT_AUTHORITY",
-        "note": null
-      }
-    ],
-    "report_count": 2,
-    "last_reported_at": "2026-09-06T12:40:29.927186+00:00",
+    "last_reported_at": "2026-09-06T12:00:04.396776+00:00",
     "severity": "SEVERE",
-    "evidence_hash": "ac44d7b93f787cf874bce58391c72b7628bc21a1dfb002874e43a27a23b90c37",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
-  },
-  {
-    "event_type": "POTHOLE",
-    "bus_id": "TEST_BUS_99",
-    "timestamp": "2026-09-06T12:23:43.891944+00:00",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "acceleration_z": 3.2,
-      "shock_detected": true,
-      "shock_level": "SEVERE"
-    },
-    "vision": {
-      "confidence": 0.94,
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ]
-    },
-    "fusion": {
-      "time_match": true,
-      "confidence": 0.96
-    },
-    "pothole_details": {
-      "severity": "SEVERE",
-      "area_px": 4500,
-      "wheel_impact_confirmed": true
-    },
-    "event_id": "7ef85ea8-7968-46ef-87ec-7a52b1adaca2",
-    "status": "NEW",
-    "status_history": [
-      {
-        "status": "NEW",
-        "at": "2026-09-06T12:23:43.895411+00:00",
-        "note": "Received from edge unit"
-      }
-    ],
-    "report_count": 2,
-    "last_reported_at": "2026-09-06T12:24:41.905734+00:00",
-    "severity": "SEVERE",
-    "evidence_hash": "3a95c0af1cbbbe43aad8b2577cdc46bea42d13096cee9f2212612b0d0df6efb2",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
-  },
-  {
-    "event_type": "POTHOLE",
-    "bus_id": "TEST_BUS_99",
-    "timestamp": "2026-09-06T12:11:13.739909+00:00",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "acceleration_z": 3.2,
-      "shock_detected": true,
-      "shock_level": "SEVERE"
-    },
-    "vision": {
-      "confidence": 0.94,
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ]
-    },
-    "fusion": {
-      "time_match": true,
-      "confidence": 0.96
-    },
-    "pothole_details": {
-      "severity": "SEVERE",
-      "area_px": 4500,
-      "wheel_impact_confirmed": true
-    },
-    "event_id": "70674f36-e3ff-44f4-9aa7-a84c281b0f31",
-    "status": "NEW",
-    "status_history": [
-      {
-        "status": "NEW",
-        "at": "2026-09-06T12:11:14.861449+00:00",
-        "note": "Received from edge unit"
-      }
-    ],
-    "report_count": 2,
-    "last_reported_at": "2026-09-06T12:21:00.502545+00:00",
-    "severity": "SEVERE",
-    "evidence_hash": "93774d9b6d91bae193b3a27abfecfc815a9d8f960c84d493426d2f1ffb52908c",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
+    "evidence_hash": "9ded6f0db5373eb5b8f14dd83337549edb4c768bde1b91145cb1065583a98f81",
+    "previous_evidence_hash": "534bcd076e100ca336e8a0aec1456d1e4a6b4c34945c2d12c5607c1107b699a4"
   },
   {
     "event_id": "a4a7959b-06a7-4f03-856e-1fa1e778075c",
@@ -291,13 +1616,13 @@
       "description": "Deep pothole causing sudden vehicle swerves near the middle lane.",
       "photo_url": "/static/uploads/photo_3770b00bf7bb.jpg"
     },
-    "evidence_hash": "d8d0874b3d599c6d0c808c37e4d534ec15b60ad53bb3560db7aeac9f8d8b8d09",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
+    "evidence_hash": "d885d989bbee777da7e4a355b5368caa164564b0cfacfcb6e4891f715e2bf390",
+    "previous_evidence_hash": "9ded6f0db5373eb5b8f14dd83337549edb4c768bde1b91145cb1065583a98f81"
   },
   {
     "event_type": "POTHOLE",
     "bus_id": "TEST_BUS_99",
-    "timestamp": "2026-09-06T12:00:04.396776+00:00",
+    "timestamp": "2026-09-06T12:11:13.739909+00:00",
     "location": {
       "latitude": 22.58,
       "longitude": 88.37
@@ -328,1511 +1653,186 @@
       "area_px": 4500,
       "wheel_impact_confirmed": true
     },
-    "event_id": "87733a48-e93e-49b6-8c58-b457d9249057",
+    "event_id": "70674f36-e3ff-44f4-9aa7-a84c281b0f31",
     "status": "NEW",
     "status_history": [
       {
         "status": "NEW",
-        "at": "2026-09-06T12:00:05.673622+00:00",
+        "at": "2026-09-06T12:11:14.861449+00:00",
         "note": "Received from edge unit"
       }
     ],
-    "report_count": 1,
-    "last_reported_at": "2026-09-06T12:00:04.396776+00:00",
+    "report_count": 2,
+    "last_reported_at": "2026-09-06T12:21:00.502545+00:00",
     "severity": "SEVERE",
-    "evidence_hash": "29246e723468f1e6830bf2ccc789ef1f795429ba30965c04081b1d9e36db2cd5",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
+    "evidence_hash": "b51df6931f517d07ded8c0975eed9b5919ce2a74830790f44e2e089fbac296a5",
+    "previous_evidence_hash": "d885d989bbee777da7e4a355b5368caa164564b0cfacfcb6e4891f715e2bf390"
   },
   {
-    "id": "7c8294c0-4d6d-47b3-aec7-67404bbd01bd",
-    "event_id": "b623fc40-6f3b-4221-8af3-4e1986b06093",
     "event_type": "POTHOLE",
-    "status": "UNDER_REVIEW",
-    "severity": "MODERATE",
-    "bus_id": "CITIZEN_PORTAL",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.5726,
-    "longitude": 88.3639,
-    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
-    "address": "Kolkata, WB",
+    "bus_id": "TEST_BUS_99",
+    "timestamp": "2026-09-06T12:23:43.891944+00:00",
     "location": {
-      "latitude": 22.5726,
-      "longitude": 88.3639
+      "latitude": 22.58,
+      "longitude": 88.37
     },
-    "gps": {},
-    "imu": {},
-    "vision": {},
-    "fusion": {},
-    "pothole_details": null,
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": {
-      "photo_url": "/uploads/test.jpg",
-      "description": "Huge pothole",
-      "reporter_name": "Test Citizen"
+    "gps": {
+      "speed_kmh": 28.5
     },
-    "report_count": 1,
+    "imu": {
+      "acceleration_z": 3.2,
+      "shock_detected": true,
+      "shock_level": "SEVERE"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ]
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "pothole_details": {
+      "severity": "SEVERE",
+      "area_px": 4500,
+      "wheel_impact_confirmed": true
+    },
+    "event_id": "7ef85ea8-7968-46ef-87ec-7a52b1adaca2",
+    "status": "NEW",
     "status_history": [
       {
+        "status": "NEW",
+        "at": "2026-09-06T12:23:43.895411+00:00",
+        "note": "Received from edge unit"
+      }
+    ],
+    "report_count": 2,
+    "last_reported_at": "2026-09-06T12:24:41.905734+00:00",
+    "severity": "SEVERE",
+    "evidence_hash": "e36f4e67bfbd190461e61ca1cdfd43ffadf2784239129a2edb38bb9abfe3b016",
+    "previous_evidence_hash": "b51df6931f517d07ded8c0975eed9b5919ce2a74830790f44e2e089fbac296a5"
+  },
+  {
+    "event_type": "POTHOLE",
+    "bus_id": "TEST_BUS_99",
+    "timestamp": "2026-09-06T12:36:29.976064+00:00",
+    "location": {
+      "latitude": 22.58,
+      "longitude": 88.37
+    },
+    "gps": {
+      "speed_kmh": 28.5
+    },
+    "imu": {
+      "acceleration_z": 3.2,
+      "shock_detected": true,
+      "shock_level": "SEVERE"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": [
+        120,
+        240,
+        60,
+        40
+      ]
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "pothole_details": {
+      "severity": "SEVERE",
+      "area_px": 4500,
+      "wheel_impact_confirmed": true
+    },
+    "event_id": "fc39ca6d-0d1e-4b62-a1b2-df52e354f857",
+    "status": "UNDER_REVIEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-06T12:36:29.987820+00:00",
+        "note": "Received from edge unit"
+      },
+      {
         "status": "UNDER_REVIEW",
-        "at": "2026-09-06T11:47:15.480194+00:00",
+        "at": "2026-09-06T17:35:53.235861+00:00",
         "by_role": "TRANSPORT_AUTHORITY",
         "note": null
       }
     ],
-    "evidence_hash": "test",
-    "previous_evidence_hash": "test",
-    "timestamp": "2026-09-06T10:00:00+00:00",
-    "last_reported_at": "2026-09-06T10:00:00+00:00",
-    "created_at": "2026-09-06T10:36:03.633148+00:00",
+    "report_count": 2,
+    "last_reported_at": "2026-09-06T12:40:29.927186+00:00",
+    "severity": "SEVERE",
+    "evidence_hash": "c0135c0df5d4c4cec692a5d05014cea8f7ba16598285b9dcc7f6f332897b456e",
+    "previous_evidence_hash": "e36f4e67bfbd190461e61ca1cdfd43ffadf2784239129a2edb38bb9abfe3b016"
+  },
+  {
+    "event_id": "2c080615-a038-4278-939b-bd907dcdfdae",
+    "event_type": "POTHOLE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-06T12:45:49.350004+00:00",
+    "location": {
+      "latitude": 22.551,
+      "longitude": 88.3524
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
     "evidence": {
-      "thumbnail_url": "/uploads/test.jpg",
+      "thumbnail_url": null,
       "clip_url": null,
       "plate_number": null
-    }
-  },
-  {
-    "id": "c4a7cafc-e629-4ebc-9a9a-2d489d21c86a",
-    "event_id": "760a44ba-79f0-4eb2-96f5-1f6c627bee1a",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
     },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T20:34:12.625550+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "584b1678fef839347dcb1ff297df4ea81c82766d1afbf2ec6f53b7715ffd5e1a",
-    "previous_evidence_hash": "20cc56e5bc90dca76872367a51905ef616b57cf2fd7f3b39fe4c087670b69c28",
-    "timestamp": "2026-09-05T20:34:12.588574+00:00",
-    "last_reported_at": "2026-09-05T20:34:12.588574+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "60f6da63-0999-44b9-9511-01fc6dc3532f",
-    "event_id": "af67aed3-ea2b-4eba-89dd-1a1c33fe46b5",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T20:23:21.763797+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "20cc56e5bc90dca76872367a51905ef616b57cf2fd7f3b39fe4c087670b69c28",
-    "previous_evidence_hash": "2c9fd1bfc09b0ca279589f95b4544d0a1d1a1197bc59ee6a2d1e64c76da51773",
-    "timestamp": "2026-09-05T20:23:21.756167+00:00",
-    "last_reported_at": "2026-09-05T20:23:21.756167+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "ef98a3b3-0696-4050-9b6e-444bbfbb83e7",
-    "event_id": "227c37a0-16d2-441a-b5f8-f68faf637cd1",
-    "event_type": "POTHOLE",
-    "status": "DISMISSED",
-    "severity": "SEVERE",
-    "bus_id": "CITIZEN_PORTAL",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.564015,
-    "longitude": 88.366153,
-    "geom": "0101000020E61000004415FE0C6F17564015747B4963903640",
-    "address": "22.56402, 88.36615",
-    "location": {
-      "latitude": 22.564015,
-      "longitude": 88.366153
-    },
-    "gps": {
-      "speed_kmh": 0.0
-    },
-    "imu": {
-      "shock_level": "NORMAL",
-      "acceleration_z": 1.0,
-      "shock_detected": false
-    },
-    "vision": {
-      "bbox": [],
-      "confidence": 0.9
-    },
-    "fusion": {
-      "confidence": 0.9,
-      "time_match": true
-    },
-    "pothole_details": null,
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": {
-      "description": "Deep pothole causing sudden vehicle swerves near the middle lane.",
-      "reporter_name": "Citizen"
-    },
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:59:56.784194+00:00",
-        "note": "Reported by Citizen: Deep pothole causing sudden vehicle swerves near the middle lane.",
-        "status": "NEW"
-      },
-      {
-        "at": "2026-09-05T20:01:02.830384+00:00",
-        "note": null,
-        "status": "DISMISSED",
-        "by_role": "TRANSPORT_AUTHORITY"
-      }
-    ],
-    "evidence_hash": "2c9fd1bfc09b0ca279589f95b4544d0a1d1a1197bc59ee6a2d1e64c76da51773",
-    "previous_evidence_hash": "84226b5d203a9fcad69ae876cf9ab77e70f10c8a18fadefdf6ab75aba95dee37",
-    "timestamp": "2026-09-05T19:59:56.783799+00:00",
-    "last_reported_at": "2026-09-05T19:59:56.784246+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "be2ef5a8-31f6-4776-980b-beb9af07d79b",
-    "event_id": "580a1cf4-63c8-4778-bf97-cd791202ee33",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:56:10.545950+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "84226b5d203a9fcad69ae876cf9ab77e70f10c8a18fadefdf6ab75aba95dee37",
-    "previous_evidence_hash": "45ef85fcad34e114ba2a322455137e1866c3e4d96f1f4fde28f686986dd0eb45",
-    "timestamp": "2026-09-05T19:56:10.514447+00:00",
-    "last_reported_at": "2026-09-05T19:56:10.514447+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "c48ce13d-39d7-4ecf-94a8-2f0b133daeaf",
-    "event_id": "cbc52de7-2e67-42e7-b321-1487e3e81899",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.566529,
-    "longitude": 88.389523,
-    "geom": "0101000020E61000008C82E0F1ED1856404F3C670B08913640",
-    "address": "22.56653, 88.38952",
-    "location": {
-      "latitude": 22.566529,
-      "longitude": 88.389523
-    },
-    "gps": {
-      "speed_kmh": 36.24
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:44:05.080621+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "45ef85fcad34e114ba2a322455137e1866c3e4d96f1f4fde28f686986dd0eb45",
-    "previous_evidence_hash": "9c23949a0897a73dcf86319cf5bfd5670adbecafc8383a2b0b3916c80727ca12",
-    "timestamp": "2026-09-05T19:44:05.07618+00:00",
-    "last_reported_at": "2026-09-05T19:44:05.07618+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "2aac10a8-b489-421f-af2a-f43737ef0c7d",
-    "event_id": "ae7a0878-2021-43f4-a29f-7b373857a300",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 2,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:43:58.362546+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "9c23949a0897a73dcf86319cf5bfd5670adbecafc8383a2b0b3916c80727ca12",
-    "previous_evidence_hash": "f765d0c2cb32ea8465208ff6485e6078ace690eaa96f212143b29f72d29f046a",
-    "timestamp": "2026-09-05T19:43:58.350924+00:00",
-    "last_reported_at": "2026-09-05T19:51:06.750978+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "01c705c7-a86b-4946-a3a7-1d3d19a3f09d",
-    "event_id": "54537e5a-c64c-4daa-a9b1-73d24d278ca3",
-    "event_type": "POTHOLE",
     "status": "ACTIONED",
-    "severity": "SEVERE",
-    "bus_id": "CITIZEN_PORTAL",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.5726,
-    "longitude": 88.3639,
-    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
-    "address": "22.57260, 88.36390",
-    "location": {
-      "latitude": 22.5726,
-      "longitude": 88.3639
-    },
-    "gps": {
-      "speed_kmh": 0.0
-    },
-    "imu": {
-      "shock_level": "NORMAL",
-      "acceleration_z": 1.0,
-      "shock_detected": false
-    },
-    "vision": {
-      "bbox": [],
-      "confidence": 0.9
-    },
-    "fusion": {
-      "confidence": 0.9,
-      "time_match": true
-    },
-    "pothole_details": null,
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": {
-      "description": "Deep crater on Central Ave citizen test",
-      "reporter_name": "Test Citizen"
-    },
-    "report_count": 1,
     "status_history": [
       {
-        "at": "2026-09-05T19:43:50.569859+00:00",
-        "note": "Reported by Test Citizen: Deep crater on Central Ave citizen test",
-        "status": "NEW"
-      },
-      {
-        "at": "2026-09-05T19:43:50.928339+00:00",
-        "note": null,
-        "status": "UNDER_REVIEW",
-        "by_role": "TRANSPORT_AUTHORITY"
-      },
-      {
-        "at": "2026-09-05T19:43:50.943004+00:00",
-        "note": null,
-        "status": "ACTIONED",
-        "by_role": "TRANSPORT_AUTHORITY"
-      }
-    ],
-    "evidence_hash": "f765d0c2cb32ea8465208ff6485e6078ace690eaa96f212143b29f72d29f046a",
-    "previous_evidence_hash": "314936e60a1ab4c98dc73a7acc0ffb6412512c88c159b84479f3d99c4c8cb7b0",
-    "timestamp": "2026-09-05T19:43:50.56984+00:00",
-    "last_reported_at": "2026-09-05T19:43:50.569863+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "d2d59e1b-499f-4558-a321-0fc18f09c223",
-    "event_id": "6bb1121e-8753-4422-9af0-3346c87d1427",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "CITIZEN_PORTAL",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.5726,
-    "longitude": 88.3639,
-    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
-    "address": "22.57260, 88.36390",
-    "location": {
-      "latitude": 22.5726,
-      "longitude": 88.3639
-    },
-    "gps": {
-      "speed_kmh": 0.0
-    },
-    "imu": {
-      "shock_level": "NORMAL",
-      "acceleration_z": 1.0,
-      "shock_detected": false
-    },
-    "vision": {
-      "bbox": [],
-      "confidence": 0.9
-    },
-    "fusion": {
-      "confidence": 0.9,
-      "time_match": true
-    },
-    "pothole_details": null,
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": {
-      "description": "Deep crater on Central Ave citizen test",
-      "reporter_name": "Test Citizen"
-    },
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:43:20.077878+00:00",
-        "note": "Reported by Test Citizen: Deep crater on Central Ave citizen test",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "314936e60a1ab4c98dc73a7acc0ffb6412512c88c159b84479f3d99c4c8cb7b0",
-    "previous_evidence_hash": "0264f96434759fdb5163627286ec17c2fa4160467a89eb3a48866ab1cf0c9f18",
-    "timestamp": "2026-09-05T19:43:20.07786+00:00",
-    "last_reported_at": "2026-09-05T19:43:20.077882+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "1a88c7f0-d1c7-4bcb-88fd-8b107c1be8b7",
-    "event_id": "0696740d-b6af-4bdb-9729-34e943d178f9",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "CITIZEN_PORTAL",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.5726,
-    "longitude": 88.3639,
-    "geom": "0101000020E6100000ECC039234A1756408AB0E1E995923640",
-    "address": "22.57260, 88.36390",
-    "location": {
-      "latitude": 22.5726,
-      "longitude": 88.3639
-    },
-    "gps": {
-      "speed_kmh": 0.0
-    },
-    "imu": {
-      "shock_level": "NORMAL",
-      "acceleration_z": 1.0,
-      "shock_detected": false
-    },
-    "vision": {
-      "bbox": [],
-      "confidence": 0.9
-    },
-    "fusion": {
-      "confidence": 0.9,
-      "time_match": true
-    },
-    "pothole_details": null,
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": {
-      "description": "Deep crater on Central Ave citizen test",
-      "reporter_name": "Test Citizen"
-    },
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:43:13.657311+00:00",
-        "note": "Reported by Test Citizen: Deep crater on Central Ave citizen test",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "0264f96434759fdb5163627286ec17c2fa4160467a89eb3a48866ab1cf0c9f18",
-    "previous_evidence_hash": "0b8ba8a22019294c56d8a4ec86d608f133960935ea0b2619f23976048269820e",
-    "timestamp": "2026-09-05T19:43:13.657281+00:00",
-    "last_reported_at": "2026-09-05T19:43:13.657316+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "7f98421e-f6c8-4fa5-89b4-03cb188d6648",
-    "event_id": "7d0dfe3d-b70d-4271-bc0d-8ce8066299e0",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.568644,
-    "longitude": 88.391637,
-    "geom": "0101000020E6100000D4B9A294101956400E1137A792913640",
-    "address": "22.56864, 88.39164",
-    "location": {
-      "latitude": 22.568644,
-      "longitude": 88.391637
-    },
-    "gps": {
-      "speed_kmh": 33.04
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:07:46.239485+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "0b8ba8a22019294c56d8a4ec86d608f133960935ea0b2619f23976048269820e",
-    "previous_evidence_hash": "fbf5d75bcad25c29da982d2825d42c9568576dcb824ec54746118453b086c07d",
-    "timestamp": "2026-09-05T19:07:46.232592+00:00",
-    "last_reported_at": "2026-09-05T19:07:46.232592+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "272071db-8843-4194-97a1-d17a2632301e",
-    "event_id": "2a61437f-32a8-480f-9331-1a96a046a744",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.569861,
-    "longitude": 88.392848,
-    "geom": "0101000020E61000002313F06B241956400F441669E2913640",
-    "address": "22.56986, 88.39285",
-    "location": {
-      "latitude": 22.569861,
-      "longitude": 88.392848
-    },
-    "gps": {
-      "speed_kmh": 34.33
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:02:58.215494+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "fbf5d75bcad25c29da982d2825d42c9568576dcb824ec54746118453b086c07d",
-    "previous_evidence_hash": "00e9caabf4475c8a77f7eda47644edbe0f3f52a452ace545e683e4fd02b0766c",
-    "timestamp": "2026-09-05T19:02:58.196641+00:00",
-    "last_reported_at": "2026-09-05T19:02:58.196641+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "471f9e6c-d5ca-4ce2-b417-1bb0f435ee30",
-    "event_id": "54882961-b8e7-4271-a784-914db1776445",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 2,
-    "status_history": [
-      {
-        "at": "2026-09-05T19:02:45.390728+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "00e9caabf4475c8a77f7eda47644edbe0f3f52a452ace545e683e4fd02b0766c",
-    "previous_evidence_hash": "c5f72f02c85fc4a7e757e711048fb963e2ce8d8c330be8a9e49c027491e9c18b",
-    "timestamp": "2026-09-05T19:02:45.380451+00:00",
-    "last_reported_at": "2026-09-05T19:07:30.861984+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "ac0cce21-150c-422c-8bb2-f9739c932207",
-    "event_id": "36c3d13b-9fcb-42ce-955a-966502cc4d97",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.571244,
-    "longitude": 88.394265,
-    "geom": "0101000020E6100000473D44A33B1956404609FA0B3D923640",
-    "address": "22.57124, 88.39427",
-    "location": {
-      "latitude": 22.571244,
-      "longitude": 88.394265
-    },
-    "gps": {
-      "speed_kmh": 33.79
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T18:38:12.166389+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "c5f72f02c85fc4a7e757e711048fb963e2ce8d8c330be8a9e49c027491e9c18b",
-    "previous_evidence_hash": "6c491624488b913a11dd6169a5e3da85f1e15b512cf37f0e303fd80f7dcf17c7",
-    "timestamp": "2026-09-05T18:38:12.151366+00:00",
-    "last_reported_at": "2026-09-05T18:38:12.151366+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "fcbc4e72-cac4-4a8a-a476-4d742f66239d",
-    "event_id": "a13edcfb-70c9-4036-b07e-847a719c9969",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 2,
-    "status_history": [
-      {
-        "at": "2026-09-05T18:35:42.682057+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "6c491624488b913a11dd6169a5e3da85f1e15b512cf37f0e303fd80f7dcf17c7",
-    "previous_evidence_hash": "33ecec7072c40baa64e7e5cdd5bb2206e173f352aa6dc22597073c5b1bde1eb2",
-    "timestamp": "2026-09-05T18:35:42.628612+00:00",
-    "last_reported_at": "2026-09-05T18:35:56.368299+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "e65367f9-fbe3-4a38-9841-8dbd9e3789ee",
-    "event_id": "e1df5b3e-6346-4215-8056-6a1d2bbdc7b0",
-    "event_type": "MISSING_DIVIDER",
-    "status": "UNDER_REVIEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_504",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.5735,
-    "longitude": 88.4331,
-    "geom": "0101000020E610000072F90FE9B71B5640894160E5D0923640",
-    "address": "22.57350, 88.43310",
-    "location": {
-      "latitude": 22.5735,
-      "longitude": 88.4331
-    },
-    "gps": {
-      "speed_kmh": 38.0
-    },
-    "imu": {
-      "shock_level": "NORMAL",
-      "acceleration_z": 1.0,
-      "shock_detected": false
-    },
-    "vision": {
-      "bbox": [
-        80,
-        120,
-        300,
-        250
-      ],
-      "confidence": 0.92
-    },
-    "fusion": {
-      "confidence": 0.93,
-      "time_match": true
-    },
-    "pothole_details": null,
-    "near_miss_details": null,
-    "divider_details": {
-      "hazard_level": "HIGH",
-      "estimated_gap_meters": 18.5
-    },
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:43:50.212074+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      },
-      {
-        "at": "2026-09-05T19:47:31.755689+00:00",
-        "note": null,
-        "status": "UNDER_REVIEW",
-        "by_role": "TRANSPORT_AUTHORITY"
-      }
-    ],
-    "evidence_hash": "33ecec7072c40baa64e7e5cdd5bb2206e173f352aa6dc22597073c5b1bde1eb2",
-    "previous_evidence_hash": "4e4be6bd434a7cbd6f993b755ae1b5a956c6082d406b0a69f406ff5aca583971",
-    "timestamp": "2026-09-05T14:43:49.83033+00:00",
-    "last_reported_at": "2026-09-05T14:43:49.83033+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "fea944c8-a35d-45ce-a8ee-e71b7e9a5233",
-    "event_id": "4db32d2b-a5e5-4439-b670-c411ce9d248f",
-    "event_type": "NEAR_MISS",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_302",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.5785,
-    "longitude": 88.3685,
-    "geom": "0101000020E6100000DD240681951756406ABC749318943640",
-    "address": "22.57850, 88.36850",
-    "location": {
-      "latitude": 22.5785,
-      "longitude": 88.3685
-    },
-    "gps": {
-      "speed_kmh": 24.2
-    },
-    "imu": {
-      "shock_level": "NORMAL",
-      "acceleration_z": 1.1,
-      "shock_detected": false
-    },
-    "vision": {
-      "bbox": [
-        110,
-        180,
-        240,
-        310
-      ],
-      "confidence": 0.89
-    },
-    "fusion": {
-      "confidence": 0.91,
-      "time_match": true
-    },
-    "pothole_details": null,
-    "near_miss_details": {
-      "risk_level": "CRITICAL",
-      "ttc_seconds": 1.2
-    },
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:43:49.873858+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "4e4be6bd434a7cbd6f993b755ae1b5a956c6082d406b0a69f406ff5aca583971",
-    "previous_evidence_hash": "a911775eba48d8d9de322deb0f4e4f37db7caf65f1a7684580b2422bcde2b851",
-    "timestamp": "2026-09-05T14:43:49.830312+00:00",
-    "last_reported_at": "2026-09-05T14:43:49.830312+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "3ae68370-9d7c-431c-b4d1-7e98d7854921",
-    "event_id": "0b17174f-ab72-44fa-8a7c-5a5995c146fb",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.563408,
-    "longitude": 88.386406,
-    "geom": "0101000020E61000009A3E3BE0BA185640054EB6813B903640",
-    "address": "22.56341, 88.38641",
-    "location": {
-      "latitude": 22.563408,
-      "longitude": 88.386406
-    },
-    "gps": {
-      "speed_kmh": 34.14
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:43:33.649591+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "a911775eba48d8d9de322deb0f4e4f37db7caf65f1a7684580b2422bcde2b851",
-    "previous_evidence_hash": "5df9aabcb0efd87ae4d071df9b851a24181e4ebdbb2b275aca67923b5107af38",
-    "timestamp": "2026-09-05T14:43:33.644763+00:00",
-    "last_reported_at": "2026-09-05T14:43:33.644763+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "841c216f-4a56-43e5-bfc2-d1fde060bffc",
-    "event_id": "3f7e5917-53d5-4e68-811d-524f53d96ba6",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 2,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:42:51.631787+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "5df9aabcb0efd87ae4d071df9b851a24181e4ebdbb2b275aca67923b5107af38",
-    "previous_evidence_hash": "dd3ba49bb95f56ebd7607c42bc712ce1108c89a255e336eb33787385ede3b9aa",
-    "timestamp": "2026-09-05T14:42:51.627728+00:00",
-    "last_reported_at": "2026-09-05T14:47:17.335678+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "77290a71-bd0d-47e4-b19f-33ea288000dc",
-    "event_id": "b882c74f-cd08-4d27-903e-e02591708292",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.568946,
-    "longitude": 88.391958,
-    "geom": "0101000020E6100000F5D901D715195640A530EF71A6913640",
-    "address": "22.56895, 88.39196",
-    "location": {
-      "latitude": 22.568946,
-      "longitude": 88.391958
-    },
-    "gps": {
-      "speed_kmh": 32.85
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:32:49.174744+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "dd3ba49bb95f56ebd7607c42bc712ce1108c89a255e336eb33787385ede3b9aa",
-    "previous_evidence_hash": "50cbd0aac5d6b0aea7e4e110f1f9f50377a9e7e6892793fc99f8227c83047826",
-    "timestamp": "2026-09-05T14:32:49.153961+00:00",
-    "last_reported_at": "2026-09-05T14:32:49.153961+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "9518d877-8ba2-45fa-abe3-f15d1af35f0a",
-    "event_id": "6b53b3c2-d487-4233-9675-fa623872a213",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 2,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:23:47.935508+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "50cbd0aac5d6b0aea7e4e110f1f9f50377a9e7e6892793fc99f8227c83047826",
-    "previous_evidence_hash": "de6e964474b37b5fec9f034b7ace5012b3c46b17f4150fd0a6ff5768ee7021e6",
-    "timestamp": "2026-09-05T14:23:47.931801+00:00",
-    "last_reported_at": "2026-09-05T14:32:11.653455+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "fbf88bb6-eb96-476d-bff5-dc8b9a2528b0",
-    "event_id": "ccf4a40a-92b6-4e22-ac0d-8be208ee7643",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "BUS_KOL_701",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.57183,
-    "longitude": 88.394821,
-    "geom": "0101000020E610000089B14CBF4419564026DF6C7363923640",
-    "address": "22.57183, 88.39482",
-    "location": {
-      "latitude": 22.57183,
-      "longitude": 88.394821
-    },
-    "gps": {
-      "speed_kmh": 35.33
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.85,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        140,
-        260,
-        85,
-        55
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.964,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 5200,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T14:23:17.831194+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "de6e964474b37b5fec9f034b7ace5012b3c46b17f4150fd0a6ff5768ee7021e6",
-    "previous_evidence_hash": "6d0531c91d311121e885a8633cabc8838e80bbee3f4e820cfdc73c408327a16e",
-    "timestamp": "2026-09-05T14:23:17.804163+00:00",
-    "last_reported_at": "2026-09-05T14:23:17.804163+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "c7728b0d-d2bb-40a3-b0ea-ef5177ac0dc3",
-    "event_id": "79787561-4d59-41bf-9edb-330bb0a9f801",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "Bechu Chatterjee St, City College, Kolkata, Kolkata Metropolitan Area, Kolkata, West Bengal, 700006, India",
-    "location": {
-      "address": {
-        "area": "City College",
-        "city": "Kolkata",
-        "state": "West Bengal",
-        "street": "Bechu Chatterjee St",
-        "pincode": "700006",
-        "success": true,
-        "district": "Kolkata",
-        "locality": "City College",
-        "formatted": "Bechu Chatterjee St, City College, Kolkata, Kolkata Metropolitan Area, Kolkata, West Bengal, 700006, India"
-      },
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 2,
-    "status_history": [
-      {
-        "at": "2026-09-05T13:40:53.987167+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "6d0531c91d311121e885a8633cabc8838e80bbee3f4e820cfdc73c408327a16e",
-    "previous_evidence_hash": "6e633ce52849a275117af316d3deedc77d24f9dd77b562d5d7a96cceae75ca67",
-    "timestamp": "2026-09-05T13:40:53.932799+00:00",
-    "last_reported_at": "2026-09-05T13:41:13.653194+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "4045797b-4540-4a01-804d-7baf41f75c13",
-    "event_id": "c6384e24-b679-4428-afe6-37e56a1213d8",
-    "event_type": "POTHOLE",
-    "status": "NEW",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 3,
-    "status_history": [
-      {
-        "at": "2026-09-05T13:13:47.649632+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      }
-    ],
-    "evidence_hash": "6e633ce52849a275117af316d3deedc77d24f9dd77b562d5d7a96cceae75ca67",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f",
-    "timestamp": "2026-09-05T13:13:47.615812+00:00",
-    "last_reported_at": "2026-09-05T13:20:28.187286+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
-  },
-  {
-    "id": "4113518e-d957-4225-af0e-64fe628a0192",
-    "event_id": "36b0020a-c1ab-4737-916d-f4067336766c",
-    "event_type": "POTHOLE",
-    "status": "ACTIONED",
-    "severity": "SEVERE",
-    "bus_id": "TEST_BUS_99",
-    "route_id": "PUBLIC_FEED",
-    "latitude": 22.58,
-    "longitude": 88.37,
-    "geom": "0101000020E610000048E17A14AE17564014AE47E17A943640",
-    "address": "22.58000, 88.37000",
-    "location": {
-      "latitude": 22.58,
-      "longitude": 88.37
-    },
-    "gps": {
-      "speed_kmh": 28.5
-    },
-    "imu": {
-      "shock_level": "SEVERE",
-      "acceleration_z": 3.2,
-      "shock_detected": true
-    },
-    "vision": {
-      "bbox": [
-        120,
-        240,
-        60,
-        40
-      ],
-      "confidence": 0.94
-    },
-    "fusion": {
-      "confidence": 0.96,
-      "time_match": true
-    },
-    "pothole_details": {
-      "area_px": 4500,
-      "severity": "SEVERE",
-      "wheel_impact_confirmed": true
-    },
-    "near_miss_details": null,
-    "divider_details": null,
-    "citizen_details": null,
-    "report_count": 1,
-    "status_history": [
-      {
-        "at": "2026-09-05T12:55:56.750897+00:00",
-        "note": "Received from edge unit",
-        "status": "NEW"
-      },
-      {
-        "status": "ACTIONED",
-        "at": "2026-09-06T11:59:48.743286+00:00",
-        "by_role": "TRANSPORT_AUTHORITY",
-        "note": null
+        "status": "NEW",
+        "at": "2026-09-06T12:45:49.350486+00:00",
+        "note": "Reported by Subham: pothole detected"
       },
       {
         "status": "UNDER_REVIEW",
-        "at": "2026-09-06T12:12:30.031693+00:00",
+        "at": "2026-09-06T12:46:48.299731+00:00",
         "by_role": "TRANSPORT_AUTHORITY",
         "note": null
       },
       {
         "status": "ACTIONED",
-        "at": "2026-09-06T12:12:33.701767+00:00",
+        "at": "2026-09-06T12:47:00.072202+00:00",
         "by_role": "TRANSPORT_AUTHORITY",
         "note": null
       }
     ],
-    "evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f",
-    "previous_evidence_hash": "GENESIS",
-    "timestamp": "2026-09-05T12:55:56.72237+00:00",
-    "last_reported_at": "2026-09-05T12:55:56.72237+00:00",
-    "created_at": "2026-09-05T20:46:41.306646+00:00"
+    "report_count": 1,
+    "last_reported_at": "2026-09-06T12:45:49.350516+00:00",
+    "citizen_details": {
+      "reporter_name": "Subham",
+      "description": "pothole detected",
+      "photo_url": null
+    },
+    "evidence_hash": "7efb003a17887def3f831199bf581f5a8634ad94baf3edc291ecb94cc1d9e25f",
+    "previous_evidence_hash": "c0135c0df5d4c4cec692a5d05014cea8f7ba16598285b9dcc7f6f332897b456e"
   },
   {
     "event_type": "POTHOLE",
@@ -1880,7 +1880,1510 @@
     "report_count": 1,
     "last_reported_at": "2026-09-13T10:00:49.516554+00:00",
     "severity": "SEVERE",
-    "evidence_hash": "1897842a34f7839b93d0c2a7a792ae607283891546ab1bb932e4dbeb3374b790",
-    "previous_evidence_hash": "3e55cad80918deeebe0771303d198f261987935a201dc11a7c8bad9c2f810d4f"
+    "evidence_hash": "7e280a1af276c5ecfa99ad9d46b964bcde4788236e10b2a1e1a9ac7481d87524",
+    "previous_evidence_hash": "7efb003a17887def3f831199bf581f5a8634ad94baf3edc291ecb94cc1d9e25f"
+  },
+  {
+    "event_id": "a0497200-54f6-4d49-a8c4-a6fc39b4fd64",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS204",
+    "route_id": "ROUTE_24",
+    "timestamp": "2026-09-14T20:50:03.781390+00:00",
+    "location": {
+      "latitude": 22.544836,
+      "longitude": 88.368554
+    },
+    "gps": {
+      "speed_kmh": 25.3
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 38.7,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 38.7,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 3.7,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 38.7cm water level (+3.7cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T20:50:03.781406+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 38.7cm water level exceeds 35.0cm bumper clearance by +3.7cm on BUS204."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T20:50:03.781411+00:00",
+    "evidence_hash": "5c464d711e5e11cef463d40fc1bcd5cad68a4e0fc8215ace1c7fd66e39f687e4",
+    "previous_evidence_hash": "7e280a1af276c5ecfa99ad9d46b964bcde4788236e10b2a1e1a9ac7481d87524"
+  },
+  {
+    "event_id": "9ad0bc00-6939-45b0-823a-0dc74754edfe",
+    "event_type": "WATERLOGGED",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T20:59:39.150983+00:00",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": null,
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T20:59:39.151012+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T20:59:39.151021+00:00",
+    "citizen_details": {
+      "reporter_name": "Verified Citizen",
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "photo_url": null
+    },
+    "evidence_hash": "dd238146849f549ccc749291dd91b61eb211652a95dc7497387d2d8f4a88bd57",
+    "previous_evidence_hash": "5c464d711e5e11cef463d40fc1bcd5cad68a4e0fc8215ace1c7fd66e39f687e4"
+  },
+  {
+    "event_id": "96563f10-ea22-44be-8a6b-2a524ec896e5",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS505",
+    "route_id": "ROUTE_14",
+    "timestamp": "2026-09-14T20:59:39.914813+00:00",
+    "location": {
+      "latitude": 22.497493,
+      "longitude": 88.311533
+    },
+    "gps": {
+      "speed_kmh": 22.5
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 58.8,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 58.8,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 23.8,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 58.8cm water level (+23.8cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T20:59:39.914840+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 58.8cm water level exceeds 35.0cm bumper clearance by +23.8cm on BUS505."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T20:59:39.914850+00:00",
+    "evidence_hash": "3fa7ffd927c9f574013481c6b4c0a8f6e3fb10fde0338f951aea830a727982ad",
+    "previous_evidence_hash": "dd238146849f549ccc749291dd91b61eb211652a95dc7497387d2d8f4a88bd57"
+  },
+  {
+    "event_id": "6eb27f3b-5bd5-41f8-bebd-cfaa26b21793",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "timestamp": "2026-09-14T21:05:24.963572+00:00",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:05:24.963592+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T21:05:24.963596+00:00",
+    "evidence_hash": "555c29a2b013a0a2d7ad0c02c411af084f9296f6f7ce9b1642e7f8d0083a2d2e",
+    "previous_evidence_hash": "3fa7ffd927c9f574013481c6b4c0a8f6e3fb10fde0338f951aea830a727982ad"
+  },
+  {
+    "event_id": "6f9b74bb-f63b-49b8-a4e8-d7362270a7cb",
+    "event_type": "WATERLOGGED",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T21:05:27.407467+00:00",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": null,
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:05:27.407487+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T21:05:27.407491+00:00",
+    "citizen_details": {
+      "reporter_name": "Verified Citizen",
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "photo_url": null
+    },
+    "evidence_hash": "0c94e9b65a3f266ff0b77c85ba5501f2124d276431b19535a73d38066f6fa674",
+    "previous_evidence_hash": "555c29a2b013a0a2d7ad0c02c411af084f9296f6f7ce9b1642e7f8d0083a2d2e"
+  },
+  {
+    "event_id": "4848f1f6-656b-4631-bb4a-0e9f01ae0f65",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS204",
+    "route_id": "ROUTE_08",
+    "timestamp": "2026-09-14T21:05:29.137031+00:00",
+    "location": {
+      "latitude": 22.58206,
+      "longitude": 88.35928
+    },
+    "gps": {
+      "speed_kmh": 18.2
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 45.3,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 45.3,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 10.3,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 45.3cm water level (+10.3cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:05:29.137045+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 45.3cm water level exceeds 35.0cm bumper clearance by +10.3cm on BUS204."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T21:05:29.137050+00:00",
+    "evidence_hash": "57553bd8385863877e7fb92621b32ac1289ad535b2d5f328fd0d976d048fdfd4",
+    "previous_evidence_hash": "0c94e9b65a3f266ff0b77c85ba5501f2124d276431b19535a73d38066f6fa674"
+  },
+  {
+    "id": "7e10d60a-53f0-48f2-a2ee-dbfad2b5a0ae",
+    "event_id": "7c6fce16-71c6-4c45-92c8-d4d0898aae98",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "latitude": 22.5802,
+    "longitude": 88.3711,
+    "geom": "0101000020E6100000EBE2361AC0175640A323B9FC87943640",
+    "address": "22.58020, 88.37110",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 11.5,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:11:33.349894+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "evidence_hash": "afda01d0fb756f7ad4131ce6ec1301caf1c9c5835042fac0a39727b7ee0c37c0",
+    "previous_evidence_hash": "57553bd8385863877e7fb92621b32ac1289ad535b2d5f328fd0d976d048fdfd4",
+    "timestamp": "2026-09-14T21:11:33.349875+00:00",
+    "last_reported_at": "2026-09-14T21:11:33.3499+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "id": "e9ab7c04-bc32-430e-9aed-8a5dbd6f1734",
+    "event_id": "fecc4bae-65da-4c80-b4b6-d6506571d0ae",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5744,
+    "longitude": 88.3629,
+    "geom": "0101000020E6100000FAEDEBC03917564089D2DEE00B933640",
+    "address": "22.57440, 88.36290",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "photo_url": null,
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "reporter_name": "Verified Citizen",
+      "real_event_type": "WATERLOGGED"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:11:35.203395+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "evidence_hash": "108a3d087dd9bc79f02cf69810932a8e1f9cabd58e718e2ab79553c990c2111d",
+    "previous_evidence_hash": "afda01d0fb756f7ad4131ce6ec1301caf1c9c5835042fac0a39727b7ee0c37c0",
+    "timestamp": "2026-09-14T21:11:35.203376+00:00",
+    "last_reported_at": "2026-09-14T21:11:35.2034+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00"
+  },
+  {
+    "id": "6319b44d-1ebd-4ae9-95eb-9e8021298503",
+    "event_id": "de143417-3ede-451c-befd-08d1f1777ff3",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS505",
+    "route_id": "ROUTE_32",
+    "latitude": 22.574691,
+    "longitude": 88.363973,
+    "geom": "0101000020E610000021E868554B175640384E0AF31E933640",
+    "address": "22.57469, 88.36397",
+    "location": {
+      "latitude": 22.574691,
+      "longitude": 88.363973
+    },
+    "gps": {
+      "speed_kmh": 15.9
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-01",
+        "above_bumper": true,
+        "water_depth_cm": 61.7,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-01",
+        "above_bumper": true,
+        "water_depth_cm": 61.7,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 61.7cm water level (+26.7cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 26.7,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:11:36.387202+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 61.7cm water level exceeds 35.0cm bumper clearance by +26.7cm on BUS505."
+      }
+    ],
+    "evidence_hash": "6fc191c86ac63839a95c8ed2346062671d0294440e157e2225072fbeb4828ac9",
+    "previous_evidence_hash": "108a3d087dd9bc79f02cf69810932a8e1f9cabd58e718e2ab79553c990c2111d",
+    "timestamp": "2026-09-14T21:11:36.387182+00:00",
+    "last_reported_at": "2026-09-14T21:11:36.387208+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 61.7,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 61.7,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 26.7,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 61.7cm water level (+26.7cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "id": "7802f270-2265-49d4-89e0-94ecde340845",
+    "event_id": "d01d4070-66e4-456e-b764-162a4165ab35",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "latitude": 22.5802,
+    "longitude": 88.3711,
+    "geom": "0101000020E6100000EBE2361AC0175640A323B9FC87943640",
+    "address": "22.58020, 88.37110",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 11.5,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:17:16.463810+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "evidence_hash": "1c5e1ee89f2b5de70e0394e6595be57898ee150eaef44884389cdbae646292cc",
+    "previous_evidence_hash": "6fc191c86ac63839a95c8ed2346062671d0294440e157e2225072fbeb4828ac9",
+    "timestamp": "2026-09-14T21:17:16.463788+00:00",
+    "last_reported_at": "2026-09-14T21:17:16.463815+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "id": "298c9d2f-307b-42e3-b1e4-dc819928d28c",
+    "event_id": "a16950be-5945-48ec-a12c-699e3da19dcc",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5744,
+    "longitude": 88.3629,
+    "geom": "0101000020E6100000FAEDEBC03917564089D2DEE00B933640",
+    "address": "22.57440, 88.36290",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "photo_url": null,
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "reporter_name": "Verified Citizen",
+      "real_event_type": "WATERLOGGED"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:17:18.272501+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "evidence_hash": "9a8400a24026bc1a7e17041624f0384e17fee33c88ce13acb716f605138f406e",
+    "previous_evidence_hash": "1c5e1ee89f2b5de70e0394e6595be57898ee150eaef44884389cdbae646292cc",
+    "timestamp": "2026-09-14T21:17:18.272479+00:00",
+    "last_reported_at": "2026-09-14T21:17:18.272506+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00"
+  },
+  {
+    "id": "24ca2676-113d-4811-abe4-336fb2ee8661",
+    "event_id": "14ffe30f-583e-4647-9214-d199eb379cab",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS412",
+    "route_id": "ROUTE_12",
+    "latitude": 22.580568,
+    "longitude": 88.370417,
+    "geom": "0101000020E61000007A3881E9B4175640A81ABD1AA0943640",
+    "address": "22.58057, 88.37042",
+    "location": {
+      "latitude": 22.580568,
+      "longitude": 88.370417
+    },
+    "gps": {
+      "speed_kmh": 18.4
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-01",
+        "above_bumper": true,
+        "water_depth_cm": 56.5,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-01",
+        "above_bumper": true,
+        "water_depth_cm": 56.5,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 56.5cm water level (+21.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 21.5,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:17:20.554521+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 56.5cm water level exceeds 35.0cm bumper clearance by +21.5cm on BUS412."
+      }
+    ],
+    "evidence_hash": "3062dec98a1d819d998eba45074b8ad466182a13fd902f0ce1d71fea8d2ca8ac",
+    "previous_evidence_hash": "9a8400a24026bc1a7e17041624f0384e17fee33c88ce13acb716f605138f406e",
+    "timestamp": "2026-09-14T21:17:20.554508+00:00",
+    "last_reported_at": "2026-09-14T21:17:20.554525+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 56.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 56.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 21.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 56.5cm water level (+21.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "id": "2e0c2fc7-ebca-4259-87e5-eff14afc843a",
+    "event_id": "46ddcc15-5450-4a7d-8be6-6a8bce1253a3",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "latitude": 22.5802,
+    "longitude": 88.3711,
+    "geom": "0101000020E6100000EBE2361AC0175640A323B9FC87943640",
+    "address": "22.58020, 88.37110",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 11.5,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:51:03.373848+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "evidence_hash": "6c7bb9cbcd9738d513b3e2c57a048b347d63bb349539353dd71b82c1ca92e319",
+    "previous_evidence_hash": "3062dec98a1d819d998eba45074b8ad466182a13fd902f0ce1d71fea8d2ca8ac",
+    "timestamp": "2026-09-14T21:51:03.373821+00:00",
+    "last_reported_at": "2026-09-14T21:51:03.373857+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "id": "674fe708-d483-42e2-85c4-605a4da4d323",
+    "event_id": "bc750af8-6da8-4471-80f0-d1f1ac8dc807",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "latitude": 22.5744,
+    "longitude": 88.3629,
+    "geom": "0101000020E6100000FAEDEBC03917564089D2DEE00B933640",
+    "address": "22.57440, 88.36290",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.9
+    },
+    "fusion": {
+      "confidence": 0.9,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "photo_url": null,
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "reporter_name": "Verified Citizen",
+      "real_event_type": "WATERLOGGED"
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:51:05.879116+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "evidence_hash": "61bfbe113d50eca02f30d7e1a23db5e881b4dd711cce03e8d2557b36578b6f1e",
+    "previous_evidence_hash": "6c7bb9cbcd9738d513b3e2c57a048b347d63bb349539353dd71b82c1ca92e319",
+    "timestamp": "2026-09-14T21:51:05.879094+00:00",
+    "last_reported_at": "2026-09-14T21:51:05.879121+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00"
+  },
+  {
+    "id": "9dd3c903-8578-4109-8fca-61f2354ddcea",
+    "event_id": "2bb5f4c9-eb7c-4a60-91d3-0c25a6485aa1",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS505",
+    "route_id": "ROUTE_AC47",
+    "latitude": 22.560549,
+    "longitude": 88.40358,
+    "geom": "0101000020E610000076543541D419564036CEA623808F3640",
+    "address": "22.56055, 88.40358",
+    "location": {
+      "latitude": 22.560549,
+      "longitude": 88.40358
+    },
+    "gps": {
+      "speed_kmh": 15.4
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-01",
+        "above_bumper": true,
+        "water_depth_cm": 42.1,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-01",
+        "above_bumper": true,
+        "water_depth_cm": 42.1,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 42.1cm water level (+7.1cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 7.1,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:51:10.413025+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 42.1cm water level exceeds 35.0cm bumper clearance by +7.1cm on BUS505."
+      }
+    ],
+    "evidence_hash": "5d21f24eb2290a3469c89aaa7f5a22cc1ce22618620539ca895de08be7e9cf79",
+    "previous_evidence_hash": "61bfbe113d50eca02f30d7e1a23db5e881b4dd711cce03e8d2557b36578b6f1e",
+    "timestamp": "2026-09-14T21:51:10.412996+00:00",
+    "last_reported_at": "2026-09-14T21:51:10.413033+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 42.1,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 42.1,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 7.1,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 42.1cm water level (+7.1cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "id": "334fc719-170d-4765-98a9-f750b95d6291",
+    "event_id": "2e701991-1a6c-4496-bf8b-b9fe990c4b7d",
+    "event_type": "WATERLOGGED",
+    "status": "NEW",
+    "severity": "SEVERE",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "latitude": 22.5802,
+    "longitude": 88.3711,
+    "geom": "0101000020E6100000EBE2361AC0175640A323B9FC87943640",
+    "address": "22.58020, 88.37110",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "shock_level": "NORMAL",
+      "acceleration_z": 1.0,
+      "shock_detected": false
+    },
+    "vision": {
+      "bbox": [],
+      "confidence": 0.94
+    },
+    "fusion": {
+      "confidence": 0.96,
+      "time_match": true
+    },
+    "pothole_details": null,
+    "near_miss_details": null,
+    "divider_details": null,
+    "citizen_details": {
+      "ultrasonic": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "flood_risk_level": "CRITICAL",
+        "ping_interval_ms": 250,
+        "bumper_clearance_cm": 35.0
+      },
+      "real_event_type": "WATERLOGGED",
+      "waterlogged_details": {
+        "sensor_id": "US-SONAR-TEST",
+        "above_bumper": true,
+        "water_depth_cm": 46.5,
+        "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade.",
+        "flood_risk_level": "CRITICAL",
+        "bumper_clearance_cm": 35.0,
+        "clearance_overflow_cm": 11.5,
+        "engine_immersion_risk": true
+      }
+    },
+    "report_count": 1,
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:55:17.590909+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "evidence_hash": "1314236bf9f88d686093fdc067bf134f0587d986464b150878a20336115fee6c",
+    "previous_evidence_hash": "5d21f24eb2290a3469c89aaa7f5a22cc1ce22618620539ca895de08be7e9cf79",
+    "timestamp": "2026-09-14T21:55:17.590892+00:00",
+    "last_reported_at": "2026-09-14T21:55:17.590914+00:00",
+    "created_at": "2026-09-14T21:55:27.361316+00:00",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    }
+  },
+  {
+    "event_id": "06605844-223f-4c42-8e82-cbc01eb3d83d",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "timestamp": "2026-09-14T21:56:09.552237+00:00",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:56:09.552270+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T21:56:09.552279+00:00",
+    "evidence_hash": "b54fa0c0f94764bd81498a64c735b37a8a5e0fae569807f7b8ad4a3375766784",
+    "previous_evidence_hash": "1314236bf9f88d686093fdc067bf134f0587d986464b150878a20336115fee6c"
+  },
+  {
+    "event_id": "c89beb1e-83fd-4bbf-9b4f-25f58b04c522",
+    "event_type": "WATERLOGGED",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T21:56:15.839674+00:00",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": null,
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:56:15.839692+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T21:56:15.839697+00:00",
+    "citizen_details": {
+      "reporter_name": "Verified Citizen",
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "photo_url": null
+    },
+    "evidence_hash": "b818489de7203f7803f21e1362facfa1ad8a40d72c8ec03e8b334bf44abe56ce",
+    "previous_evidence_hash": "b54fa0c0f94764bd81498a64c735b37a8a5e0fae569807f7b8ad4a3375766784"
+  },
+  {
+    "event_id": "83917566-c65f-411a-a0eb-5c21827efc07",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS505",
+    "route_id": "ROUTE_14",
+    "timestamp": "2026-09-14T21:56:18.037347+00:00",
+    "location": {
+      "latitude": 22.500006,
+      "longitude": 88.311046
+    },
+    "gps": {
+      "speed_kmh": 21.7
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 46.3,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.3,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.3,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.3cm water level (+11.3cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T21:56:18.037377+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 46.3cm water level exceeds 35.0cm bumper clearance by +11.3cm on BUS505."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T21:56:18.037386+00:00",
+    "evidence_hash": "34aa3350da0cc56f0c24d84c07f4679e3dadd189915572caf54d109099afe269",
+    "previous_evidence_hash": "b818489de7203f7803f21e1362facfa1ad8a40d72c8ec03e8b334bf44abe56ce"
+  },
+  {
+    "event_id": "02b52c1a-4878-472c-96b8-3d0adc4a6106",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS_TEST_02",
+    "route_id": "ROUTE_TEST_FLOOD",
+    "timestamp": "2026-09-14T22:08:31.299427+00:00",
+    "location": {
+      "latitude": 22.5802,
+      "longitude": 88.3711
+    },
+    "gps": {
+      "speed_kmh": 14.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 46.5,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 11.5,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-TEST",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 46.5cm water level (+11.5cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T22:08:31.299458+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-TEST) triggered WATERLOGGED alert: 46.5cm water level exceeds 35.0cm bumper clearance by +11.5cm on BUS_TEST_02."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T22:08:31.299467+00:00",
+    "evidence_hash": "eb443730fb81e13ff23d423b438b5cdab26668d71c0216248fe04cb3a2b92bb2",
+    "previous_evidence_hash": "34aa3350da0cc56f0c24d84c07f4679e3dadd189915572caf54d109099afe269"
+  },
+  {
+    "event_id": "ae2b1273-d301-4bcc-a840-3823e82c688c",
+    "event_type": "WATERLOGGED",
+    "bus_id": "CITIZEN_PORTAL",
+    "route_id": "PUBLIC_FEED",
+    "timestamp": "2026-09-14T22:08:32.992006+00:00",
+    "location": {
+      "latitude": 22.5744,
+      "longitude": 88.3629
+    },
+    "gps": {
+      "speed_kmh": 0.0
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.9,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.9
+    },
+    "severity": "SEVERE",
+    "evidence": {
+      "thumbnail_url": null,
+      "clip_url": null,
+      "plate_number": null
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T22:08:32.992026+00:00",
+        "note": "Reported by Verified Citizen: Street completely submerged under 40cm water outside College Street market"
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T22:08:32.992030+00:00",
+    "citizen_details": {
+      "reporter_name": "Verified Citizen",
+      "description": "Street completely submerged under 40cm water outside College Street market",
+      "photo_url": null
+    },
+    "evidence_hash": "d2676f1bae2368cbe33a548df6ec03e99ab1de624a9a867e7ac6d8d24b677584",
+    "previous_evidence_hash": "eb443730fb81e13ff23d423b438b5cdab26668d71c0216248fe04cb3a2b92bb2"
+  },
+  {
+    "event_id": "5e18d228-4057-4cf9-958d-bbd5985b5e7c",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS308",
+    "route_id": "ROUTE_32",
+    "timestamp": "2026-09-14T22:08:34.428037+00:00",
+    "location": {
+      "latitude": 22.573226,
+      "longitude": 88.363687
+    },
+    "gps": {
+      "speed_kmh": 21.2
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 44.3,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 44.3,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 9.3,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 44.3cm water level (+9.3cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T22:08:34.428054+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 44.3cm water level exceeds 35.0cm bumper clearance by +9.3cm on BUS308."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T22:08:34.428059+00:00",
+    "evidence_hash": "203805689f87dc23acc590ccc44ac263a0185c53f1c6bd3bbe49d41b5a9f1a5b",
+    "previous_evidence_hash": "d2676f1bae2368cbe33a548df6ec03e99ab1de624a9a867e7ac6d8d24b677584"
+  },
+  {
+    "event_id": "a05ae8be-149d-44d3-a7c8-dbfcd35702c3",
+    "event_type": "WATERLOGGED",
+    "bus_id": "BUS101",
+    "route_id": "ROUTE_24",
+    "timestamp": "2026-09-14T22:10:56.165373+00:00",
+    "location": {
+      "latitude": 22.543815,
+      "longitude": 88.367508
+    },
+    "gps": {
+      "speed_kmh": 19.2
+    },
+    "imu": {
+      "acceleration_z": 1.0,
+      "shock_detected": false,
+      "shock_level": "NORMAL"
+    },
+    "vision": {
+      "confidence": 0.94,
+      "bbox": []
+    },
+    "fusion": {
+      "time_match": true,
+      "confidence": 0.96
+    },
+    "severity": "SEVERE",
+    "ultrasonic": {
+      "water_depth_cm": 48.0,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "ping_interval_ms": 250
+    },
+    "waterlogged_details": {
+      "water_depth_cm": 48.0,
+      "bumper_clearance_cm": 35.0,
+      "above_bumper": true,
+      "clearance_overflow_cm": 13.0,
+      "flood_risk_level": "CRITICAL",
+      "sensor_id": "US-SONAR-01",
+      "engine_immersion_risk": true,
+      "hazard_advisory": "WATERLOGGED: Sonar detects 48.0cm water level (+13.0cm above 35.0cm bumper). High risk of engine hydro-lock and brake fade."
+    },
+    "status": "NEW",
+    "status_history": [
+      {
+        "status": "NEW",
+        "at": "2026-09-14T22:10:56.165410+00:00",
+        "note": "Ultrasonic Sonar (US-SONAR-01) triggered WATERLOGGED alert: 48.0cm water level exceeds 35.0cm bumper clearance by +13.0cm on BUS101."
+      }
+    ],
+    "report_count": 1,
+    "last_reported_at": "2026-09-14T22:10:56.165420+00:00",
+    "evidence_hash": "8ded546654720e7292a75031f7e4482972e7b1417eaf62bda2546fa3bec76f82",
+    "previous_evidence_hash": "203805689f87dc23acc590ccc44ac263a0185c53f1c6bd3bbe49d41b5a9f1a5b"
   }
 ]
