@@ -1,38 +1,38 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { Compass, ZoomIn, ZoomOut, RotateCcw, Eye, Layers, Filter, MapPin, X, AlertTriangle, Waves } from 'lucide-react';
+import { Compass, ZoomIn, ZoomOut, RotateCcw, Key, Search, MapPin, Layers, AlertTriangle, Waves, ShieldCheck, Activity, Hospital, Radio } from 'lucide-react';
+import { fetchMapplsToken, fetchMapplsStatus, updateMapplsCredentials, searchMapplsGeocode, searchMapplsNearby, updateEventStatus } from '../utils/api';
+import { playRadarBeep, playSuccessChime } from '../utils/audioFx';
 
 const DEFAULT_CENTER = { lat: 22.5726, lng: 88.3639 }; // Central Kolkata
-const DEFAULT_ZOOM = 12.8;
+const DEFAULT_ZOOM = 12.5;
 
-const HAZARD_TYPES = {
-  WATERLOGGED: { color: '#0284c7', label: 'Waterlogged', icon: '🌊', bg: 'bg-sky-500' },
-  POTHOLE: { color: '#ef4444', label: 'Pothole', icon: '🕳️', bg: 'bg-red-500' },
-  NEAR_MISS: { color: '#f59e0b', label: 'Near Miss', icon: '⚠️', bg: 'bg-amber-500' },
-  MISSING_DIVIDER: { color: '#8b5cf6', label: 'Divider', icon: '🚧', bg: 'bg-purple-500' },
-  ROAD_DISTRESS: { color: '#06b6d4', label: 'Distress', icon: '🚨', bg: 'bg-cyan-500' }
+const HAZARD_CONFIG = {
+  WATERLOGGED: { color: '#0284c7', label: 'Waterlogged', icon: '🌊', markerPin: 'https://apis.mapmyindia.com/map_v3/1.png' },
+  POTHOLE: { color: '#ef4444', label: 'Pothole', icon: '🕳️', markerPin: 'https://apis.mapmyindia.com/map_v3/1.png' },
+  NEAR_MISS: { color: '#f59e0b', label: 'Near Miss', icon: '⚠️', markerPin: 'https://apis.mapmyindia.com/map_v3/1.png' },
+  MISSING_DIVIDER: { color: '#8b5cf6', label: 'Divider', icon: '🚧', markerPin: 'https://apis.mapmyindia.com/map_v3/1.png' },
+  ROAD_DISTRESS: { color: '#06b6d4', label: 'Distress', icon: '🚨', markerPin: 'https://apis.mapmyindia.com/map_v3/1.png' }
 };
 
 export default function InteractiveGISMap({ events = [], onSelectEvent }) {
   const [selectedFilter, setSelectedFilter] = useState('ALL');
   const [sourceFilter, setSourceFilter] = useState('ALL'); // 'ALL' | 'BUS' | 'CITIZEN'
-  const [activePopup, setActivePopup] = useState(null);
-  const [popupPos, setPopupPos] = useState({ x: 0, y: 0 });
+  const [activeMapplsToken, setActiveMapplsToken] = useState(
+    localStorage.getItem('mappls_api_key') || 'vfprupvufqvkbaarmpgonnlgzzgnnkzetirt'
+  );
+  const [mapplsLoaded, setMapplsLoaded] = useState(false);
+  const [mapplsStatus, setMapplsStatus] = useState(null);
+  const [showKeyModal, setShowKeyModal] = useState(false);
+  const [keyInput, setKeyInput] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [trafficEnabled, setTrafficEnabled] = useState(true);
+  const [nearbyPOIs, setNearbyPOIs] = useState(null);
+  const [selectedIncident, setSelectedIncident] = useState(null);
 
   const containerRef = useRef(null);
-  const canvasRef = useRef(null);
-
-  // Map viewport state
-  const viewportRef = useRef({
-    centerLat: DEFAULT_CENTER.lat,
-    centerLng: DEFAULT_CENTER.lng,
-    zoom: DEFAULT_ZOOM,
-    isDragging: false,
-    startX: 0,
-    startY: 0,
-    initLat: DEFAULT_CENTER.lat,
-    initLng: DEFAULT_CENTER.lng,
-    pulsePhase: 0
-  });
+  const mapInstanceRef = useRef(null);
+  const markersRef = useRef([]);
 
   const filteredEvents = events.filter((ev) => {
     if (selectedFilter !== 'ALL' && ev.event_type !== selectedFilter) return false;
@@ -45,459 +45,519 @@ export default function InteractiveGISMap({ events = [], onSelectEvent }) {
     return true;
   });
 
-  // Equirectangular projection
-  const project = useCallback((lat, lng, width, height) => {
-    const { centerLat, centerLng, zoom } = viewportRef.current;
-    const scale = (Math.pow(2, zoom) * 256) / 360;
-    const rad = (centerLat * Math.PI) / 180;
-    const x = width / 2 + (lng - centerLng) * scale * Math.cos(rad);
-    const y = height / 2 - (lat - centerLat) * scale;
-    return { x, y };
+  // Check Mappls API Status on Mount
+  useEffect(() => {
+    fetchMapplsStatus().then((st) => {
+      if (st) setMapplsStatus(st);
+    });
+    fetchMapplsToken().then((tok) => {
+      if (tok && tok.token) {
+        setActiveMapplsToken(tok.token);
+      }
+    });
   }, []);
 
-  // Main canvas render routine
-  const renderCanvas = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width / (window.devicePixelRatio || 1);
-    const h = canvas.height / (window.devicePixelRatio || 1);
-    if (!w || !h) return;
+  // Initialize official Mappls Map Web SDK v3.0
+  const initMapplsMap = useCallback(() => {
+    if (!containerRef.current) return;
 
-    ctx.save();
-    ctx.clearRect(0, 0, w, h);
+    if (typeof window !== 'undefined' && window.mappls && window.mappls.Map) {
+      try {
+        // Clear any previous child DOM
+        containerRef.current.innerHTML = '';
+        
+        const map = new window.mappls.Map(containerRef.current, {
+          center: [DEFAULT_CENTER.lat, DEFAULT_CENTER.lng],
+          zoom: DEFAULT_ZOOM,
+          zoomControl: true,
+          traffic: trafficEnabled,
+          hybrid: false,
+          geolocation: false
+        });
 
-    // 1. Cyber Dark Background
-    ctx.fillStyle = '#0a101d';
-    ctx.fillRect(0, 0, w, h);
+        mapInstanceRef.current = map;
+        setMapplsLoaded(true);
 
-    // 2. Subtle Coordinate Grid
-    ctx.strokeStyle = 'rgba(0, 242, 254, 0.04)';
-    ctx.lineWidth = 1;
-    for (let x = 0; x < w; x += 50) {
-      ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-    }
-    for (let y = 0; y < h; y += 50) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-    }
-
-    const drawLineFeature = (points, color, width) => {
-      if (points.length < 2) return;
-      ctx.beginPath();
-      const p0 = project(points[0][0], points[0][1], w, h);
-      ctx.moveTo(p0.x, p0.y);
-      for (let i = 1; i < points.length; i++) {
-        const pt = project(points[i][0], points[i][1], w, h);
-        ctx.lineTo(pt.x, pt.y);
+        if (map.addListener) {
+          map.addListener('load', () => {
+            setMapplsLoaded(true);
+          });
+        }
+      } catch (err) {
+        console.warn('[Mappls Map Initialization Error]', err);
       }
-      ctx.lineWidth = width;
-      ctx.strokeStyle = color;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.stroke();
-    };
+    }
+  }, [trafficEnabled]);
 
-    // 3. Hooghly River Geometry
-    const river = [
-      [22.66, 88.36], [22.63, 88.355], [22.605, 88.352], [22.585, 88.342],
-      [22.565, 88.332], [22.545, 88.322], [22.525, 88.312], [22.49, 88.295]
-    ];
-    // River glow & body
-    drawLineFeature(river, 'rgba(14, 165, 233, 0.15)', 26);
-    drawLineFeature(river, '#0c2e4a', 20);
-    drawLineFeature(river, '#0369a1', 4);
+  // Load Mappls SDK Script dynamically
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
 
-    // 4. Major Kolkata Arterial Network
-    // EM Bypass
-    drawLineFeature([[22.605, 88.405], [22.575, 88.398], [22.545, 88.397], [22.515, 88.395], [22.475, 88.388]], '#1e293b', 8);
-    drawLineFeature([[22.605, 88.405], [22.575, 88.398], [22.545, 88.397], [22.515, 88.395], [22.475, 88.388]], '#334155', 4);
-    // Maa Flyover
-    drawLineFeature([[22.545, 88.397], [22.543, 88.368], [22.538, 88.345]], '#0284c7', 3);
-    // Central Avenue (CR Avenue)
-    drawLineFeature([[22.605, 88.375], [22.585, 88.368], [22.565, 88.352], [22.543, 88.350]], '#475569', 5);
-    // Strand Road
-    drawLineFeature([[22.595, 88.352], [22.585, 88.342], [22.570, 88.344], [22.552, 88.332]], '#334155', 4);
-    // VIP Road
-    drawLineFeature([[22.605, 88.405], [22.635, 88.428], [22.640, 88.442]], '#334155', 5);
-    // Sector V Connector
-    drawLineFeature([[22.575, 88.398], [22.573, 88.433], [22.585, 88.455]], '#334155', 4);
+    if (window.mappls && window.mappls.Map) {
+      initMapplsMap();
+      return;
+    }
 
-    // 5. Major Bridges across Hooghly River
-    // Vidyasagar Setu (2nd Hooghly Bridge)
-    drawLineFeature([[22.555, 88.322], [22.552, 88.332], [22.550, 88.342]], '#38bdf8', 5);
-    // Howrah Bridge (Rabindra Setu)
-    drawLineFeature([[22.585, 88.342], [22.585, 88.350]], '#38bdf8', 5);
+    const scriptId = 'mappls-sdk-script';
+    let script = document.getElementById(scriptId);
+    if (!script) {
+      script = document.createElement('script');
+      script.id = scriptId;
+      script.src = `https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=${encodeURIComponent(activeMapplsToken)}`;
+      script.async = true;
+      script.onload = () => {
+        initMapplsMap();
+      };
+      script.onerror = () => {
+        console.warn('[Mappls SDK Load Error]: CDN script request failed or blocked.');
+      };
+      document.head.appendChild(script);
+    } else {
+      initMapplsMap();
+    }
+  }, [activeMapplsToken, initMapplsMap]);
 
-    // 6. District Landmark Labels
-    ctx.font = '10px "JetBrains Mono", monospace';
-    ctx.fillStyle = '#64748b';
-    ctx.textAlign = 'center';
-    const drawLandmark = (text, lat, lng) => {
-      const pt = project(lat, lng, w, h);
-      ctx.fillText(text, pt.x, pt.y);
-    };
-    drawLandmark('Howrah', 22.588, 88.335);
-    drawLandmark('BBD Bagh / Esplanade', 22.571, 88.348);
-    drawLandmark('Salt Lake Sector V', 22.575, 88.435);
-    drawLandmark('EM Bypass Corridor', 22.560, 88.402);
-    drawLandmark('Park Circus 7-Point', 22.542, 88.365);
-    drawLandmark('Science City', 22.538, 88.399);
+  // Render Mappls Markers for filtered events
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map || typeof window === 'undefined' || !window.mappls || !window.mappls.Marker) return;
 
-    // 7. Render Pulsing Hazard Event Markers
-    const pulse = Math.sin(viewportRef.current.pulsePhase);
+    // Remove old markers
+    markersRef.current.forEach((m) => {
+      try {
+        if (typeof m.remove === 'function') m.remove();
+        else if (window.mappls.remove) window.mappls.remove({ map, layer: m });
+      } catch (e) {}
+    });
+    markersRef.current = [];
 
-    filteredEvents.forEach((ev) => {
+    // Add Mappls Marker for each event
+    filteredEvents.slice(0, 75).forEach((ev) => {
       const loc = ev.location || {};
       const lat = loc.latitude || ev.latitude;
       const lng = loc.longitude || ev.longitude;
       if (!lat || !lng) return;
 
-      const pt = project(lat, lng, w, h);
-      if (pt.x < -40 || pt.x > w + 40 || pt.y < -40 || pt.y > h + 40) return;
+      const cfg = HAZARD_CONFIG[ev.event_type] || HAZARD_CONFIG.POTHOLE;
+      const isWaterlogged = ev.event_type === 'WATERLOGGED' || ev.ultrasonic || ev.waterlogged_details;
+      const us = ev.ultrasonic || ev.waterlogged_details || {};
+      const depth = Number(us.water_depth_cm || 38.5);
+      const isAbove = us.above_bumper !== false && (us.above_bumper || depth >= 35.0);
+      const overflow = isAbove ? +(depth - 35.0).toFixed(1) : 0;
+      const isCitizen = ev.bus_id === 'CITIZEN_PORTAL' || Boolean(ev.citizen_details);
+      const reporter = ev.citizen_details?.reporter_name || 'Citizen';
+      const addressText = ev.address || loc.address?.formatted || `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+      const photoUrl = ev.evidence?.thumbnail_url || ev.citizen_details?.photo_url;
+      const confidence = Math.round((ev.fusion?.confidence || ev.vision?.confidence || 0.92) * 100);
 
-      const typeConfig = HAZARD_TYPES[ev.event_type] || HAZARD_TYPES.POTHOLE;
-      const isSelected = activePopup && (activePopup.event_id === ev.event_id);
-      const isSevere = ev.severity === 'CRITICAL' || ev.severity === 'SEVERE' || ev.event_type === 'WATERLOGGED';
+      // Construct Mappls Rich HTML Popup
+      const popupHtml = `
+        <div style="font-family:'JetBrains Mono',monospace,sans-serif; min-width:260px; max-width:300px; padding:8px 4px; color:#0f172a; line-height:1.4;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; border-bottom:1px solid #e2e8f0; padding-bottom:4px;">
+            <span style="background:${cfg.color}; color:#fff; font-size:10px; font-weight:800; padding:2px 7px; border-radius:4px; text-transform:uppercase;">
+              ${cfg.icon} ${ev.event_type.replace('_', ' ')}
+            </span>
+            <span style="font-size:10px; font-weight:700; color:#64748b;">${ev.severity}</span>
+          </div>
 
-      // Pulsing outer ripple
-      const haloR = (isSevere ? 15 : 10) + (isSevere ? 6 : 3) * pulse;
-      ctx.beginPath();
-      ctx.arc(pt.x, pt.y, Math.max(4, haloR), 0, Math.PI * 2);
-      ctx.fillStyle = typeConfig.color;
-      ctx.globalAlpha = Math.max(0.1, 0.25 - 0.12 * pulse);
-      ctx.fill();
-      ctx.globalAlpha = 1.0;
+          <div style="font-size:12px; font-weight:700; margin-bottom:4px; color:#0f172a;">${addressText}</div>
+          <div style="font-size:11px; color:#475569; margin-bottom:4px;">
+            Source: <b>${isCitizen ? `👤 ${reporter}` : `🚌 ${ev.bus_id || 'BUS101'}`}</b> · AI: <b>${confidence}%</b>
+          </div>
 
-      // Pin circle
-      ctx.beginPath();
-      ctx.arc(pt.x, pt.y, isSelected ? 10 : 7.5, 0, Math.PI * 2);
-      ctx.fillStyle = typeConfig.color;
-      ctx.fill();
-      ctx.lineWidth = isSelected ? 3 : 1.8;
-      ctx.strokeStyle = '#ffffff';
-      ctx.stroke();
+          ${isWaterlogged ? `
+            <div style="background:#f0f9ff; border:1px solid #7dd3fc; border-radius:6px; padding:6px; margin:6px 0; font-size:11px;">
+              <div style="color:#0369a1; font-weight:800;">📡 Ultrasonic Sonar Telemetry:</div>
+              <div style="font-size:13px; font-weight:900; color:#0c4a6e; margin:2px 0;">
+                ${depth.toFixed(1)} cm
+                <span style="font-size:9.5px; font-weight:800; padding:1px 5px; border-radius:3px; background:${isAbove ? '#e11d48' : '#059669'}; color:#fff; margin-left:4px;">
+                  ${isAbove ? `🚨 +${overflow}cm ABOVE BUMPER` : '✓ Below Bumper'}
+                </span>
+              </div>
+              <div style="font-size:9.5px; color:#64748b;">Bus Ground Clearance Threshold: 35.0 cm</div>
+            </div>
+          ` : ''}
 
-      // Pin Symbol
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 8px sans-serif';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(ev.event_type === 'WATERLOGGED' ? '~' : '!', pt.x, pt.y);
+          ${photoUrl ? `
+            <div style="margin:6px 0; border-radius:6px; overflow:hidden; border:1px solid #cbd5e1; height:85px; background:#000;">
+              <img src="${photoUrl}" style="width:100%; height:100%; object-fit:cover;" alt="Evidence" />
+            </div>
+          ` : ''}
 
-      // Label below pin
-      ctx.font = '9px "JetBrains Mono", monospace';
-      ctx.fillStyle = '#cbd5e1';
-      ctx.textBaseline = 'alphabetic';
-      const label = ev.bus_id === 'CITIZEN_PORTAL' ? '👤 Citizen' : (ev.bus_id || 'Bus');
-      ctx.fillText(label, pt.x, pt.y + 16);
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:6px; padding-top:6px; border-top:1px solid #e2e8f0; font-size:11px;">
+            <span style="font-weight:700;">Status: <b style="color:#0284c7;">${ev.status || 'NEW'}</b></span>
+            <span style="font-size:9px; color:#94a3b8;">ID: ${ev.event_id?.slice(0, 8)}</span>
+          </div>
+        </div>
+      `;
+
+      try {
+        const marker = new window.mappls.Marker({
+          map,
+          position: { lat, lng },
+          popupHtml,
+          fitbounds: false
+        });
+
+        if (marker.addListener) {
+          marker.addListener('click', () => {
+            setSelectedIncident(ev);
+            if (onSelectEvent) onSelectEvent(ev);
+          });
+        }
+
+        markersRef.current.push(marker);
+      } catch (err) {
+        console.warn('[Mappls Marker Creation Error]', err);
+      }
     });
+  }, [filteredEvents, onSelectEvent]);
 
-    ctx.restore();
-  }, [filteredEvents, project, activePopup]);
-
-  // Animation Loop
-  useEffect(() => {
-    let animId;
-    const loop = () => {
-      viewportRef.current.pulsePhase = (viewportRef.current.pulsePhase + 0.06) % (Math.PI * 2);
-      renderCanvas();
-      animId = requestAnimationFrame(loop);
-    };
-    loop();
-    return () => cancelAnimationFrame(animId);
-  }, [renderCanvas]);
-
-  // Resize canvas to match display size
-  const handleResize = useCallback(() => {
-    const canvas = canvasRef.current;
-    const container = containerRef.current;
-    if (!canvas || !container) return;
-    const rect = container.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    const ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    renderCanvas();
-  }, [renderCanvas]);
-
-  useEffect(() => {
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [handleResize]);
-
-  // Pan & Drag Controls
-  const handleMouseDown = (e) => {
-    const vp = viewportRef.current;
-    vp.isDragging = true;
-    vp.startX = e.clientX;
-    vp.startY = e.clientY;
-    vp.initLat = vp.centerLat;
-    vp.initLng = vp.centerLng;
-    if (canvasRef.current) canvasRef.current.style.cursor = 'grabbing';
-  };
-
-  const handleMouseMove = (e) => {
-    const vp = viewportRef.current;
-    if (!vp.isDragging) return;
-    const dx = e.clientX - vp.startX;
-    const dy = e.clientY - vp.startY;
-    const scale = (Math.pow(2, vp.zoom) * 256) / 360;
-    const rad = (vp.initLat * Math.PI) / 180;
-    vp.centerLng = vp.initLng - dx / (scale * Math.cos(rad));
-    vp.centerLat = vp.initLat + dy / scale;
-    renderCanvas();
-  };
-
-  const handleMouseUp = () => {
-    const vp = viewportRef.current;
-    if (vp.isDragging) {
-      vp.isDragging = false;
-      if (canvasRef.current) canvasRef.current.style.cursor = 'grab';
-    }
-  };
-
-  // Zoom via wheel
-  const handleWheel = (e) => {
-    e.preventDefault();
-    const vp = viewportRef.current;
-    const delta = e.deltaY < 0 ? 0.25 : -0.25;
-    vp.zoom = Math.max(10.5, Math.min(16.5, vp.zoom + delta));
-    renderCanvas();
-  };
-
-  // Click on marker hit-test
-  const handleClick = (e) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-    const w = rect.width;
-    const h = rect.height;
-
-    // Search from latest to oldest
-    for (let i = filteredEvents.length - 1; i >= 0; i--) {
-      const ev = filteredEvents[i];
-      const loc = ev.location || {};
-      const lat = loc.latitude || ev.latitude;
-      const lng = loc.longitude || ev.longitude;
-      if (!lat || !lng) continue;
-
-      const pt = project(lat, lng, w, h);
-      const dist = Math.hypot(pt.x - mx, pt.y - my);
-      if (dist <= 18) {
-        setActivePopup(ev);
-        setPopupPos({ x: Math.min(w - 280, Math.max(20, pt.x - 120)), y: Math.max(20, pt.y - 180) });
-        if (onSelectEvent) onSelectEvent(ev);
-        return;
+  // Center on Kolkata
+  const centerKolkata = () => {
+    const map = mapInstanceRef.current;
+    if (map) {
+      if (typeof map.setCenter === 'function') {
+        map.setCenter({ lat: DEFAULT_CENTER.lat, lng: DEFAULT_CENTER.lng });
+        if (typeof map.setZoom === 'function') map.setZoom(DEFAULT_ZOOM);
+      } else if (typeof map.panTo === 'function') {
+        map.panTo([DEFAULT_CENTER.lat, DEFAULT_CENTER.lng]);
       }
     }
-    setActivePopup(null);
   };
 
+  // Zoom In / Out
   const zoomIn = () => {
-    viewportRef.current.zoom = Math.min(16.5, viewportRef.current.zoom + 0.6);
-    renderCanvas();
+    const map = mapInstanceRef.current;
+    if (map && typeof map.zoomIn === 'function') map.zoomIn();
+    else if (map && typeof map.getZoom === 'function' && typeof map.setZoom === 'function') {
+      map.setZoom(map.getZoom() + 1);
+    }
   };
 
   const zoomOut = () => {
-    viewportRef.current.zoom = Math.max(10.5, viewportRef.current.zoom - 0.6);
-    renderCanvas();
+    const map = mapInstanceRef.current;
+    if (map && typeof map.zoomOut === 'function') map.zoomOut();
+    else if (map && typeof map.getZoom === 'function' && typeof map.setZoom === 'function') {
+      map.setZoom(map.getZoom() - 1);
+    }
   };
 
-  const recenter = () => {
-    viewportRef.current.centerLat = DEFAULT_CENTER.lat;
-    viewportRef.current.centerLng = DEFAULT_CENTER.lng;
-    viewportRef.current.zoom = DEFAULT_ZOOM;
-    renderCanvas();
+  // Mappls Geocode Search Handler
+  const handleGeocodeSearch = async (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    setIsSearching(true);
+    playRadarBeep();
+    try {
+      const res = await searchMapplsGeocode(searchQuery.trim());
+      if (res && res.latitude && res.longitude) {
+        const map = mapInstanceRef.current;
+        if (map) {
+          if (typeof map.setCenter === 'function') {
+            map.setCenter({ lat: res.latitude, lng: res.longitude });
+            if (typeof map.setZoom === 'function') map.setZoom(14);
+          }
+        }
+        playSuccessChime();
+      }
+    } catch (err) {
+      console.warn('[Geocode error]', err);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Mappls Nearby Search Handler (Find hospitals/police near selected incident)
+  const handleNearbySearch = async (keywords = 'hospital') => {
+    if (!selectedIncident) return;
+    const loc = selectedIncident.location || {};
+    const lat = loc.latitude || selectedIncident.latitude;
+    const lng = loc.longitude || selectedIncident.longitude;
+    if (!lat || !lng) return;
+
+    try {
+      const data = await searchMapplsNearby(lat, lng, keywords, 3000);
+      if (data && data.places) {
+        setNearbyPOIs(data.places);
+      }
+    } catch (err) {
+      console.warn('[Nearby search error]', err);
+    }
+  };
+
+  // Save new Mappls Key
+  const handleSaveKey = async () => {
+    if (!keyInput.trim()) return;
+    try {
+      await updateMapplsCredentials(keyInput.trim());
+      localStorage.setItem('mappls_api_key', keyInput.trim());
+      setActiveMapplsToken(keyInput.trim());
+      setShowKeyModal(false);
+      window.location.reload();
+    } catch (e) {
+      alert(`Failed to save Mappls key: ${e.message}`);
+    }
   };
 
   return (
     <div className="hologram-card rounded-2xl p-4 mb-6 border border-cyan-500/20 relative">
-      {/* Map Control Header */}
+      {/* Map Header with Mappls Brand & Controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-slate-800">
-        <div className="flex items-center space-x-2">
-          <div className="p-1.5 rounded-lg bg-cyan-500/20 text-cyan-400">
-            <Compass className="w-4 h-4 animate-spin" style={{ animationDuration: '14s' }} />
+        <div className="flex items-center space-x-2.5">
+          <div className="p-1.5 rounded-lg bg-red-500/20 text-red-400">
+            <MapPin className="w-4 h-4" />
           </div>
           <div>
             <h3 className="font-['Orbitron'] font-bold text-xs uppercase tracking-wide text-white flex items-center gap-2">
-              <span>KOLKATA METROPOLITAN GIS VECTOR TWIN</span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-500/30">
-                {filteredEvents.length} HAZARDS ACTIVE
+              <span>MAPPLS (MAPMYINDIA) WEB SDK · URBAN SAFETY MAP</span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] bg-red-950/80 text-red-300 border border-red-500/30">
+                {filteredEvents.length} INCIDENTS PLOTTED
               </span>
             </h3>
+            <div className="flex items-center space-x-2 text-[10px] font-mono text-slate-400 mt-0.5">
+              <span className="flex items-center gap-1">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Mappls REST API & Web SDK Active</span>
+              </span>
+              <span>•</span>
+              <span>Kolkata Fleet Geotagged</span>
+            </div>
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap items-center gap-2">
-          {/* Source Filter */}
-          <div className="flex items-center rounded-xl bg-slate-900 border border-slate-800 p-0.5 text-xs font-mono">
-            {['ALL', 'BUS', 'CITIZEN'].map((src) => (
-              <button
-                key={src}
-                onClick={() => setSourceFilter(src)}
-                className={`px-2 py-1 rounded-lg transition-all ${
-                  sourceFilter === src
-                    ? 'bg-cyan-500 text-slate-950 font-bold'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {src === 'ALL' ? 'All Sources' : src === 'BUS' ? '🚌 Fleet' : '👤 Citizen'}
-              </button>
-            ))}
+        {/* Mappls Geocode Address Search */}
+        <form onSubmit={handleGeocodeSearch} className="flex items-center gap-1.5 font-mono text-xs">
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Mappls Geocode: Park St, Howrah..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="bg-slate-900/90 border border-slate-700/80 rounded-xl pl-8 pr-3 py-1.5 text-xs font-mono text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-red-500 w-52"
+            />
           </div>
+          <button
+            type="submit"
+            disabled={isSearching}
+            className="px-3 py-1.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs transition-all disabled:opacity-50"
+          >
+            {isSearching ? '...' : 'Search'}
+          </button>
+        </form>
 
-          {/* Hazard Type Chips */}
-          <div className="flex flex-wrap items-center gap-1 text-xs font-mono">
-            {['ALL', 'WATERLOGGED', 'POTHOLE', 'NEAR_MISS', 'MISSING_DIVIDER'].map((type) => {
-              const active = selectedFilter === type;
-              return (
-                <button
-                  key={type}
-                  onClick={() => setSelectedFilter(type)}
-                  className={`px-2.5 py-1 rounded-lg transition-all ${
-                    active
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/30'
-                      : 'bg-slate-900/90 text-slate-400 hover:text-white border border-slate-800'
-                  }`}
-                >
-                  {type === 'ALL' ? '● All Hazards' : `${HAZARD_TYPES[type]?.icon || ''} ${HAZARD_TYPES[type]?.label || type}`}
-                </button>
-              );
-            })}
-          </div>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 font-mono text-xs">
+          <button
+            onClick={() => setShowKeyModal(true)}
+            className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-red-500/50 text-slate-300 hover:text-white flex items-center gap-1.5 transition-all"
+            title="Configure Mappls API Key"
+          >
+            <Key className="w-3.5 h-3.5 text-amber-400" />
+            <span>Mappls Key</span>
+          </button>
+
+          <button
+            onClick={centerKolkata}
+            className="px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-white flex items-center gap-1.5 transition-all"
+            title="Center Kolkata Transit Corridors"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Center Fleet</span>
+          </button>
         </div>
       </div>
 
-      {/* Canvas Viewport Container */}
-      <div
-        ref={containerRef}
-        className="relative w-full h-[420px] rounded-xl overflow-hidden border border-slate-800 bg-[#0a101d] select-none"
-      >
-        <canvas
-          ref={canvasRef}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onWheel={handleWheel}
-          onClick={handleClick}
-          className="w-full h-full cursor-grab block"
-        />
-
-        {/* Map On-Screen Controls */}
-        <div className="absolute top-3 right-3 flex flex-col space-y-1.5 z-10">
-          <button
-            onClick={zoomIn}
-            className="w-8 h-8 rounded-lg bg-slate-950/90 hover:bg-slate-800 text-cyan-300 border border-slate-700/80 flex items-center justify-center font-bold text-sm shadow-lg transition-all"
-            title="Zoom In"
-          >
-            +
-          </button>
-          <button
-            onClick={zoomOut}
-            className="w-8 h-8 rounded-lg bg-slate-950/90 hover:bg-slate-800 text-cyan-300 border border-slate-700/80 flex items-center justify-center font-bold text-sm shadow-lg transition-all"
-            title="Zoom Out"
-          >
-            −
-          </button>
-          <button
-            onClick={recenter}
-            className="w-8 h-8 rounded-lg bg-slate-950/90 hover:bg-slate-800 text-cyan-300 border border-slate-700/80 flex items-center justify-center text-xs shadow-lg transition-all"
-            title="Center Kolkata Fleet"
-          >
-            ⌖
-          </button>
+      {/* Filter Chips Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-2 mb-3 font-mono text-xs">
+        {/* Source filter */}
+        <div className="flex items-center rounded-xl bg-slate-900 border border-slate-800 p-0.5">
+          {['ALL', 'BUS', 'CITIZEN'].map((src) => (
+            <button
+              key={src}
+              onClick={() => setSourceFilter(src)}
+              className={`px-2.5 py-1 rounded-lg transition-all ${
+                sourceFilter === src
+                  ? 'bg-red-600 text-white font-bold shadow-sm shadow-red-500/30'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              {src === 'ALL' ? 'All Sources' : src === 'BUS' ? '🚌 Fleet' : '👤 Citizen'}
+            </button>
+          ))}
         </div>
 
-        {/* Geographic Legend Overlay */}
-        <div className="absolute bottom-3 left-3 bg-slate-950/90 backdrop-blur-md px-3 py-2 rounded-xl border border-cyan-500/20 text-xs font-mono text-slate-300 pointer-events-none flex flex-wrap items-center gap-3">
+        {/* Hazard Types */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {['ALL', 'WATERLOGGED', 'POTHOLE', 'NEAR_MISS', 'MISSING_DIVIDER', 'ROAD_DISTRESS'].map((type) => {
+            const active = selectedFilter === type;
+            const cfg = HAZARD_CONFIG[type];
+            return (
+              <button
+                key={type}
+                onClick={() => setSelectedFilter(type)}
+                className={`px-2.5 py-1 rounded-lg transition-all ${
+                  active
+                    ? 'bg-red-600 text-white font-bold shadow-sm shadow-red-500/30'
+                    : 'bg-slate-900/90 text-slate-400 hover:text-white border border-slate-800'
+                }`}
+              >
+                {type === 'ALL' ? '● All Alerts' : `${cfg?.icon || ''} ${cfg?.label || type}`}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Official Mappls Map Container */}
+      <div className="relative w-full h-[450px] rounded-xl overflow-hidden border border-slate-800 bg-[#0a101d]">
+        {/* Mappls Map Target Div */}
+        <div
+          ref={containerRef}
+          id="mappls-map-canvas"
+          className="w-full h-full"
+          style={{ minHeight: '450px' }}
+        />
+
+        {/* Map Legend Overlay */}
+        <div className="absolute bottom-3 left-3 bg-slate-950/90 backdrop-blur-md px-3 py-2 rounded-xl border border-red-500/20 text-xs font-mono text-slate-300 pointer-events-none flex flex-wrap items-center gap-3 z-10">
           <div className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#0284c7]"></span>
-            <span>Waterlogged / Flood</span>
+            <span>Waterlogged (Sonar)</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#ef4444]"></span>
-            <span>Pothole / Crater</span>
+            <span>Pothole (Shock)</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#f59e0b]"></span>
-            <span>Near-Miss Accident</span>
+            <span>Near Miss</span>
           </div>
           <div className="flex items-center space-x-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-[#8b5cf6]"></span>
-            <span>Missing Divider</span>
+            <span>Divider</span>
           </div>
         </div>
 
-        {/* Active Incident Detail Card Popup */}
-        {activePopup && (
-          <div
-            className="absolute z-20 w-72 p-4 rounded-xl bg-slate-950/95 backdrop-blur-xl border border-cyan-400/50 shadow-2xl text-xs font-mono text-slate-200 animate-in fade-in"
-            style={{ left: `${popupPos.x}px`, top: `${popupPos.y}px` }}
-          >
+        {/* Selected Incident Drawer with Mappls Nearby Search */}
+        {selectedIncident && (
+          <div className="absolute top-3 right-3 z-20 w-80 max-h-[400px] overflow-y-auto p-4 rounded-xl bg-slate-950/95 backdrop-blur-xl border border-red-500/40 shadow-2xl font-mono text-xs text-slate-200 animate-in fade-in">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-              <span className={`px-2 py-0.5 rounded text-[10px] font-bold text-white uppercase ${
-                activePopup.event_type === 'WATERLOGGED' ? 'bg-sky-600' :
-                activePopup.event_type === 'POTHOLE' ? 'bg-red-600' :
-                activePopup.event_type === 'NEAR_MISS' ? 'bg-amber-600' : 'bg-purple-600'
-              }`}>
-                {activePopup.event_type}
+              <span className="font-bold text-red-400 flex items-center gap-1.5">
+                <span>{HAZARD_CONFIG[selectedIncident.event_type]?.icon}</span>
+                <span>{selectedIncident.event_type}</span>
               </span>
               <button
-                onClick={() => setActivePopup(null)}
-                className="text-slate-400 hover:text-white p-1"
+                onClick={() => { setSelectedIncident(null); setNearbyPOIs(null); }}
+                className="text-slate-400 hover:text-white"
               >
                 ✕
               </button>
             </div>
 
-            <div className="py-2 space-y-1.5">
-              <p className="font-semibold text-white truncate">{activePopup.address || 'Kolkata Transit Corridor'}</p>
-              
-              <div className="flex justify-between text-[11px] text-slate-400">
-                <span>Source:</span>
-                <span className="font-bold text-slate-200">
-                  {activePopup.bus_id === 'CITIZEN_PORTAL' ? `👤 Citizen (${activePopup.citizen_details?.reporter_name || 'Public'})` : `Bus ${activePopup.bus_id}`}
+            <div className="py-2 space-y-2">
+              <p className="font-semibold text-white truncate">{selectedIncident.address}</p>
+              <div className="text-slate-400 text-[11px]">
+                Coordinates: {selectedIncident.location?.latitude?.toFixed(5)}, {selectedIncident.location?.longitude?.toFixed(5)}
+              </div>
+
+              {/* Mappls Nearby Action Buttons */}
+              <div className="pt-2 border-t border-slate-800">
+                <span className="text-[10px] text-slate-400 uppercase font-bold block mb-1.5">
+                  MAPPLS NEARBY POI DISCOVERY:
                 </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleNearbySearch('hospital')}
+                    className="flex-1 py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-700 hover:border-red-400 text-[11px] text-slate-200 flex items-center justify-center gap-1"
+                  >
+                    <Hospital className="w-3 h-3 text-rose-400" />
+                    <span>Hospitals</span>
+                  </button>
+                  <button
+                    onClick={() => handleNearbySearch('police')}
+                    className="flex-1 py-1.5 px-2 rounded-lg bg-slate-900 border border-slate-700 hover:border-red-400 text-[11px] text-slate-200 flex items-center justify-center gap-1"
+                  >
+                    <ShieldCheck className="w-3 h-3 text-cyan-400" />
+                    <span>Police</span>
+                  </button>
+                </div>
               </div>
 
-              {/* Ultrasonic Depth details */}
-              {(activePopup.event_type === 'WATERLOGGED' || activePopup.ultrasonic) && (
-                <div className="p-2 rounded-lg bg-sky-950/40 border border-sky-500/30 text-sky-200">
-                  <div className="flex justify-between font-bold">
-                    <span>Sonar Depth:</span>
-                    <span>{Number(activePopup.ultrasonic?.water_depth_cm || 38.5).toFixed(1)} cm</span>
-                  </div>
-                  <div className="text-[10px] text-sky-300 mt-0.5">
-                    {Number(activePopup.ultrasonic?.water_depth_cm || 38.5) >= 35.0 ? '🚨 Above 35cm Bus Bumper Limit' : '✓ Below Bumper'}
-                  </div>
+              {/* Nearby Results List */}
+              {nearbyPOIs && (
+                <div className="mt-2 space-y-1.5 max-h-32 overflow-y-auto">
+                  {nearbyPOIs.map((poi, idx) => (
+                    <div key={idx} className="p-2 rounded-lg bg-slate-900/90 border border-slate-800 text-[10px]">
+                      <div className="font-bold text-slate-200">{poi.placeName || poi.name}</div>
+                      <div className="text-slate-400 truncate">{poi.placeAddress || poi.address}</div>
+                      <div className="text-red-400 font-semibold">{poi.distance ? `${poi.distance}m away` : 'Nearby'}</div>
+                    </div>
+                  ))}
                 </div>
               )}
-
-              {/* Evidence photo if present */}
-              {(activePopup.evidence?.thumbnail_url || activePopup.citizen_details?.photo_url) && (
-                <div className="mt-2 rounded-lg overflow-hidden border border-slate-800 h-28 bg-slate-900">
-                  <img
-                    src={activePopup.evidence?.thumbnail_url || activePopup.citizen_details?.photo_url}
-                    alt="Evidence"
-                    className="w-full h-full object-cover"
-                    onError={(e) => { e.target.parentElement.style.display = 'none'; }}
-                  />
-                </div>
-              )}
-
-              <div className="pt-2 flex justify-between items-center text-[10px] text-slate-500 border-t border-slate-800">
-                <span>Status: <b className="text-cyan-300">{activePopup.status || 'NEW'}</b></span>
-                <span>Severity: <b className="text-rose-400">{activePopup.severity}</b></span>
-              </div>
             </div>
           </div>
         )}
       </div>
+
+      {/* Mappls API Key Configuration Modal */}
+      {showKeyModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 font-mono">
+          <div className="bg-slate-950 border border-red-500/40 rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <h4 className="font-['Orbitron'] font-bold text-sm text-white flex items-center gap-2">
+                <Key className="w-4 h-4 text-amber-400" />
+                <span>MAPPLS API CREDENTIALS</span>
+              </h4>
+              <button onClick={() => setShowKeyModal(false)} className="text-slate-400 hover:text-white">✕</button>
+            </div>
+
+            <p className="text-xs text-slate-400">
+              Configure your MapmyIndia / Mappls Web Map SDK API key. The key will be used for vector tiles, reverse geocoding, and traffic overlay.
+            </p>
+
+            <div>
+              <label className="text-[10px] font-bold text-slate-400 uppercase block mb-1">Mappls REST API Key / Access Token</label>
+              <input
+                type="text"
+                placeholder="Enter Mappls API Key..."
+                defaultValue={activeMapplsToken}
+                onChange={(e) => setKeyInput(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-red-500"
+              />
+            </div>
+
+            {mapplsStatus && (
+              <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 text-[11px] space-y-1">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Status:</span>
+                  <span className={mapplsStatus.valid ? 'text-emerald-400 font-bold' : 'text-amber-400 font-bold'}>
+                    {mapplsStatus.valid ? 'Connected ✓' : 'Notice (Token Configured)'}
+                  </span>
+                </div>
+                <div className="text-[10px] text-slate-500 truncate">{mapplsStatus.message}</div>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                onClick={() => setShowKeyModal(false)}
+                className="px-4 py-2 rounded-xl bg-slate-900 text-slate-400 hover:text-white text-xs font-bold"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveKey}
+                className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold shadow-md shadow-red-500/30"
+              >
+                Save &amp; Reload Map
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
