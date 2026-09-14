@@ -152,20 +152,33 @@
                 <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">3</span>
                 <h3 class="step-title text-base font-bold text-ink">Pinpoint Location</h3>
               </div>
-              <button type="button" class="btn-gps inline-flex items-center gap-1.5 px-3 py-1.5 bg-card-alt hover:bg-card-alt rounded-md text-sm font-medium transition-colors" onclick="useMyLocation()">
-                <span>📍</span> Locate My GPS
+              <button type="button" class="btn-gps-pulse" onclick="useMyLocation()" title="Detect current GPS coordinates">
+                <span class="gps-pulse-ring"></span>
+                <span class="gps-icon">🎯</span>
+                <span>Detect My GPS</span>
               </button>
             </div>
 
-            <!-- Location Details Card -->
-            <div class="loc-address-box flex items-center gap-3 p-4 bg-card-alt border border-line rounded-xl">
-              <span class="loc-icon-pin text-xl">📍</span>
-              <div class="loc-details flex-1">
-                <div id="addr-preview" class="loc-title text-sm font-bold text-ink mb-1">Central Kolkata, West Bengal</div>
-                <div class="loc-coords text-xs text-muted mb-1">
-                  Lat: <span id="display-lat">22.572600</span> · Lng: <span id="display-lng">88.363900</span>
+            <!-- Next-Gen Location HUD Box -->
+            <div class="loc-address-box-hud">
+              <div class="loc-hud-icon-wrap">
+                <div class="loc-radar-dot"></div>
+                <span class="loc-icon-pin">📍</span>
+              </div>
+              <div class="loc-details" style="flex:1;">
+                <div class="loc-header-row">
+                  <span class="loc-label-badge">GEO-TAGGED ADDRESS</span>
+                  <span class="loc-tag-verified">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="display:inline-block; vertical-align:middle;"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Mappls Verified
+                  </span>
                 </div>
-                <span class="loc-tag inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">✓ Mappls Address Enriched</span>
+                <div id="addr-preview" class="loc-title">Central Kolkata, West Bengal</div>
+                <div class="loc-coords-bar">
+                  <span class="coord-chip">LAT: <code id="display-lat">22.572600</code>° N</span>
+                  <span class="coord-chip">LNG: <code id="display-lng">88.363900</code>° E</span>
+                  <span class="coord-precision">● Precision ±3m</span>
+                </div>
               </div>
             </div>
 
@@ -173,47 +186,124 @@
             <input id="input-lat" type="hidden" value="22.572600" />
             <input id="input-lng" type="hidden" value="88.363900" />
 
-            <!-- Quick Hotspot Chips -->
-            <div class="quick-loc-chips flex flex-wrap items-center gap-2 mt-2">
-              <span class="text-xs text-muted font-bold" style="font-size:10.5px; color:var(--muted); font-weight:700;">Popular Hotspots:</span>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5855, 88.3468, 'Howrah Bridge, Kolkata')">Howrah Bridge</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5510, 88.3524, 'Park Street, Kolkata')">Park Street</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5350, 88.3980, 'EM Bypass, Ruby Crossing')">EM Bypass</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5735, 88.4331, 'Sector V, Salt Lake')">Sector V</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5645, 88.3518, 'Esplanade Crossing, Kolkata')">Esplanade</button>
+            <!-- Next-Gen Popular Hotspot Chips Bar -->
+            <div class="hotspots-section">
+              <div class="hotspots-header">
+                <span class="hotspots-label">⚡ QUICK HOTSPOT SELECTOR:</span>
+                <span class="hotspots-hint">Tap any major corridor to auto-pin</span>
+              </div>
+              <div class="quick-loc-chips-grid">
+                <button type="button" class="hotspot-pill" onclick="setHotspot(22.5855, 88.3468, 'Howrah Bridge, Kolkata')">
+                  <span class="hotspot-emoji">🌉</span>
+                  <span class="hotspot-name">Howrah Bridge</span>
+                </button>
+                <button type="button" class="hotspot-pill" onclick="setHotspot(22.5510, 88.3524, 'Park Street, Kolkata')">
+                  <span class="hotspot-emoji">☕</span>
+                  <span class="hotspot-name">Park Street</span>
+                </button>
+                <button type="button" class="hotspot-pill" onclick="setHotspot(22.5350, 88.3980, 'EM Bypass, Ruby Crossing')">
+                  <span class="hotspot-emoji">🛣️</span>
+                  <span class="hotspot-name">EM Bypass</span>
+                </button>
+                <button type="button" class="hotspot-pill" onclick="setHotspot(22.5735, 88.4331, 'Sector V, Salt Lake')">
+                  <span class="hotspot-emoji">🏢</span>
+                  <span class="hotspot-name">Sector V</span>
+                </button>
+                <button type="button" class="hotspot-pill" onclick="setHotspot(22.5645, 88.3518, 'Esplanade Crossing, Kolkata')">
+                  <span class="hotspot-emoji">🏛️</span>
+                  <span class="hotspot-name">Esplanade</span>
+                </button>
+              </div>
             </div>
           </div>
 
           <!-- Step 4: Details & Observations -->
           <div class="form-field space-y-4">
-            <div class="step-header flex items-center gap-3">
-              <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">4</span>
-              <h3 class="step-title text-base font-bold text-ink">Observations &amp; Evidence</h3>
+            <div class="step-header flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">4</span>
+                <h3 class="step-title text-base font-bold text-ink">Observations &amp; Evidence</h3>
+              </div>
+              <span class="field-required-tag">REQUIRED</span>
             </div>
-            <textarea id="input-desc" class="form-textarea w-full p-3 border border-line rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow outline-none" rows="3" placeholder="Describe the hazard size, lane obstruction, or any near accident..." required>Deep pothole causing sudden vehicle swerves near the middle lane.</textarea>
+
+            <div class="input-group-modern">
+              <div class="input-group-header">
+                <span class="input-group-title">📝 Hazard Description &amp; Impact</span>
+                <span class="input-char-hint">Be specific for repair crews</span>
+              </div>
+              <textarea id="input-desc" class="form-textarea-modern" rows="3" placeholder="Describe the hazard size, lane obstruction, or any near accident..." required>Deep pothole causing sudden vehicle swerves near the middle lane.</textarea>
+              <div class="quick-tags-tray">
+                <span class="quick-tag-hint">Quick inserts:</span>
+                <button type="button" class="quick-insert-btn" onclick="appendDesc('Deep crater')">+ Deep crater</button>
+                <button type="button" class="quick-insert-btn" onclick="appendDesc('Waterlogged')">+ Waterlogged</button>
+                <button type="button" class="quick-insert-btn" onclick="appendDesc('Wheel rim hazard')">+ Wheel rim hazard</button>
+                <button type="button" class="quick-insert-btn" onclick="appendDesc('Near sharp turn')">+ Near sharp turn</button>
+              </div>
+            </div>
           </div>
 
-          <!-- Optional Reporter Details & Direct Photo Upload -->
+          <!-- Step 5: Optional Reporter Details & Direct Photo Upload -->
           <div class="form-field space-y-3">
-            <label class="block text-sm font-bold text-ink">Your Name / Contact (Optional)</label>
-            <input id="input-name" class="form-input w-full p-3 border border-line rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow outline-none mb-3" type="text" placeholder="e.g. Sarthak or Anonymous" style="margin-bottom:12px;" />
-            
-            <label class="block text-sm font-bold text-ink mt-4">📸 Upload Hazard Photo (Optional)</label>
-            <div id="photo-dropzone" class="photo-upload-zone border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-card-alt transition-colors text-center" onclick="document.getElementById('file-photo-input').click()">
-              <input id="file-photo-input" type="file" accept="image/*" capture="environment" class="hidden" style="display:none;" onchange="handlePhotoSelect(event)" />
-              <div class="text-3xl mb-2" style="font-size:24px; margin-bottom:4px;">📷</div>
-              <div class="text-sm font-bold text-ink" style="font-weight:700; font-size:12.5px; color:var(--ink);">Tap to Take Photo or Upload Image</div>
-              <div class="text-xs text-muted mt-1" style="font-size:10.5px; color:var(--muted); margin-top:2px;">Supports JPG, PNG, WEBP up to 10MB</div>
+            <div class="step-header flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <span class="step-badge optional w-6 h-6 rounded-full bg-card-alt text-muted flex items-center justify-center text-sm font-bold">5</span>
+                <h3 class="step-title text-base font-bold text-ink">Reporter Profile &amp; Photo Proof</h3>
+              </div>
+              <span class="field-optional-tag">OPTIONAL</span>
             </div>
 
-            <!-- Photo Preview Card -->
-            <div id="photo-preview-box" class="photo-preview-box hidden relative mt-3 w-48 h-32 rounded-xl overflow-hidden border border-line">
-              <img id="photo-preview-img" src="" alt="Uploaded hazard photo preview" class="w-full h-full object-cover" />
-              <button type="button" class="photo-remove-btn absolute top-1.5 right-1.5 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 shadow-sm" onclick="removeSelectedPhoto(event)" title="Remove Photo">✕</button>
+            <!-- Your Name Input Bar - Next-Gen UI -->
+            <div class="reporter-input-wrapper">
+              <label for="input-name" class="modern-field-label">
+                <span>YOUR NAME / CITIZEN HANDLE</span>
+                <span class="privacy-pill">🔒 Stored on private ledger</span>
+              </label>
+              <div class="modern-input-bar">
+                <div class="input-bar-icon">
+                  <span>👤</span>
+                </div>
+                <input id="input-name" class="modern-input-field" type="text" placeholder="e.g. Sarthak or Civic Reporter (or leave anonymous)" />
+                <div class="input-bar-status">
+                  <span class="reporter-badge">CIVIC</span>
+                </div>
+              </div>
             </div>
 
-            <!-- Hidden input to store uploaded relative URL or data URI -->
-            <input id="input-photo" type="hidden" value="" />
+            <!-- Photo Upload Dropzone - Next-Gen UI -->
+            <div class="photo-upload-container">
+              <label class="modern-field-label">
+                <span>CAMERA EVIDENCE CAPTURE</span>
+                <span class="format-pill">JPG · PNG · WEBP (Max 10MB)</span>
+              </label>
+              <div id="photo-dropzone" class="photo-dropzone-modern" onclick="document.getElementById('file-photo-input').click()">
+                <input id="file-photo-input" type="file" accept="image/*" capture="environment" style="display:none;" onchange="handlePhotoSelect(event)" />
+                <div class="dropzone-visual">
+                  <div class="dropzone-icon-circle">
+                    <span class="camera-icon">📸</span>
+                  </div>
+                  <div class="dropzone-text-group">
+                    <strong class="dropzone-main-title">Capture or Drop Hazard Photo Here</strong>
+                    <p class="dropzone-sub-title">Tap to activate camera or browse device files</p>
+                  </div>
+                  <div class="dropzone-action-btn">Browse File</div>
+                </div>
+              </div>
+
+              <!-- Photo Preview Card -->
+              <div id="photo-preview-box" class="photo-preview-box-modern">
+                <img id="photo-preview-img" src="" alt="Uploaded hazard photo preview" />
+                <div class="preview-overlay-bar">
+                  <span class="preview-tag">✓ Photo Evidence Attached</span>
+                  <button type="button" class="photo-remove-btn-modern" onclick="removeSelectedPhoto(event)" title="Remove Photo">
+                    ✕ Remove Photo
+                  </button>
+                </div>
+              </div>
+
+              <!-- Hidden input to store uploaded relative URL or data URI -->
+              <input id="input-photo" type="hidden" value="" />
+            </div>
           </div>
 
           <!-- Submit Button -->
@@ -423,6 +513,17 @@
       hiddenInput.value = "";
       if (fileInput) fileInput.value = "";
       showToast("Photo removed");
+    }
+
+    function appendDesc(text) {
+      const desc = document.getElementById("input-desc");
+      if (!desc) return;
+      if (desc.value.trim().length > 0) {
+        desc.value = desc.value.trim() + " · " + text;
+      } else {
+        desc.value = text;
+      }
+      showToast("Added: " + text);
     }
 
     function updateCoordsUI(lat, lng) {
