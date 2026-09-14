@@ -2,54 +2,54 @@
 <body>
   <%- include('partials/sidebar', {page: 'report'}) %>
 
-  <main class="ml-56 max-w-[1540px] py-11 px-13">
+  <main class="ml-60 max-w-[1540px] py-11 px-13">
     <header class="flex justify-between items-start mb-8">
       <div>
-        <p class="eyebrow text-xs font-bold text-gray-500 tracking-wider mb-2">KOLKATA CITIZEN SAFETY INITIATIVE / ROAD HAZARD DISPATCH</p>
-        <h1 class="text-3xl font-extrabold text-gray-900 mb-2">Report a Road Distress or Hazard</h1>
-        <p class="subhead text-sm text-gray-600 max-w-2xl">Crowdsourced road safety connected directly with municipal repair teams & bus fleet telemetry.</p>
+        <p class="eyebrow text-xs font-bold text-muted tracking-wider mb-2">KOLKATA CITIZEN SAFETY INITIATIVE / ROAD HAZARD DISPATCH</p>
+        <h1 class="text-3xl font-extrabold text-ink mb-2">Report a Road Distress or Hazard</h1>
+        <p class="subhead text-sm text-muted max-w-2xl">Crowdsourced road safety connected directly with municipal repair teams & bus fleet telemetry.</p>
       </div>
       <div class="header-actions flex items-center gap-4">
-        <a href="/admin" class="quiet-button inline-flex items-center gap-1.5 font-bold px-4 py-2 rounded-lg border hover:bg-gray-50 transition-colors" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--accent); border-color:var(--accent);">🛡️ Admin Center ↗</a>
-        <button id="theme-toggle" class="quiet-button px-4 py-2 text-sm font-medium rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors">🌙 Dark Mode</button>
-        <div class="time text-sm font-medium font-mono text-gray-600 px-3 py-1.5 bg-gray-100 rounded-md" id="clock"></div>
+        <a href="/admin" class="quiet-button inline-flex items-center gap-1.5 font-bold px-4 py-2 rounded-lg border hover:bg-card-alt transition-colors" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--accent); border-color:var(--accent);">🛡️ Admin Center ↗</a>
+        <button id="theme-toggle" class="quiet-button px-4 py-2 text-sm font-medium rounded-lg border border-line hover:bg-card-alt transition-colors">🌙 Dark Mode</button>
+        <div class="time text-sm font-medium font-mono text-muted px-3 py-1.5 bg-card-alt rounded-md" id="clock"></div>
       </div>
     </header>
 
     <!-- Hero Banner & Trust Highlights -->
-    <section class="citizen-hero bg-blue-50 rounded-2xl p-6 mb-8 border border-blue-100">
+    <section class="citizen-hero bg-card rounded-2xl p-6 mb-8 border border-line">
       <div class="hero-badge-row flex items-center gap-3 mb-3">
-        <span class="civic-tag px-2.5 py-1 text-xs font-bold bg-blue-100 text-blue-700 rounded-md">⚡ Connected Fleet &amp; Municipal Desk</span>
+        <span class="civic-tag px-2.5 py-1 text-xs font-bold bg-card-alt text-accent rounded-md">⚡ Connected Fleet &amp; Municipal Desk</span>
         <span style="font-size:11px; color:var(--muted); font-weight:600;">Powered by Mappls GIS &amp; Cryptographic Proofs</span>
       </div>
-      <h2 class="text-lg font-extrabold text-gray-900 mb-2" style="margin:4px 0 6px; font-size:18px; color:var(--ink); font-weight:800;">
+      <h2 class="text-lg font-extrabold text-ink mb-2" style="margin:4px 0 6px; font-size:18px; color:var(--ink); font-weight:800;">
         Spot a road hazard? Log it in seconds to protect Kolkata commuters.
       </h2>
-      <p class="text-sm text-gray-600 leading-relaxed max-w-3xl mb-5" style="margin:0; font-size:13px; color:var(--muted); line-height:1.5; max-width:850px;">
+      <p class="text-sm text-muted leading-relaxed max-w-3xl mb-5" style="margin:0; font-size:13px; color:var(--muted); line-height:1.5; max-width:850px;">
         Reports feed directly into transit bus collision alert systems and municipal maintenance logs. Track the live progress of your report from <b>Unreviewed</b> to <b>Under Process</b> and <b>Resolved</b>.
       </p>
       <div class="trust-badges flex flex-wrap gap-2">
-        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-medium shadow-sm"><span>🛡️</span> Tamper-Proof <strong>SHA-256 Ledger</strong></span>
-        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-medium shadow-sm"><span>📍</span> Precision <strong>Mappls Address Geocoding</strong></span>
-        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-medium shadow-sm"><span>🚌</span> Direct <strong>Approaching Fleet Alert</strong></span>
-        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs font-medium shadow-sm"><span>🔄</span> Real-Time <strong>Status Transparency</strong></span>
+        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-card border border-line rounded-full text-xs font-medium shadow-sm"><span>🛡️</span> Tamper-Proof <strong>SHA-256 Ledger</strong></span>
+        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-card border border-line rounded-full text-xs font-medium shadow-sm"><span>📍</span> Precision <strong>Mappls Address Geocoding</strong></span>
+        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-card border border-line rounded-full text-xs font-medium shadow-sm"><span>🚌</span> Direct <strong>Approaching Fleet Alert</strong></span>
+        <span class="trust-pill inline-flex items-center gap-1.5 px-3 py-1.5 bg-card border border-line rounded-full text-xs font-medium shadow-sm"><span>🔄</span> Real-Time <strong>Status Transparency</strong></span>
       </div>
     </section>
 
     <!-- Success Feedback Banner -->
-    <div id="success-banner" class="submission-success-banner hidden p-5 rounded-xl border-l-4 border-emerald-500 bg-emerald-50 mb-8 shadow-sm">
+    <div id="success-banner" class="submission-success-banner hidden p-5 rounded-xl border-l-4 border-line-strong bg-card mb-8 shadow-sm">
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
         <div>
           <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-xs font-bold" style="background:#10b981; color:#fff; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;">✓</span>
+            <span class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-card0 text-white text-xs font-bold" style="background:#10b981; color:#fff; width:22px; height:22px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;">✓</span>
             <h3 class="text-base font-extrabold text-emerald-600 m-0" style="margin:0; color:#10b981; font-size:16px; font-weight:800;">Hazard Report Successfully Ingested</h3>
           </div>
-          <p class="text-sm text-gray-700 mb-3" style="margin:0 0 10px; font-size:13px; color:var(--ink);">
+          <p class="text-sm text-ink mb-3" style="margin:0 0 10px; font-size:13px; color:var(--ink);">
             Your report has been geotagged via Mappls and linked to the municipal evidence chain.
           </p>
-          <div class="font-mono text-xs text-gray-500 leading-relaxed mb-5" style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.7;">
-            Report ID: <b id="success-id" class="text-gray-900" style="color:var(--ink);">-</b>
-            <button type="button" onclick="copyReportId()" class="quiet-button hover:bg-gray-200 rounded px-1.5 py-0.5 ml-1.5 transition-colors" style="padding:1px 6px; font-size:10px; margin-left:6px;">Copy</button><br />
+          <div class="font-mono text-xs text-muted leading-relaxed mb-5" style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); line-height:1.7;">
+            Report ID: <b id="success-id" class="text-ink" style="color:var(--ink);">-</b>
+            <button type="button" onclick="copyReportId()" class="quiet-button hover:bg-card-alt rounded px-1.5 py-0.5 ml-1.5 transition-colors" style="padding:1px 6px; font-size:10px; margin-left:6px;">Copy</button><br />
             Evidence Hash: <code id="success-hash" class="font-bold" style="color:var(--accent); font-weight:700;">-</code><br />
             Initial Status: <span class="badge NEW inline-block px-2 py-0.5 text-xs font-medium rounded-md ml-1" id="success-status" style="margin-left:4px;">⏳ Unreviewed</span>
           </div>
@@ -57,66 +57,66 @@
           <!-- Visual Progress Timeline -->
           <div class="success-timeline flex items-center max-w-sm">
             <div class="timeline-node flex flex-col items-center gap-1">
-              <div class="node-circle done w-6 h-6 rounded-full flex items-center justify-center bg-emerald-500 text-white text-xs font-bold">✓</div>
+              <div class="node-circle done w-6 h-6 rounded-full flex items-center justify-center bg-card0 text-white text-xs font-bold">✓</div>
               <span class="node-label active text-xs font-bold text-emerald-600">1. Logged</span>
             </div>
-            <div class="flex-1 h-0.5 bg-emerald-500 mx-2 mb-4" style="flex:1; height:2px; background:#10b981; margin: 0 4px 14px;"></div>
+            <div class="flex-1 h-0.5 bg-card0 mx-2 mb-4" style="flex:1; height:2px; background:#10b981; margin: 0 4px 14px;"></div>
             <div class="timeline-node flex flex-col items-center gap-1">
-              <div class="node-circle current w-6 h-6 rounded-full flex items-center justify-center bg-white border-2 border-emerald-500 text-emerald-600 text-xs font-bold">2</div>
+              <div class="node-circle current w-6 h-6 rounded-full flex items-center justify-center bg-card border-2 border-line-strong text-emerald-600 text-xs font-bold">2</div>
               <span class="node-label active text-xs font-bold text-emerald-600">2. Review Pending</span>
             </div>
             <div class="flex-1 h-0.5 bg-gray-200 mx-2 mb-4" style="flex:1; height:2px; background:var(--line); margin: 0 4px 14px;"></div>
             <div class="timeline-node flex flex-col items-center gap-1">
-              <div class="node-circle w-6 h-6 rounded-full flex items-center justify-center bg-gray-100 text-gray-400 text-xs font-bold">3</div>
-              <span class="node-label text-xs font-medium text-gray-400">3. Resolution</span>
+              <div class="node-circle w-6 h-6 rounded-full flex items-center justify-center bg-card-alt text-muted text-xs font-bold">3</div>
+              <span class="node-label text-xs font-medium text-muted">3. Resolution</span>
             </div>
           </div>
         </div>
-        <button onclick="dismissBanner()" class="quiet-button px-3 py-1.5 text-xs font-medium text-gray-500 hover:bg-gray-100 rounded-md transition-colors" style="padding:4px 10px; font-size:12px;">✕ Close</button>
+        <button onclick="dismissBanner()" class="quiet-button px-3 py-1.5 text-xs font-medium text-muted hover:bg-card-alt rounded-md transition-colors" style="padding:4px 10px; font-size:12px;">✕ Close</button>
       </div>
     </div>
 
     <!-- Main Reporting Grid -->
     <section id="report-section" class="report-layout grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-8">
       <!-- Form Column (Left) -->
-      <div class="form-card bg-white rounded-2xl shadow-sm border border-gray-100 p-7">
+      <div class="form-card bg-card rounded-2xl shadow-sm border border-line p-7">
         <form id="citizen-report-form" onsubmit="submitCitizenReport(event)" class="space-y-8">
           <!-- Step 1: Hazard Category -->
           <div class="form-field space-y-4">
             <div class="step-header flex items-center gap-3">
-              <span class="step-badge w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">1</span>
-              <h3 class="step-title text-base font-bold text-gray-900">Select Hazard Category</h3>
+              <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">1</span>
+              <h3 class="step-title text-base font-bold text-ink">Select Hazard Category</h3>
             </div>
             <div class="type-grid grid grid-cols-2 gap-3">
-              <div class="type-option active relative border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="POTHOLE" onclick="selectType('POTHOLE', this)">
+              <div class="type-option active relative border border-line rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="POTHOLE" onclick="selectType('POTHOLE', this)">
                 <div class="type-icon-wrap text-2xl mb-2">🕳️</div>
                 <div class="type-meta">
-                  <div class="type-name text-sm font-bold text-gray-900">Pothole / Crater</div>
-                  <div class="type-sub text-xs text-gray-500">Road surface cavity, wheel damage</div>
+                  <div class="type-name text-sm font-bold text-ink">Pothole / Crater</div>
+                  <div class="type-sub text-xs text-muted">Road surface cavity, wheel damage</div>
                 </div>
                 <div class="type-check absolute top-3 right-3 text-blue-600 hidden">✓</div>
               </div>
-              <div class="type-option relative border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="NEAR_MISS" onclick="selectType('NEAR_MISS', this)">
+              <div class="type-option relative border border-line rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="NEAR_MISS" onclick="selectType('NEAR_MISS', this)">
                 <div class="type-icon-wrap text-2xl mb-2">💥</div>
                 <div class="type-meta">
-                  <div class="type-name text-sm font-bold text-gray-900">Near-Miss / Risk</div>
-                  <div class="type-sub text-xs text-gray-500">Blind turn, dangerous intersection</div>
+                  <div class="type-name text-sm font-bold text-ink">Near-Miss / Risk</div>
+                  <div class="type-sub text-xs text-muted">Blind turn, dangerous intersection</div>
                 </div>
                 <div class="type-check absolute top-3 right-3 text-blue-600 hidden">✓</div>
               </div>
-              <div class="type-option relative border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="MISSING_DIVIDER" onclick="selectType('MISSING_DIVIDER', this)">
+              <div class="type-option relative border border-line rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="MISSING_DIVIDER" onclick="selectType('MISSING_DIVIDER', this)">
                 <div class="type-icon-wrap text-2xl mb-2">🚧</div>
                 <div class="type-meta">
-                  <div class="type-name text-sm font-bold text-gray-900">Missing Divider</div>
-                  <div class="type-sub text-xs text-gray-500">Damaged median, illegal crossing</div>
+                  <div class="type-name text-sm font-bold text-ink">Missing Divider</div>
+                  <div class="type-sub text-xs text-muted">Damaged median, illegal crossing</div>
                 </div>
                 <div class="type-check absolute top-3 right-3 text-blue-600 hidden">✓</div>
               </div>
-              <div class="type-option relative border border-gray-200 rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="ROAD_DISTRESS" onclick="selectType('ROAD_DISTRESS', this)">
+              <div class="type-option relative border border-line rounded-xl p-4 cursor-pointer hover:border-blue-500 transition-colors" data-type="ROAD_DISTRESS" onclick="selectType('ROAD_DISTRESS', this)">
                 <div class="type-icon-wrap text-2xl mb-2">⚠️</div>
                 <div class="type-meta">
-                  <div class="type-name text-sm font-bold text-gray-900">Road Distress</div>
-                  <div class="type-sub text-xs text-gray-500">Waterlog, sunken manhole, rubble</div>
+                  <div class="type-name text-sm font-bold text-ink">Road Distress</div>
+                  <div class="type-sub text-xs text-muted">Waterlog, sunken manhole, rubble</div>
                 </div>
                 <div class="type-check absolute top-3 right-3 text-blue-600 hidden">✓</div>
               </div>
@@ -126,21 +126,21 @@
           <!-- Step 2: Severity Level -->
           <div class="form-field space-y-4">
             <div class="step-header flex items-center gap-3">
-              <span class="step-badge w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">2</span>
-              <h3 class="step-title text-base font-bold text-gray-900">Hazard Severity &amp; Urgency</h3>
+              <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">2</span>
+              <h3 class="step-title text-base font-bold text-ink">Hazard Severity &amp; Urgency</h3>
             </div>
             <div class="severity-group flex flex-col sm:flex-row gap-3">
-              <div class="severity-btn minor flex-1 border border-gray-200 rounded-xl p-3 cursor-pointer hover:bg-gray-50 transition-colors" onclick="selectSeverity('LOW', this)">
-                <span class="severity-label block text-sm font-bold text-gray-900 mb-1">🟢 Minor</span>
-                <span class="severity-desc text-xs text-gray-500">Surface roughness or slow ripple</span>
+              <div class="severity-btn minor flex-1 border border-line rounded-xl p-3 cursor-pointer hover:bg-card-alt transition-colors" onclick="selectSeverity('LOW', this)">
+                <span class="severity-label block text-sm font-bold text-ink mb-1">🟢 Minor</span>
+                <span class="severity-desc text-xs text-muted">Surface roughness or slow ripple</span>
               </div>
               <div class="severity-btn moderate active flex-1 border-2 border-yellow-400 bg-yellow-50 rounded-xl p-3 cursor-pointer" onclick="selectSeverity('MODERATE', this)">
-                <span class="severity-label block text-sm font-bold text-gray-900 mb-1">🟡 Moderate</span>
-                <span class="severity-desc text-xs text-gray-500">Wheel jerk / sudden lane braking</span>
+                <span class="severity-label block text-sm font-bold text-ink mb-1">🟡 Moderate</span>
+                <span class="severity-desc text-xs text-muted">Wheel jerk / sudden lane braking</span>
               </div>
-              <div class="severity-btn severe flex-1 border border-gray-200 rounded-xl p-3 cursor-pointer hover:bg-gray-50 transition-colors" onclick="selectSeverity('SEVERE', this)">
-                <span class="severity-label block text-sm font-bold text-gray-900 mb-1">🔴 Severe</span>
-                <span class="severity-desc text-xs text-gray-500">Rim damage / high collision hazard</span>
+              <div class="severity-btn severe flex-1 border border-line rounded-xl p-3 cursor-pointer hover:bg-card-alt transition-colors" onclick="selectSeverity('SEVERE', this)">
+                <span class="severity-label block text-sm font-bold text-ink mb-1">🔴 Severe</span>
+                <span class="severity-desc text-xs text-muted">Rim damage / high collision hazard</span>
               </div>
             </div>
           </div>
@@ -149,20 +149,20 @@
           <div class="form-field space-y-4">
             <div class="step-header flex items-center justify-between" style="justify-content:space-between;">
               <div class="flex items-center gap-3" style="display:flex; align-items:center; gap:10px;">
-                <span class="step-badge w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">3</span>
-                <h3 class="step-title text-base font-bold text-gray-900">Pinpoint Location</h3>
+                <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">3</span>
+                <h3 class="step-title text-base font-bold text-ink">Pinpoint Location</h3>
               </div>
-              <button type="button" class="btn-gps inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-md text-sm font-medium transition-colors" onclick="useMyLocation()">
+              <button type="button" class="btn-gps inline-flex items-center gap-1.5 px-3 py-1.5 bg-card-alt hover:bg-card-alt rounded-md text-sm font-medium transition-colors" onclick="useMyLocation()">
                 <span>📍</span> Locate My GPS
               </button>
             </div>
 
             <!-- Location Details Card -->
-            <div class="loc-address-box flex items-center gap-3 p-4 bg-gray-50 border border-gray-200 rounded-xl">
+            <div class="loc-address-box flex items-center gap-3 p-4 bg-card-alt border border-line rounded-xl">
               <span class="loc-icon-pin text-xl">📍</span>
               <div class="loc-details flex-1">
-                <div id="addr-preview" class="loc-title text-sm font-bold text-gray-900 mb-1">Central Kolkata, West Bengal</div>
-                <div class="loc-coords text-xs text-gray-500 mb-1">
+                <div id="addr-preview" class="loc-title text-sm font-bold text-ink mb-1">Central Kolkata, West Bengal</div>
+                <div class="loc-coords text-xs text-muted mb-1">
                   Lat: <span id="display-lat">22.572600</span> · Lng: <span id="display-lng">88.363900</span>
                 </div>
                 <span class="loc-tag inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded">✓ Mappls Address Enriched</span>
@@ -175,39 +175,39 @@
 
             <!-- Quick Hotspot Chips -->
             <div class="quick-loc-chips flex flex-wrap items-center gap-2 mt-2">
-              <span class="text-xs text-gray-500 font-bold" style="font-size:10.5px; color:var(--muted); font-weight:700;">Popular Hotspots:</span>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" onclick="setHotspot(22.5855, 88.3468, 'Howrah Bridge, Kolkata')">Howrah Bridge</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" onclick="setHotspot(22.5510, 88.3524, 'Park Street, Kolkata')">Park Street</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" onclick="setHotspot(22.5350, 88.3980, 'EM Bypass, Ruby Crossing')">EM Bypass</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" onclick="setHotspot(22.5735, 88.4331, 'Sector V, Salt Lake')">Sector V</button>
-              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-gray-100 hover:bg-gray-200 rounded-full transition-colors" onclick="setHotspot(22.5645, 88.3518, 'Esplanade Crossing, Kolkata')">Esplanade</button>
+              <span class="text-xs text-muted font-bold" style="font-size:10.5px; color:var(--muted); font-weight:700;">Popular Hotspots:</span>
+              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5855, 88.3468, 'Howrah Bridge, Kolkata')">Howrah Bridge</button>
+              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5510, 88.3524, 'Park Street, Kolkata')">Park Street</button>
+              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5350, 88.3980, 'EM Bypass, Ruby Crossing')">EM Bypass</button>
+              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5735, 88.4331, 'Sector V, Salt Lake')">Sector V</button>
+              <button type="button" class="quick-loc-chip px-2.5 py-1 text-xs font-medium bg-card-alt hover:bg-card-alt rounded-full transition-colors" onclick="setHotspot(22.5645, 88.3518, 'Esplanade Crossing, Kolkata')">Esplanade</button>
             </div>
           </div>
 
           <!-- Step 4: Details & Observations -->
           <div class="form-field space-y-4">
             <div class="step-header flex items-center gap-3">
-              <span class="step-badge w-6 h-6 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-sm font-bold">4</span>
-              <h3 class="step-title text-base font-bold text-gray-900">Observations &amp; Evidence</h3>
+              <span class="step-badge w-6 h-6 rounded-full bg-card-alt text-accent flex items-center justify-center text-sm font-bold">4</span>
+              <h3 class="step-title text-base font-bold text-ink">Observations &amp; Evidence</h3>
             </div>
-            <textarea id="input-desc" class="form-textarea w-full p-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow outline-none" rows="3" placeholder="Describe the hazard size, lane obstruction, or any near accident..." required>Deep pothole causing sudden vehicle swerves near the middle lane.</textarea>
+            <textarea id="input-desc" class="form-textarea w-full p-3 border border-line rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow outline-none" rows="3" placeholder="Describe the hazard size, lane obstruction, or any near accident..." required>Deep pothole causing sudden vehicle swerves near the middle lane.</textarea>
           </div>
 
           <!-- Optional Reporter Details & Direct Photo Upload -->
           <div class="form-field space-y-3">
-            <label class="block text-sm font-bold text-gray-900">Your Name / Contact (Optional)</label>
-            <input id="input-name" class="form-input w-full p-3 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow outline-none mb-3" type="text" placeholder="e.g. Sarthak or Anonymous" style="margin-bottom:12px;" />
+            <label class="block text-sm font-bold text-ink">Your Name / Contact (Optional)</label>
+            <input id="input-name" class="form-input w-full p-3 border border-line rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-shadow outline-none mb-3" type="text" placeholder="e.g. Sarthak or Anonymous" style="margin-bottom:12px;" />
             
-            <label class="block text-sm font-bold text-gray-900 mt-4">📸 Upload Hazard Photo (Optional)</label>
-            <div id="photo-dropzone" class="photo-upload-zone border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors text-center" onclick="document.getElementById('file-photo-input').click()">
+            <label class="block text-sm font-bold text-ink mt-4">📸 Upload Hazard Photo (Optional)</label>
+            <div id="photo-dropzone" class="photo-upload-zone border-2 border-dashed border-gray-300 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-card-alt transition-colors text-center" onclick="document.getElementById('file-photo-input').click()">
               <input id="file-photo-input" type="file" accept="image/*" capture="environment" class="hidden" style="display:none;" onchange="handlePhotoSelect(event)" />
               <div class="text-3xl mb-2" style="font-size:24px; margin-bottom:4px;">📷</div>
-              <div class="text-sm font-bold text-gray-900" style="font-weight:700; font-size:12.5px; color:var(--ink);">Tap to Take Photo or Upload Image</div>
-              <div class="text-xs text-gray-500 mt-1" style="font-size:10.5px; color:var(--muted); margin-top:2px;">Supports JPG, PNG, WEBP up to 10MB</div>
+              <div class="text-sm font-bold text-ink" style="font-weight:700; font-size:12.5px; color:var(--ink);">Tap to Take Photo or Upload Image</div>
+              <div class="text-xs text-muted mt-1" style="font-size:10.5px; color:var(--muted); margin-top:2px;">Supports JPG, PNG, WEBP up to 10MB</div>
             </div>
 
             <!-- Photo Preview Card -->
-            <div id="photo-preview-box" class="photo-preview-box hidden relative mt-3 w-48 h-32 rounded-xl overflow-hidden border border-gray-200">
+            <div id="photo-preview-box" class="photo-preview-box hidden relative mt-3 w-48 h-32 rounded-xl overflow-hidden border border-line">
               <img id="photo-preview-img" src="" alt="Uploaded hazard photo preview" class="w-full h-full object-cover" />
               <button type="button" class="photo-remove-btn absolute top-1.5 right-1.5 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 shadow-sm" onclick="removeSelectedPhoto(event)" title="Remove Photo">✕</button>
             </div>
@@ -226,42 +226,42 @@
       <!-- Interactive Map & Community Tracking Column (Right) -->
       <div class="flex flex-col gap-6" style="display:flex; flex-direction:column; gap:18px;">
         <!-- Map Picker Panel -->
-        <div class="panel bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden" style="margin:0; overflow:hidden;">
-          <div class="panel-title p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+        <div class="panel bg-card rounded-2xl shadow-sm border border-line overflow-hidden" style="margin:0; overflow:hidden;">
+          <div class="panel-title p-5 border-b border-line flex justify-between items-center bg-card-alt">
             <div>
-              <p class="eyebrow text-xs font-bold text-gray-500 tracking-wider mb-1">INTERACTIVE MAP</p>
-              <h2 class="text-lg font-extrabold text-gray-900">Pinpoint Hazard Spot</h2>
+              <p class="eyebrow text-xs font-bold text-muted tracking-wider mb-1">INTERACTIVE MAP</p>
+              <h2 class="text-lg font-extrabold text-ink">Pinpoint Hazard Spot</h2>
             </div>
-            <button class="quiet-button px-3 py-1.5 text-xs font-medium bg-white border border-gray-200 rounded-md hover:bg-gray-100 transition-colors" onclick="centerKolkataMap()" style="font-size:11px; padding:3px 8px;">Recenter Kolkata</button>
+            <button class="quiet-button px-3 py-1.5 text-xs font-medium bg-card border border-line rounded-md hover:bg-card-alt transition-colors" onclick="centerKolkataMap()" style="font-size:11px; padding:3px 8px;">Recenter Kolkata</button>
           </div>
-          <div id="picker-map" class="w-full h-[330px] relative bg-gray-100" style="width:100%; height:330px; position:relative; background:var(--card-alt);"></div>
-          <div class="p-3 text-xs text-gray-500 bg-white border-t border-gray-100 flex justify-between items-center" style="padding:8px 12px; font-size:11px; color:var(--muted); background:var(--card); border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
+          <div id="picker-map" class="w-full h-[330px] relative bg-card-alt" style="width:100%; height:330px; position:relative; background:var(--card-alt);"></div>
+          <div class="p-3 text-xs text-muted bg-card border-t border-line flex justify-between items-center" style="padding:8px 12px; font-size:11px; color:var(--muted); background:var(--card); border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;">
             <span>💡 <b>Tip:</b> Click anywhere on the map to move the hazard pin.</span>
             <span id="pin-coords-badge" class="font-mono font-bold text-blue-600" style="font-family:'DM Mono',monospace; color:var(--accent); font-weight:700;">22.5726, 88.3639</span>
           </div>
         </div>
 
         <!-- Community Reports & Status Feed Panel -->
-        <div id="community-feed" class="panel bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col h-[500px]" style="margin:0;">
-          <div class="panel-title p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50 shrink-0">
+        <div id="community-feed" class="panel bg-card rounded-2xl shadow-sm border border-line overflow-hidden flex flex-col h-[500px]" style="margin:0;">
+          <div class="panel-title p-5 border-b border-line flex justify-between items-center bg-card-alt shrink-0">
             <div>
-              <p class="eyebrow text-xs font-bold text-gray-500 tracking-wider mb-1">MUNICIPAL STATUS TRACKER</p>
-              <h2 class="text-lg font-extrabold text-gray-900">Community Reports Feed</h2>
+              <p class="eyebrow text-xs font-bold text-muted tracking-wider mb-1">MUNICIPAL STATUS TRACKER</p>
+              <h2 class="text-lg font-extrabold text-ink">Community Reports Feed</h2>
             </div>
-            <button class="quiet-button px-3 py-1.5 text-xs font-medium bg-white border border-gray-200 rounded-md hover:bg-gray-100 transition-colors" onclick="loadRecentCitizenReports()">Refresh Feed</button>
+            <button class="quiet-button px-3 py-1.5 text-xs font-medium bg-card border border-line rounded-md hover:bg-card-alt transition-colors" onclick="loadRecentCitizenReports()">Refresh Feed</button>
           </div>
 
           <!-- Status Filter Tabs -->
-          <div class="status-tabs flex items-center p-3 gap-2 border-b border-gray-100 bg-white shrink-0 overflow-x-auto">
-            <button class="tab-btn active px-3 py-1.5 text-xs font-bold rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 whitespace-nowrap" data-filter="" onclick="filterFeed('', this)">All Reports</button>
-            <button class="tab-btn px-3 py-1.5 text-xs font-bold rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 whitespace-nowrap" data-filter="NEW" onclick="filterFeed('NEW', this)">⏳ Unreviewed</button>
-            <button class="tab-btn px-3 py-1.5 text-xs font-bold rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 whitespace-nowrap" data-filter="UNDER_REVIEW" onclick="filterFeed('UNDER_REVIEW', this)">🔄 Under Process</button>
-            <button class="tab-btn px-3 py-1.5 text-xs font-bold rounded-full border border-gray-200 text-gray-600 hover:bg-gray-50 whitespace-nowrap" data-filter="ACTIONED" onclick="filterFeed('ACTIONED', this)">✅ Actioned</button>
+          <div class="status-tabs flex items-center p-3 gap-2 border-b border-line bg-card shrink-0 overflow-x-auto">
+            <button class="tab-btn active px-3 py-1.5 text-xs font-bold rounded-full bg-card-alt text-ink hover:bg-card-alt whitespace-nowrap" data-filter="" onclick="filterFeed('', this)">All Reports</button>
+            <button class="tab-btn px-3 py-1.5 text-xs font-bold rounded-full border border-line text-muted hover:bg-card-alt whitespace-nowrap" data-filter="NEW" onclick="filterFeed('NEW', this)">⏳ Unreviewed</button>
+            <button class="tab-btn px-3 py-1.5 text-xs font-bold rounded-full border border-line text-muted hover:bg-card-alt whitespace-nowrap" data-filter="UNDER_REVIEW" onclick="filterFeed('UNDER_REVIEW', this)">🔄 Under Process</button>
+            <button class="tab-btn px-3 py-1.5 text-xs font-bold rounded-full border border-line text-muted hover:bg-card-alt whitespace-nowrap" data-filter="ACTIONED" onclick="filterFeed('ACTIONED', this)">✅ Actioned</button>
           </div>
 
           <!-- Dynamic Report Card Feed -->
-          <div id="citizen-feed-container" class="citizen-feed flex-1 overflow-y-auto p-4 space-y-3 bg-gray-50/50">
-            <div class="empty p-6 text-center text-sm text-gray-500" style="padding:24px; text-align:center; color:var(--muted); font-size:12px;">Loading reports feed…</div>
+          <div id="citizen-feed-container" class="citizen-feed flex-1 overflow-y-auto p-4 space-y-3 bg-card-alt/50">
+            <div class="empty p-6 text-center text-sm text-muted" style="padding:24px; text-align:center; color:var(--muted); font-size:12px;">Loading reports feed…</div>
           </div>
         </div>
       </div>
@@ -325,11 +325,11 @@
       selectedType = type;
       document.querySelectorAll(".type-option").forEach(card => {
         card.classList.remove("active");
-        card.classList.remove("border-blue-500", "bg-blue-50");
+        card.classList.remove("border-blue-500", "bg-card");
         card.querySelector('.type-check')?.classList.add("hidden");
       });
       el.classList.add("active");
-      el.classList.add("border-blue-500", "bg-blue-50");
+      el.classList.add("border-blue-500", "bg-card");
       el.querySelector('.type-check')?.classList.remove("hidden");
     }
 
@@ -337,12 +337,12 @@
       selectedSeverity = sev;
       document.querySelectorAll(".severity-btn").forEach(btn => {
         btn.classList.remove("active");
-        btn.classList.remove("border-2", "border-yellow-400", "bg-yellow-50", "border-red-400", "bg-red-50", "border-emerald-400", "bg-emerald-50");
-        btn.classList.add("border", "border-gray-200");
+        btn.classList.remove("border-2", "border-yellow-400", "bg-yellow-50", "border-red-400", "bg-red-50", "border-emerald-400", "bg-card");
+        btn.classList.add("border", "border-line");
       });
       el.classList.add("active");
-      el.classList.remove("border", "border-gray-200");
-      if(sev === 'LOW') el.classList.add("border-2", "border-emerald-400", "bg-emerald-50");
+      el.classList.remove("border", "border-line");
+      if(sev === 'LOW') el.classList.add("border-2", "border-emerald-400", "bg-card");
       else if(sev === 'MODERATE') el.classList.add("border-2", "border-yellow-400", "bg-yellow-50");
       else if(sev === 'SEVERE') el.classList.add("border-2", "border-red-400", "bg-red-50");
     }
@@ -859,11 +859,11 @@
     function filterFeed(status, el) {
       activeStatusFilter = status;
       document.querySelectorAll(".tab-btn").forEach(btn => {
-        btn.classList.remove("active", "bg-gray-100", "text-gray-700");
-        btn.classList.add("bg-white", "text-gray-600");
+        btn.classList.remove("active", "bg-card-alt", "text-ink");
+        btn.classList.add("bg-card", "text-muted");
       });
-      el.classList.add("active", "bg-gray-100", "text-gray-700");
-      el.classList.remove("bg-white");
+      el.classList.add("active", "bg-card-alt", "text-ink");
+      el.classList.remove("bg-card");
       renderReportsFeed();
     }
 
@@ -892,7 +892,7 @@
 
       if (reports.length === 0) {
         container.innerHTML = `
-          <div class="flex flex-col items-center justify-center py-10 px-4 text-center text-gray-500">
+          <div class="flex flex-col items-center justify-center py-10 px-4 text-center text-muted">
             <span class="text-4xl mb-3">📋</span>
             <p class="text-sm">No reports found for active filter. Submit a report using the form on the left to add one.</p>
           </div>
@@ -911,27 +911,27 @@
         const time = ev.timestamp ? ev.timestamp.slice(11, 16) : "Just now";
 
         const pulseColor = st === "NEW" ? "#f59e0b" : st === "UNDER_REVIEW" ? "#0ea5e9" : "#10b981";
-        const badgeClasses = st === "NEW" ? "bg-yellow-100 text-yellow-800" : st === "UNDER_REVIEW" ? "bg-blue-100 text-blue-800" : st === "ACTIONED" ? "bg-emerald-100 text-emerald-800" : "bg-gray-100 text-gray-800";
+        const badgeClasses = st === "NEW" ? "bg-yellow-100 text-yellow-800" : st === "UNDER_REVIEW" ? "bg-card-alt text-blue-800" : st === "ACTIONED" ? "bg-emerald-100 text-emerald-800" : "bg-card-alt text-gray-800";
 
         const photoThumb = ev.evidence?.thumbnail_url;
         return `
-          <div class="feed-item bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-shadow" onclick="focusReportOnMap(${loc.latitude||0}, ${loc.longitude||0}, '${addr.replace(/'/g, "\\'")}')">
+          <div class="feed-item bg-card border border-line p-4 rounded-xl shadow-sm hover:shadow-md cursor-pointer transition-shadow" onclick="focusReportOnMap(${loc.latitude||0}, ${loc.longitude||0}, '${addr.replace(/'/g, "\\'")}')">
             <div class="feed-header flex justify-between items-start mb-2">
-              <span class="feed-type-badge font-bold text-sm text-gray-900 flex items-center flex-wrap gap-2">
+              <span class="feed-type-badge font-bold text-sm text-ink flex items-center flex-wrap gap-2">
                 <span>${icon}</span> ${ev.event_type.replaceAll("_", " ")}
-                ${isMine ? '<span class="bg-emerald-50 text-emerald-700 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">YOUR REPORT</span>' : ''}
-                ${photoThumb ? '<span class="bg-blue-50 text-blue-700 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">📸 PHOTO</span>' : ''}
+                ${isMine ? '<span class="bg-card text-emerald-700 text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">YOUR REPORT</span>' : ''}
+                ${photoThumb ? '<span class="bg-card text-accent text-[10px] px-1.5 py-0.5 rounded font-bold uppercase tracking-wide">📸 PHOTO</span>' : ''}
               </span>
               <span class="badge ${st} ${badgeClasses} text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1.5">
                 <span class="pulse-indicator w-2 h-2 rounded-full inline-block" style="background:${pulseColor};"></span>
                 ${stLabel}
               </span>
             </div>
-            <div class="feed-addr text-sm text-gray-600 mb-3">${addr}</div>
-            ${photoThumb ? `<div class="mb-3 rounded-lg overflow-hidden border border-gray-100"><img src="${photoThumb}" alt="Evidence thumbnail" class="w-full h-24 object-cover block" /></div>` : ''}
-            <div class="feed-footer flex justify-between items-center text-xs text-gray-500 border-t border-gray-100 pt-3">
-              <span>Severity: <b class="text-gray-900">${sev}</b> · ${time}</span>
-              <span class="font-bold text-blue-600 hover:text-blue-700">View on Map ↗</span>
+            <div class="feed-addr text-sm text-muted mb-3">${addr}</div>
+            ${photoThumb ? `<div class="mb-3 rounded-lg overflow-hidden border border-line"><img src="${photoThumb}" alt="Evidence thumbnail" class="w-full h-24 object-cover block" /></div>` : ''}
+            <div class="feed-footer flex justify-between items-center text-xs text-muted border-t border-line pt-3">
+              <span>Severity: <b class="text-ink">${sev}</b> · ${time}</span>
+              <span class="font-bold text-blue-600 hover:text-accent">View on Map ↗</span>
             </div>
           </div>
         `;
@@ -960,3 +960,4 @@
   </script>
 </body>
 </html>
+
