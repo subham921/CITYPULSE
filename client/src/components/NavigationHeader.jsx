@@ -1,8 +1,8 @@
 import React from 'react';
-import { Shield, Radio, Volume2, VolumeX, Activity, Sparkles, Navigation, Layers } from 'lucide-react';
+import { Shield, Radio, Volume2, VolumeX, Activity, Sparkles, Navigation, Layers, Lock, Unlock } from 'lucide-react';
 import { isAudioMuted, toggleAudioMute, playRadarBeep } from '../utils/audioFx';
 
-export default function NavigationHeader({ activeMode, setActiveMode, stats, integrityValid, currentTime }) {
+export default function NavigationHeader({ activeMode, setActiveMode, isAdminAuthenticated, onLockAdmin, stats, integrityValid, currentTime }) {
   const [muted, setMuted] = React.useState(isAudioMuted());
 
   const handleMuteToggle = () => {
@@ -21,8 +21,8 @@ export default function NavigationHeader({ activeMode, setActiveMode, stats, int
   };
 
   return (
-    <header className="sticky top-0 z-50 hologram-card border-b border-cyan-500/20 bg-[#060913]/85 backdrop-blur-xl px-4 lg:px-8 py-3.5 mb-6">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 hologram-card border-b border-cyan-500/20 bg-[#060913]/85 backdrop-blur-xl px-4 lg:px-8 py-3.5 mb-6 font-mono">
+      <div className="max-w-[1540px] mx-auto flex flex-wrap items-center justify-between gap-4">
         {/* Brand & Digital Twin Status */}
         <div className="flex items-center space-x-3.5">
           <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500/20 to-blue-600/30 border border-cyan-400/40 shadow-lg shadow-cyan-500/20">
@@ -37,12 +37,12 @@ export default function NavigationHeader({ activeMode, setActiveMode, stats, int
               <h1 className="font-['Orbitron'] font-bold text-lg md:text-xl tracking-wider text-white">
                 CITY<span className="text-cyan-400 text-glow-cyan">PULSE</span>
               </h1>
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
-                v2.0 Twin
+              <span className="px-2 py-0.5 rounded text-[10px] uppercase bg-cyan-950/60 text-cyan-300 border border-cyan-500/30">
+                Urban Twin
               </span>
             </div>
-            <p className="text-xs font-mono text-slate-400 tracking-tight">
-              Urban Intelligence & Acoustic Sonar Network
+            <p className="text-xs text-slate-400 tracking-tight">
+              Urban Intelligence &amp; Ultrasonic Sonar Network (Mappls Powered)
             </p>
           </div>
         </div>
@@ -74,8 +74,30 @@ export default function NavigationHeader({ activeMode, setActiveMode, stats, int
         </div>
 
         {/* Live Telemetry & Control Badges */}
-        <div className="flex items-center space-x-3 text-xs font-mono">
-          {/* Integrity Pill */}
+        <div className="flex items-center space-x-3 text-xs">
+          {/* Admin Auth Status Badge */}
+          {isAdminAuthenticated ? (
+            <div className="flex items-center space-x-1.5">
+              <span className="px-2.5 py-1 rounded-lg bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold flex items-center gap-1">
+                <Unlock className="w-3 h-3 text-emerald-400" />
+                <span>Admin: Unlocked</span>
+              </span>
+              <button
+                onClick={onLockAdmin}
+                className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold border border-slate-700 transition-all"
+                title="Lock Municipal Command Center"
+              >
+                🔒 Lock
+              </button>
+            </div>
+          ) : (
+            <span className="px-2.5 py-1 rounded-lg bg-amber-950/80 border border-amber-500/40 text-amber-300 text-[11px] font-bold flex items-center gap-1">
+              <Lock className="w-3 h-3 text-amber-400" />
+              <span>Admin: Locked</span>
+            </span>
+          )}
+
+          {/* Cryptographic Ledger Status */}
           <div
             className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-full border ${
               integrityValid
@@ -96,11 +118,11 @@ export default function NavigationHeader({ activeMode, setActiveMode, stats, int
             title={muted ? 'Unmute Sound Effects' : 'Mute Sound Effects'}
           >
             {muted ? <VolumeX className="w-3.5 h-3.5 text-slate-400" /> : <Volume2 className="w-3.5 h-3.5 text-cyan-400" />}
-            <span className="hidden sm:inline">{muted ? 'Muted' : 'Audio On'}</span>
+            <span className="hidden sm:inline">{muted ? 'Muted' : 'Audio'}</span>
           </button>
 
-          {/* Real-Time Clock */}
-          <div className="hidden md:flex items-center px-2.5 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-400">
+          {/* Clock */}
+          <div className="hidden md:flex items-center px-2.5 py-1 rounded-lg bg-slate-900/60 border border-slate-800 text-slate-400 text-[11px]">
             <Activity className="w-3 h-3 text-cyan-400 mr-1.5 animate-pulse" />
             <span>{currentTime || 'LIVE IST'}</span>
           </div>

@@ -80,6 +80,31 @@ export async function fetchCorridorTraffic() {
   }
 }
 
+// ─── Admin Portal Authentication ────────────────────────────────────
+
+export async function loginAdmin(password) {
+  const res = await fetch(`${API_BASE}/auth/admin-login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || 'Invalid administrator credentials');
+  }
+  return res.json();
+}
+
+export async function verifyAdminSession(token) {
+  try {
+    const res = await fetch(`${API_BASE}/auth/verify?token=${encodeURIComponent(token)}`);
+    if (!res.ok) return { valid: false };
+    return res.json();
+  } catch (e) {
+    return { valid: false };
+  }
+}
+
 // ─── Mappls API Functions ──────────────────────────────────────────
 
 export async function fetchMapplsToken() {
