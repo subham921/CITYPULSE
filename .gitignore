@@ -1,4 +1,4 @@
-﻿# Environment & Secrets
+# Environment & Secrets
 .env
 .env.*
 !.env.example
@@ -18,6 +18,9 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Tailwind CSS compiled output
+server/public/css/output.css
 
 # Binaries & Downloads
 tools/cloudflared.exe

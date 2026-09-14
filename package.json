@@ -2,12 +2,19 @@
   "name": "citypulse",
   "version": "1.0.0",
   "description": "Pilot implementation for SIH26124: bus-mounted edge vision, sensor fusion, offline event forwarding, a central GIS/event API, and a responsive authority dashboard.",
-  "main": "index.js",
+  "main": "server/server.js",
   "directories": {
     "doc": "docs",
     "test": "tests"
   },
   "scripts": {
+    "dev": "concurrently \"npm run tw:watch\" \"npm run server:dev\"",
+    "server:dev": "nodemon server/server.js",
+    "server:start": "node server/server.js",
+    "tw:build": "npx tailwindcss -i server/src/input.css -o server/public/css/output.css --minify",
+    "tw:watch": "npx tailwindcss -i server/src/input.css -o server/public/css/output.css --watch",
+    "build": "npm run tw:build",
+    "start": "npm run build && npm run server:start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -17,13 +24,23 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/Subham921/CITYPULSE/issues"
   },
   "homepage": "https://github.com/Subham921/CITYPULSE#readme",
   "dependencies": {
     "@supabase/ssr": "^0.12.6",
-    "@supabase/supabase-js": "^2.115.0"
+    "@supabase/supabase-js": "^2.115.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "http-proxy-middleware": "^3.0.6"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17"
   }
 }
