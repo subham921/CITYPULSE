@@ -1,9 +1,45 @@
 // CITYPULSE REST Client & Mappls MapmyIndia API
-const API_BASE = '/api/v1';
+const DEFAULT_LOCAL_BASE = '/api/v1';
+export const RENDER_CLOUD_BASE = 'https://citypulse-backend-i0kh.onrender.com/api/v1';
+
+export function getApiBase() {
+  if (typeof window !== 'undefined') {
+    const saved = localStorage.getItem('citypulse_api_base');
+    if (saved) return saved;
+  }
+  return DEFAULT_LOCAL_BASE;
+}
+
+export function setApiBase(url) {
+  if (typeof window !== 'undefined') {
+    if (!url || url === DEFAULT_LOCAL_BASE) {
+      localStorage.removeItem('citypulse_api_base');
+    } else {
+      localStorage.setItem('citypulse_api_base', url.replace(/\/+$/, ''));
+    }
+  }
+}
+
+export async function checkBackendHealth() {
+  const base = getApiBase();
+  const startTime = Date.now();
+  try {
+    const res = await fetch(`${base}/events/stats`, { cache: 'no-store' });
+    const latency = Date.now() - startTime;
+    if (res.ok) {
+      const data = await res.json();
+      return { ok: true, latency, events: data.total_events, base };
+    }
+    return { ok: false, latency, error: `HTTP ${res.status}`, base };
+  } catch (err) {
+    return { ok: false, latency: Date.now() - startTime, error: err.message, base };
+  }
+}
 
 export async function fetchEvents(limit = 100) {
+  const base = getApiBase();
   try {
-    const res = await fetch(`${API_BASE}/events?limit=${limit}`);
+    const res = await fetch(`${base}/events?limit=${limit}`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     return Array.isArray(data) ? data : (data.events || []);
@@ -14,19 +50,22 @@ export async function fetchEvents(limit = 100) {
 }
 
 export async function fetchStats() {
-  const res = await fetch(`${API_BASE}/events/stats`);
+  const base = getApiBase();
+  const res = await fetch(`${base}/events/stats`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
 export async function fetchIntegrity() {
-  const res = await fetch(`${API_BASE}/events/integrity`);
+  const base = getApiBase();
+  const res = await fetch(`${base}/events/integrity`);
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
 
 export async function simulateUltrasonic(forceAbove = false, depth = null, corridor = null) {
-  let url = `${API_BASE}/sensors/ultrasonic/simulate?force_above_bumper=${forceAbove}`;
+  const base = getApiBase();
+  let url = `${base}/sensors/ultrasonic/simulate?force_above_bumper=${forceAbove}`;
   if (depth) url += `&depth_cm=${depth}`;
   if (corridor) url += `&corridor=${encodeURIComponent(corridor)}`;
   const res = await fetch(url);
@@ -35,7 +74,8 @@ export async function simulateUltrasonic(forceAbove = false, depth = null, corri
 }
 
 export async function submitCitizenReport(payload) {
-  const res = await fetch(`${API_BASE}/reports/citizen`, {
+  const base = getApiBase();
+  const res = await fetch(`${base}/reports/citizen`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -48,7 +88,8 @@ export async function submitCitizenReport(payload) {
 }
 
 export async function uploadEvidencePhoto(base64Data) {
-  const res = await fetch(`${API_BASE}/upload-photo`, {
+  const base = getApiBase();
+  const res = await fetch(`${base}/upload-photo`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ data: base64Data })
@@ -58,7 +99,8 @@ export async function uploadEvidencePhoto(base64Data) {
 }
 
 export async function updateEventStatus(eventId, newStatus, role = 'TRANSPORT_AUTHORITY', note = '') {
-  const res = await fetch(`${API_BASE}/events/${eventId}/status`, {
+  const base = getApiBase();
+  const res = await fetch(`${base}/events/${eventId}/status`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -71,8 +113,9 @@ export async function updateEventStatus(eventId, newStatus, role = 'TRANSPORT_AU
 }
 
 export async function fetchCorridorTraffic() {
+  const base = getApiBase();
   try {
-    const res = await fetch(`${API_BASE}/mappls/traffic/live-network`);
+    const res = await fetch(`${base}/mappls/traffic/live-network`);
     if (!res.ok) return null;
     return res.json();
   } catch (e) {
@@ -83,7 +126,8 @@ export async function fetchCorridorTraffic() {
 // ─── Admin Portal Authentication ────────────────────────────────────
 
 export async function loginAdmin(password) {
-  const res = await fetch(`${API_BASE}/auth/admin-login`, {
+  const base = getApiBase();
+  const res = await fetch(`${base}/auth/admin-login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ password })
@@ -96,8 +140,9 @@ export async function loginAdmin(password) {
 }
 
 export async function verifyAdminSession(token) {
+  const base = getApiBase();
   try {
-    const res = await fetch(`${API_BASE}/auth/verify?token=${encodeURIComponent(token)}`);
+    const res = await fetch(`${base}/auth/verify?token=${encodeURIComponent(token)}`);
     if (!res.ok) return { valid: false };
     return res.json();
   } catch (e) {
@@ -108,8 +153,9 @@ export async function verifyAdminSession(token) {
 // ─── Mappls API Functions ──────────────────────────────────────────
 
 export async function fetchMapplsToken() {
+  const base = getApiBase();
   try {
-    const res = await fetch(`${API_BASE}/mappls/token`);
+    const res = await fetch(`${base}/mappls/token`);
     if (!res.ok) return null;
     return res.json();
   } catch (e) {
@@ -118,8 +164,9 @@ export async function fetchMapplsToken() {
 }
 
 export async function fetchMapplsStatus() {
+  const base = getApiBase();
   try {
-    const res = await fetch(`${API_BASE}/mappls/status`);
+    const res = await fetch(`${base}/mappls/status`);
     if (!res.ok) return null;
     return res.json();
   } catch (e) {
@@ -128,7 +175,8 @@ export async function fetchMapplsStatus() {
 }
 
 export async function updateMapplsCredentials(apiKey) {
-  const res = await fetch(`${API_BASE}/mappls/config/key`, {
+  const base = getApiBase();
+  const res = await fetch(`${base}/mappls/config/key`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ api_key: apiKey })
@@ -141,19 +189,22 @@ export async function updateMapplsCredentials(apiKey) {
 }
 
 export async function searchMapplsGeocode(address) {
-  const res = await fetch(`${API_BASE}/mappls/geocode?address=${encodeURIComponent(address)}`);
+  const base = getApiBase();
+  const res = await fetch(`${base}/mappls/geocode?address=${encodeURIComponent(address)}`);
   if (!res.ok) throw new Error(`Geocode failed HTTP ${res.status}`);
   return res.json();
 }
 
 export async function searchMapplsNearby(lat, lng, keywords = 'hospital', radius = 3000) {
-  const res = await fetch(`${API_BASE}/mappls/nearby?lat=${lat}&lng=${lng}&keywords=${encodeURIComponent(keywords)}&radius=${radius}`);
+  const base = getApiBase();
+  const res = await fetch(`${base}/mappls/nearby?lat=${lat}&lng=${lng}&keywords=${encodeURIComponent(keywords)}&radius=${radius}`);
   if (!res.ok) throw new Error(`Nearby search failed HTTP ${res.status}`);
   return res.json();
 }
 
 export async function fetchMapplsRoute(originLat, originLng, destLat, destLng) {
-  const res = await fetch(`${API_BASE}/mappls/route?origin_lat=${originLat}&origin_lng=${originLng}&dest_lat=${destLat}&dest_lng=${destLng}`);
+  const base = getApiBase();
+  const res = await fetch(`${base}/mappls/route?origin_lat=${originLat}&origin_lng=${originLng}&dest_lat=${destLat}&dest_lng=${destLng}`);
   if (!res.ok) throw new Error(`Routing failed HTTP ${res.status}`);
   return res.json();
 }
