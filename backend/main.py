@@ -898,7 +898,44 @@ def update_mappls_key(payload: MapplsKeyUpdate):
     }
 
 
-# ── Frontend Note ────────────────────────────────────────────────────
-# Page rendering (/, /admin, /report, /styles.css, /app.js) is now
-# handled by the Node.js Express server in server/server.js.
-# This backend serves only the /api/v1/* REST endpoints and /uploads.
+# ── Interactive Map Dashboard & Standalone Servicing ─────────────────
+
+
+@app.get("/")
+@app.get("/dashboard")
+@app.get("/admin")
+def map_dashboard():
+    """Serve the interactive CITYPULSE authority admin dashboard."""
+    index_path = DASHBOARD_DIR / "index.html"
+    if index_path.exists():
+        return FileResponse(str(index_path), media_type="text/html")
+    raise HTTPException(status_code=404, detail="Dashboard not found. Ensure dashboard/index.html exists.")
+
+
+@app.get("/report")
+@app.get("/user")
+def user_report_dashboard():
+    """Serve the Citizen / User Hazard Reporting Portal."""
+    report_path = DASHBOARD_DIR / "report.html"
+    if report_path.exists():
+        return FileResponse(str(report_path), media_type="text/html")
+    raise HTTPException(status_code=404, detail="Reporting portal not found. Ensure dashboard/report.html exists.")
+
+
+@app.get("/styles.css")
+def serve_root_styles_css():
+    """Serve styles.css for root dashboard and reporting portals."""
+    css_path = DASHBOARD_DIR / "styles.css"
+    if css_path.exists():
+        return FileResponse(str(css_path), media_type="text/css")
+    raise HTTPException(status_code=404, detail="styles.css not found")
+
+
+@app.get("/app.js")
+def serve_root_app_js():
+    """Serve app.js for root dashboard and reporting portals."""
+    js_path = DASHBOARD_DIR / "app.js"
+    if js_path.exists():
+        return FileResponse(str(js_path), media_type="application/javascript")
+    raise HTTPException(status_code=404, detail="app.js not found")
+
