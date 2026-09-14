@@ -1,0 +1,28 @@
+<aside class="sidebar">
+  <div class="brand">
+    <span class="brand-mark">⌁</span>
+    <span>CITY<span>PULSE</span></span>
+  </div>
+  <% if (typeof page !== 'undefined' && page === 'admin') { %>
+    <div class="mappls-tag">MAPPLS API POWERED</div>
+    <nav id="sidebar-nav">
+      <a href="#overview">Overview</a>
+      <a href="#map">Mappls Live Map</a>
+      <a href="#incidents">Incident Register</a>
+      <a href="#analytics">Signal Analytics</a>
+      <a class="active" href="#auth" id="nav-auth-link">🔐 Admin Login</a>
+      <a href="/report" style="color:var(--accent); font-weight:700; border-left:2px solid var(--accent); padding-left:8px;">Citizen Portal ↗</a>
+    </nav>
+  <% } else { %>
+    <div class="mappls-tag">PUBLIC CIVIC DESK</div>
+    <nav>
+      <a class="active" href="#report-section">Report Road Hazard</a>
+      <a href="#community-feed">Community Reports</a>
+      <a href="/admin" style="color:var(--accent); font-weight:700; border-left:2px solid var(--accent); padding-left:8px;">Admin Command ↗</a>
+    </nav>
+  <% } %>
+  <div class="connection<%= typeof page !== 'undefined' && page === 'admin' ? '' : '' %>" id="auth-connection-indicator">
+    <i></i>
+    <span id="connection-status"><%= typeof page !== 'undefined' && page === 'admin' ? 'Connecting to command center…' : 'Ready to log hazards' %></span>
+  </div>
+</aside>

@@ -1,0 +1,27 @@
+<header class="flex justify-between gap-8 items-start mb-8">
+  <div>
+    <% if (typeof page !== 'undefined' && page === 'admin') { %>
+      <p class="eyebrow">COMMAND CENTER / LIVE OPERATIONS (MAPPLS INTEGRATED)</p>
+      <h1 class="text-2xl font-extrabold tracking-tight">Urban intelligence at street level.</h1>
+      <p class="subhead">Bus fleet sensor fusion &amp; citizen reports: GPS, IMU vertical shock &amp; camera vision detections.</p>
+    <% } else { %>
+      <p class="eyebrow">KOLKATA CITIZEN SAFETY INITIATIVE / ROAD HAZARD DISPATCH</p>
+      <h1 class="text-2xl font-extrabold tracking-tight">Report a Road Distress or Hazard</h1>
+      <p class="subhead">Crowdsourced road safety connected directly with municipal repair teams &amp; bus fleet telemetry.</p>
+    <% } %>
+  </div>
+  <div class="header-actions">
+    <% if (typeof page !== 'undefined' && page === 'admin') { %>
+      <span id="header-auth-status" class="badge NEW" style="font-weight:700; padding:5px 9px;">🔒 Admin: Locked</span>
+      <a href="/report" class="quiet-button" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--accent); border-color:var(--accent);">📝 Citizen Report Portal ↗</a>
+      <button id="mappls-key-btn" class="quiet-button admin-gated" style="display:none;">🔑 Mappls Key</button>
+      <button id="lock-admin-btn" class="quiet-button" style="display:none;" onclick="lockAdminPortal()" title="Lock Admin Portal">🔒 Lock</button>
+    <% } else { %>
+      <a href="/admin" class="quiet-button" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px; font-weight:700; color:var(--accent); border-color:var(--accent);">🛡️ Admin Center ↗</a>
+    <% } %>
+    <button id="theme-toggle" class="quiet-button">🌙 Dark Mode</button>
+    <% if (typeof page !== 'undefined' && page === 'admin') { %>
+      <div class="time" id="clock"></div>
+    <% } %>
+  </div>
+</header>
