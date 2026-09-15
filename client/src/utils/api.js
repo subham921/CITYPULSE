@@ -208,3 +208,15 @@ export async function fetchMapplsRoute(originLat, originLng, destLat, destLng) {
   if (!res.ok) throw new Error(`Routing failed HTTP ${res.status}`);
   return res.json();
 }
+
+export async function reverseGeocodeMappls(lat, lng) {
+  const base = getApiBase();
+  try {
+    const res = await fetch(`${base}/mappls/reverse-geocode?lat=${lat}&lng=${lng}`);
+    if (!res.ok) return null;
+    return res.json();
+  } catch (e) {
+    return null;
+  }
+}
+
