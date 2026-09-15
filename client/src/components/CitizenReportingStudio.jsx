@@ -47,21 +47,52 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
   // Map state
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
+  const mapInitializedRef = useRef(false);
   const markerRef = useRef(null);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [mapSearchQuery, setMapSearchQuery] = useState('');
   const [isSearchingMap, setIsSearchingMap] = useState(false);
-  const [locationLocked, setLocationLocked] = useState(true);
 
-  // Initialize Mappls Map for Citizen Location Picker
+  // Keep latest state in refs so callbacks never force map recreation
+  const coordsRef = useRef({ lat: 22.5744, lng: 88.3629 });
+  useEffect(() => {
+    coordsRef.current = { lat: latitude, lng: longitude };
+  }, [latitude, longitude]);
+
+  const onToastRef = useRef(onToast);
+  useEffect(() => {
+    onToastRef.current = onToast;
+  }, [onToast]);
+
+  // Reverse geocoding helper without causing renders
+  const updateAddressForCoords = useCallback(async (lat, lng) => {
+    try {
+      const rev = await reverseGeocodeMappls(lat, lng);
+      if (rev && rev.formatted) {
+        setAddress(rev.formatted);
+      } else {
+        setAddress(`Pinned Spot (${lat.toFixed(5)}, ${lng.toFixed(5)}), Kolkata`);
+      }
+    } catch (e) {
+      setAddress(`Pinned Spot (${lat.toFixed(5)}, ${lng.toFixed(5)}), Kolkata`);
+    }
+  }, []);
+
+  // Initialize Mappls Map ONCE - Never destroys or recreates DOM
   const initCitizenMap = useCallback(() => {
+    if (mapInitializedRef.current || mapInstanceRef.current) return;
     if (!mapContainerRef.current) return;
     if (typeof window === 'undefined' || !window.mappls || !window.mappls.Map) return;
 
     try {
+      mapInitializedRef.current = true;
       mapContainerRef.current.innerHTML = '';
+
+      const initialLat = coordsRef.current.lat || 22.5744;
+      const initialLng = coordsRef.current.lng || 88.3629;
+
       const map = new window.mappls.Map(mapContainerRef.current, {
-        center: [latitude, longitude],
+        center: [initialLat, initialLng],
         zoom: 14,
         zoomControl: true,
         traffic: false,
@@ -72,39 +103,29 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
       mapInstanceRef.current = map;
       setMapLoaded(true);
 
-      // Add click listener on map to let citizen click to confirm exact location
       if (map.addListener) {
         map.addListener('click', async (e) => {
-          const lat = e.lngLat?.lat || e.latlng?.lat || (e.lat && typeof e.lat === 'number' ? e.lat : null);
-          const lng = e.lngLat?.lng || e.latlng?.lng || (e.lng && typeof e.lng === 'number' ? e.lng : null);
-          if (!lat || !lng) return;
+          const clickedLat = e.lngLat?.lat || e.latlng?.lat || (typeof e.lat === 'number' ? e.lat : null);
+          const clickedLng = e.lngLat?.lng || e.latlng?.lng || (typeof e.lng === 'number' ? e.lng : null);
+          if (!clickedLat || !clickedLng) return;
 
-          setLatitude(lat);
-          setLongitude(lng);
-          setLocationLocked(true);
+          setLatitude(clickedLat);
+          setLongitude(clickedLng);
           playRadarBeep();
 
-          // Reverse geocode to get street name
-          try {
-            const rev = await reverseGeocodeMappls(lat, lng);
-            if (rev && rev.formatted) {
-              setAddress(rev.formatted);
-            } else {
-              setAddress(`Pinned Spot (${lat.toFixed(5)}, ${lng.toFixed(5)}), Kolkata`);
-            }
-          } catch (err) {
-            setAddress(`Pinned Spot (${lat.toFixed(5)}, ${lng.toFixed(5)}), Kolkata`);
-          }
+          updateAddressForCoords(clickedLat, clickedLng);
 
-          if (onToast) onToast(`📍 Location pinned at ${lat.toFixed(4)}, ${lng.toFixed(4)}`, 'info');
+          if (onToastRef.current) {
+            onToastRef.current(`📍 Location pinned at ${clickedLat.toFixed(4)}, ${clickedLng.toFixed(4)}`, 'info');
+          }
         });
       }
     } catch (err) {
       console.warn('[Citizen Map Init Error]', err);
     }
-  }, [latitude, longitude, onToast]);
+  }, [updateAddressForCoords]);
 
-  // Load Mappls SDK if not already loaded
+  // Load SDK once
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
@@ -122,27 +143,20 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
         script.id = scriptId;
         script.src = `https://sdk.mappls.com/map/sdk/web?v=3.0&access_token=${encodeURIComponent(token)}`;
         script.async = true;
-        script.onload = () => initCitizenMap();
+        script.onload = () => {
+          setTimeout(initCitizenMap, 50);
+        };
         document.head.appendChild(script);
       } else {
-        initCitizenMap();
+        setTimeout(initCitizenMap, 50);
       }
     });
   }, [initCitizenMap]);
 
-  // Update Pin on Map whenever coordinates or hazard type changes
+  // Smoothly update Marker & Pan Map without ANY blinking or DOM recreation
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map || typeof window === 'undefined' || !window.mappls || !window.mappls.Marker) return;
-
-    // Remove old pin
-    if (markerRef.current) {
-      try {
-        if (typeof markerRef.current.remove === 'function') markerRef.current.remove();
-        else if (window.mappls.remove) window.mappls.remove({ map, layer: markerRef.current });
-      } catch (e) {}
-      markerRef.current = null;
-    }
 
     const cfg = HAZARD_CONFIG[selectedType] || HAZARD_CONFIG.POTHOLE;
     const pinUri = createCustomPinSvg(selectedType, cfg.color);
@@ -160,6 +174,15 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
         <div style="font-size:9.5px; color:#0284c7; margin-top:4px; font-weight:600;">💡 Click anywhere on map to reposition</div>
       </div>
     `;
+
+    // Remove old pin cleanly
+    if (markerRef.current) {
+      try {
+        if (typeof markerRef.current.remove === 'function') markerRef.current.remove();
+        else if (window.mappls.remove) window.mappls.remove({ map, layer: markerRef.current });
+      } catch (e) {}
+      markerRef.current = null;
+    }
 
     try {
       const marker = new window.mappls.Marker({
@@ -180,18 +203,22 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
     }
   }, [latitude, longitude, selectedType, address]);
 
-  // Center map on coordinates helper
-  const centerMapOn = (lat, lng, zoom = 14.5) => {
+  // Center map helper without re-initializing
+  const centerMapOn = useCallback((lat, lng, zoom = 14.5) => {
     const map = mapInstanceRef.current;
     if (map) {
-      if (typeof map.setCenter === 'function') {
-        map.setCenter({ lat, lng });
-        if (typeof map.setZoom === 'function') map.setZoom(zoom);
-      } else if (typeof map.panTo === 'function') {
-        map.panTo([lat, lng]);
-      }
+      try {
+        if (typeof map.panTo === 'function') {
+          map.panTo([lat, lng]);
+        } else if (typeof map.setCenter === 'function') {
+          map.setCenter({ lat, lng });
+        }
+        if (typeof map.setZoom === 'function') {
+          map.setZoom(zoom);
+        }
+      } catch (e) {}
     }
-  };
+  }, []);
 
   // GPS Geolocation Handler
   const handleDetectGPS = () => {
@@ -204,19 +231,8 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
           const lng = pos.coords.longitude;
           setLatitude(lat);
           setLongitude(lng);
-          setLocationLocked(true);
           centerMapOn(lat, lng, 15);
-
-          try {
-            const rev = await reverseGeocodeMappls(lat, lng);
-            if (rev && rev.formatted) {
-              setAddress(rev.formatted);
-            } else {
-              setAddress(`GPS Position (${lat.toFixed(5)}, ${lng.toFixed(5)}), Kolkata`);
-            }
-          } catch (e) {
-            setAddress(`GPS Position (${lat.toFixed(5)}, ${lng.toFixed(5)}), Kolkata`);
-          }
+          updateAddressForCoords(lat, lng);
 
           setIsLocating(false);
           playSuccessChime();
@@ -245,7 +261,6 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
         setLatitude(res.latitude);
         setLongitude(res.longitude);
         setAddress(res.formatted_address || `${mapSearchQuery.trim()}, Kolkata`);
-        setLocationLocked(true);
         centerMapOn(res.latitude, res.longitude, 15);
         playSuccessChime();
         if (onToast) onToast(`Located: ${res.formatted_address || mapSearchQuery}`, 'success');
@@ -264,7 +279,6 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
     setLatitude(spot.lat);
     setLongitude(spot.lng);
     setAddress(`${spot.name}, Kolkata`);
-    setLocationLocked(true);
     centerMapOn(spot.lat, spot.lng, 14.5);
     playRadarBeep();
   };
@@ -323,7 +337,7 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
             ● Citizen Crowdsourced Safety Network
           </span>
           <h2 className="font-['Orbitron'] font-black text-2xl lg:text-3xl text-white tracking-wide mb-2">
-            REPORT ROAD HAZARDS & FLOOD SPOTS
+            REPORT ROAD HAZARDS &amp; FLOOD SPOTS
           </h2>
           <p className="text-xs font-mono text-slate-300 max-w-xl mx-auto">
             Directly alert Kolkata Transit Authority dispatchers. Confirm your incident spot with interactive Mappls GIS, GPS, and cryptographic verification.
@@ -496,23 +510,25 @@ export default function CitizenReportingStudio({ onReportSubmitted, onToast }) {
             ))}
           </div>
 
-          {/* Interactive Mappls Citizen Confirmation Map */}
-          <div className="relative w-full h-[320px] rounded-2xl overflow-hidden border border-cyan-500/30 bg-[#0a101d] shadow-xl">
+          {/* Interactive Mappls Citizen Confirmation Map (Strictly stable container) */}
+          <div 
+            className="relative w-full h-[320px] rounded-2xl overflow-hidden border border-cyan-500/30 bg-[#0a101d] shadow-xl"
+            style={{ minHeight: '320px', height: '320px' }}
+          >
             <div
               ref={mapContainerRef}
               id="citizen-location-picker-map"
-              className="w-full h-full"
-              style={{ minHeight: '320px' }}
+              style={{ width: '100%', height: '100%', minHeight: '320px' }}
             />
 
-            {/* Map Center Crosshair Helper */}
-            <div className="absolute top-2.5 left-2.5 bg-slate-950/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-700/70 text-[10px] font-mono text-slate-300 pointer-events-none flex items-center gap-1.5 z-10">
+            {/* Map Helper Pill */}
+            <div className="absolute top-2.5 left-2.5 bg-slate-950/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-700/70 text-[10px] font-mono text-slate-300 pointer-events-none flex items-center gap-1.5 z-10 shadow-lg">
               <Crosshair className="w-3 h-3 text-cyan-400" />
               <span>Click map to reposition pin</span>
             </div>
 
             {/* Pointer Color Indicator */}
-            <div className="absolute top-2.5 right-2.5 bg-slate-950/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-700/70 text-[10px] font-mono text-slate-300 pointer-events-none flex items-center gap-1.5 z-10">
+            <div className="absolute top-2.5 right-2.5 bg-slate-950/90 backdrop-blur-md px-2.5 py-1.5 rounded-lg border border-slate-700/70 text-[10px] font-mono text-slate-300 pointer-events-none flex items-center gap-1.5 z-10 shadow-lg">
               <span
                 className="w-2.5 h-2.5 rounded-full inline-block"
                 style={{ backgroundColor: HAZARD_CONFIG[selectedType]?.color || '#0284c7' }}

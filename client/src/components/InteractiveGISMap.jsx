@@ -96,6 +96,7 @@ export default function InteractiveGISMap({ events = [], onSelectEvent }) {
   const containerRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
+  const prevMarkersKeyRef = useRef('');
 
   const filteredEvents = events.filter((ev) => {
     if (selectedFilter !== 'ALL' && ev.event_type !== selectedFilter) return false;
@@ -123,6 +124,7 @@ export default function InteractiveGISMap({ events = [], onSelectEvent }) {
   // Initialize official Mappls Map Web SDK v3.0
   const initMapplsMap = useCallback(() => {
     if (!containerRef.current) return;
+    if (mapInstanceRef.current) return;
 
     if (typeof window !== 'undefined' && window.mappls && window.mappls.Map) {
       try {
@@ -181,6 +183,12 @@ export default function InteractiveGISMap({ events = [], onSelectEvent }) {
   useEffect(() => {
     const map = mapInstanceRef.current;
     if (!map || typeof window === 'undefined' || !window.mappls || !window.mappls.Marker) return;
+
+    const currentKey = filteredEvents.map((e) => `${e.event_id || e._id}_${e.status}_${e.severity}`).join('|');
+    if (prevMarkersKeyRef.current === currentKey && markersRef.current.length > 0) {
+      return;
+    }
+    prevMarkersKeyRef.current = currentKey;
 
     // Remove old hazard markers
     markersRef.current.forEach((m) => {
